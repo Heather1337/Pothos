@@ -11,7 +11,7 @@ app = Flask(__name__)
 def my_index():
     """App page."""
 
-    return render_template('index.html')
+    return render_template('base.html')
 
 
 if __name__ == '__main__':
