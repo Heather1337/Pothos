@@ -13,6 +13,20 @@ def my_index():
 
     return render_template('base.html')
 
+@app.route('/register_user', methods=["POST"])
+def register_user():
+    """Add a user to the db."""
+
+    #Use a CRUD method to add a user to the db with provided email and password
+    user_email = request.form['username']
+    user_password = request.form['password']
+
+@app.route('/user_login', methods=["GET", "POST"])
+def user_login():
+    """Handle a user logging in."""
+
+    #Use a CRUD method to compare provided login credentials against data saved in db
+
 
 if __name__ == '__main__':
     connect_to_db(app)
