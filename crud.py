@@ -7,6 +7,10 @@ if __name__=='__main__':
     connect_to_db(app)
 
 
+#=====================================================================================================#
+# PLANT CRUD FUNCTIONS
+#=====================================================================================================#
+
 def create_plant(plant_name, is_toxic, filters_air,
                 sun_lvl, beginner_friendly, water_schedule,
                 water_tip, plant_tip, plant_details):
@@ -21,6 +25,26 @@ def create_plant(plant_name, is_toxic, filters_air,
     db.session.commit()
 
     return plant
+
+#=====================================================================================================#
+# USER CRUD FUNCTIONS
+#=====================================================================================================#
+
+def get_user_plants(user_id):
+    """Gets the plants that belong to a user."""
+
+    user_plants = User_Plant.query.filter(user_id==user_id).all()
+
+    return user_plants
+
+
+def get_user_id_with_email(user_email):
+    """Return a user_id from provided email."""
+
+    user = User.query.filter(email==user_email)
+
+    return user.email
+
 
 """
 LIST OF FUNCTIONS
