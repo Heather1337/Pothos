@@ -8,6 +8,10 @@ import crud
 app = Flask(__name__)
 # app.secret_key = 'dev'
 
+#=====================================================================================================#
+# HOMEPAGE ROUTES
+#=====================================================================================================#
+
 @app.route('/')
 def my_index():
     """ Show homepage with form to register.
@@ -31,9 +35,16 @@ def my_index():
 
 #     #Use a CRUD method to compare provided login credentials against data saved in db
 
+#=====================================================================================================#
+# ROUTES FOR PLANT DATA
+#=====================================================================================================#
+
 @app.route('/get_user_plants.json')
 def get_user_plants():
     """Get plants for a given user."""
+
+    user_email = request.values.get('email')
+    user_id = crud.get_user_id_with_email(user_email)
 
     print(crud.get_user_plants(1))
 

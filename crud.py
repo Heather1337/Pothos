@@ -18,7 +18,7 @@ def create_plant(plant_name, is_toxic, filters_air,
     """Create and return a new plant."""
 
     plant = Plant(plant_name=plant_name, is_toxic=is_toxic, filters_air=filters_air,
-                 sun_lvl=sun_lvl, beginner_friendly=beginner_friendly, water_schedule=water_schedule, 
+                 sun_lvl=sun_lvl, beginner_friendly=beginner_friendly, water_schedule=water_schedule,
                  water_tip=water_tip, plant_tip=plant_tip, plant_details=plant_details)
 
     db.session.add(plant)
@@ -30,7 +30,7 @@ def create_plant(plant_name, is_toxic, filters_air,
 # USER CRUD FUNCTIONS
 #=====================================================================================================#
 
-def get_user_plants(user_id):
+def get_user_plants(user_email):
     """Gets the plants that belong to a user."""
 
     user_plants = User_Plant.query.filter(user_id==user_id).all()
@@ -44,6 +44,8 @@ def get_user_id_with_email(user_email):
     user = User.query.filter(email==user_email)
 
     return user.email
+
+
 
 
 """
