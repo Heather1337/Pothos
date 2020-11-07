@@ -19,7 +19,6 @@ const UserPlantsContainer = () => {
 
     const [userPlants, updateUserPlants] = React.useState('userPlants');
     const userPlantsArr = [];
-    print('USER PLANTS ARRAY:', userPlantsArr)
     userPlantsArr.push(
         <UserPlant
           plant_name={userPlants[0].plant_name}
