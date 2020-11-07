@@ -9,14 +9,17 @@ const App = () => {
         <Switch>
 
           <Route path="/profile" >
+            <NavbarComp />
             <UserPlantsContainer />
           </Route>
 
           <Route path="/plants" >
+            <NavbarComp />
             <PlantContainer />
           </Route>
 
           <Route path="/">
+            <NavbarComp />
             <Homepage />
           </Route>
 
