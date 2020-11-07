@@ -20,7 +20,9 @@ class User(db.Model):
     phone_number = db.Column(db.String)
     text_service = db.Column(db.Boolean)
 
+    plants = db.relationship('User_Plant')
 
+    wishlist = db.relationship('Plant', secondary='users_plant_wishlist')
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
@@ -33,15 +35,17 @@ class Plant(db.Model):
 
     plant_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     plant_name = db.Column(db.String(40))
-    plant_image = db.Column(db.String)
-    is_toxic = db.Column(db.Boolean)
     filters_air = db.Column(db.Boolean)
+    is_toxic = db.Column(db.Boolean)
     sun_lvl = db.Column(db.String)
     beginner_friendly = db.Column(db.Boolean)
     water_schedule = db.Column(db.Integer)
-    water_tip = db.Column(db.String)
     plant_tip = db.Column(db.String)
     plant_details = db.Column(db.String)
+    water_tip = db.Column(db.String)
+    plant_image = db.Column(db.String)
+
+
 
 
     def __repr__(self):
@@ -61,7 +65,7 @@ class User_Plant(db.Model):
 
 
     users = db.relationship('User')
-    plants = db.relationship('Plant')
+    plant_info = db.relationship('Plant')
 
     def __repr__(self):
         return f'<User_Plant user_plant_id={self.user_plant_id}>'
@@ -75,8 +79,6 @@ class User_Plant_Wishlist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     plant_id = db.Column(db.Integer, db.ForeignKey('plants.plant_id'))
 
-    users = db.relationship('User')
-    plants = db.relationship('Plant')
 
     def __repr__(self):
         return f'<User_Plant_Wishlist wishlist_plant_id={self.wishlist_plant_id}>'

@@ -12,15 +12,16 @@ const RegistrationForm = (props) => {
         const {id , value} = e.target
         setState(prevState => ({
             ...prevState,
-            [id] : [id] + value
+            [id] : value
         }))
         console.log(id, value)
     }
 
     const handleRegistrationSubmit = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         /* Send a POST request to server endpoint to register a
-        user with the provided email, pw, fname, lname */
+        user with the provided email, pw, fname, lname  WHEN register button is clicked*/
+        console.log('Sending POST fetch to register_user on server')
         registerUserOnServer();
     }
 
@@ -32,19 +33,20 @@ const RegistrationForm = (props) => {
                 "fname":state.fname,
                 "lname":state.lname
             }
+
+            fetch('/register_user', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success in registering a user:', data);
+            })
+            .catch((error) => {
+                console.error('Error in registering a user:', error);
+            });
         }
-        fetch('/register_user', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success in registering a user:', data);
-        })
-        .catch((error) => {
-            console.error('Error in registering a user:', error);
-        });
     }
 
 
@@ -52,25 +54,25 @@ const RegistrationForm = (props) => {
     return (
         <Form>
             <Form.Row>
-                <Form.Group as={Col} controlId="formFirstName">
+                <Form.Group as={Col} controlId="fname">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control placeholder="First Name" onChange={handleChange} value={state.fname}/>
                 </Form.Group>
-                <Form.Group as={Col} controlId="formLastName">
+                <Form.Group as={Col} controlId="lname">
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control placeholder="Last Name" onChange={handleChange} value={state.lname}/>
                 </Form.Group>
             </Form.Row>
-            <Form.Group controlId="formUserEmail">
+            <Form.Group controlId="email">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} value={state.email}/>
             </Form.Group>
-            <Form.Group controlId="formUserPassword">
+            <Form.Group controlId="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="password" onChange={handleChange} value={state.password}/>
             </Form.Group>
             <ButtonGroup vertical>
-                <Button variant="primary" type="submit" id="registerButton">
+                <Button variant="primary" type="submit" id="registerButton" onClick={() => handleRegistrationSubmit()}>
                     Register
                 </Button>
                 <br />

@@ -13,27 +13,56 @@ if __name__=='__main__':
 
 def create_plant(plant_name, is_toxic, filters_air,
                 sun_lvl, beginner_friendly, water_schedule,
-                water_tip, plant_tip, plant_details):
+                water_tip, plant_tip, plant_details, plant_image):
 
     """Create and return a new plant."""
 
-    plant = Plant(plant_name=plant_name, is_toxic=is_toxic, filters_air=filters_air,
+    plant = Plant(plant_name=plant_name, filters_air=filters_air, is_toxic=is_toxic,
                  sun_lvl=sun_lvl, beginner_friendly=beginner_friendly, water_schedule=water_schedule,
-                 water_tip=water_tip, plant_tip=plant_tip, plant_details=plant_details)
+                plant_tip=plant_tip, plant_details=plant_details, water_tip=water_tip, plant_image=plant_image)
 
     db.session.add(plant)
     db.session.commit()
 
     return plant
 
+def get_all_plants():
+    """Get all plants in db and return."""
+
+    plants = Plant.query.all()
+
+    print('Getting all plants from CRUD---->', plants[1])
+    return plants
+
 #=====================================================================================================#
 # USER CRUD FUNCTIONS
 #=====================================================================================================#
-
-def get_user_plants(user_email):
+def register_user(password, email, fname, lname):
     """Gets the plants that belong to a user."""
 
-    user_plants = User_Plant.query.filter(user_id==user_id).all()
+    registered_user = User(password=password, email=email, fname=fname, lname=lname)
+
+    db.session.add(registered_user)
+    db.session.commit()
+
+    print('You have registered a user!')
+    return registered_user
+
+
+def get_user_plants(id):
+    """Gets the plants that belong to a user."""
+
+    print('In CRUD get user plants ====>')
+    # user_plants = User_Plant.query.filter(User_Plant.user_id == 1)
+    # print('USER PLANTS IN DB CRUD FILE', user_plants)
+    #Get all of the plants that belong to a single user
+    #Reference the association table User_Plant ?
+    #User_Plant.query.options(db.joinedLoad('user_id')).all()
+    #
+    # plant = User_Plant.query.filter(User_Plant.user_id == 1).first()
+    # user_plant = Plant.query.get(plant.plant_id)
+    user = User.query.get(id)
+    user_plants = user.plants
 
     return user_plants
 
