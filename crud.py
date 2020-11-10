@@ -67,12 +67,12 @@ def get_user_plants(id):
     return user_plants
 
 
-def get_user_id_with_email(user_email):
+def get_user_with_email(user_email):
     """Return a user_id from provided email."""
 
-    user = User.query.filter(email==user_email)
+    user_info = User.query.filter(User.email == user_email).first()
 
-    return user.email
+    return user_info
 
 
 

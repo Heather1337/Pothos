@@ -17,6 +17,8 @@ const Nav = ReactBootstrap.Nav;
 const FormControl = ReactBootstrap.FormControl;
 const Image = ReactBootstrap.Image;
 const ButtonGroup = ReactBootstrap.ButtonGroup;
+const InputGroup = ReactBootstrap.InputGroup;
+const Badge = ReactBootstrap.Badge;
 
 /*
 

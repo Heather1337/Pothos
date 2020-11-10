@@ -20,6 +20,11 @@ def my_index():
     """
     return render_template('base.html')
 
+@app.route('/profile')
+def profile_page():
+
+    return render_template('base.html')
+
 
 @app.route('/register_user', methods=["POST"])
 def register_user():
@@ -34,18 +39,29 @@ def register_user():
     password = data['password']
     fname = data['fname']
     lname = data['lname']
-    print(f'Usering email: {email}, fname: {fname} lname: {lname}')
+    print(f'Registering user with email: {email}, fname: {fname} lname: {lname}')
 
     crud.register_user(password, email, fname, lname)
 
     return 'hi'
 
 
-# @app.route('/user_login', methods=["GET", "POST"])
-# def user_login():
-#     """Handle a user logging in."""
+@app.route('/login_user', methods=["POST"])
+def user_login():
+    """Handle a user logging in."""
 
-#     #Use a CRUD method to compare provided login credentials against data saved in db
+    print('Logging in a user in server.py....')
+
+    user_data = request.get_json()
+    print(user_data["email"])
+
+    user = crud.get_user_with_email(user_data["email"])
+
+    return jsonify({'user_email': user.email, 'user_ID': user.user_id})
+
+    #use CRUD get user function to get user information to compare stored email/pw with
+    #return user ID and login email back in response
+
 
 #=====================================================================================================#
 # ROUTES FOR PLANT DATA
@@ -75,11 +91,11 @@ def user_plants():
     user_plants_list = []
     print('DATA returned from CRUD for user plants:', user_plants)
 
-    # for p in user_plants:
-    #     print('In USER plants data on server --->', p.plant_name, p.plant_id)
-    #     user_plants_list.append({"plant_id": p.plant_id, "plant_name": p.plant_name})
+    for p in user_plants:
+        print('In USER plants data on server --->', p.plant_info.plant_name, p.plant_info.plant_id)
+        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip})
 
-    user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
+    # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
 
     return jsonify(user_plants_list)
 

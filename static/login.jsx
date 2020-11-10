@@ -1,22 +1,101 @@
 "use strict";
 
-const RegistrationForm = (props) => {
+const RegistrationForm = () => {
+
+    //Testing our Document.cookie
+    // document.cookie=`name: Heather`
+    // let cookies = document.cookie;
+    // console.log('Session cookies:', cookies);
+
+    //Testing localStorage
+    // localStorage.setItem('user', ['Kumo'])
+    // console.log('localStorage', localStorage)
+
     const [state , setState] = React.useState({
+        login: false,
         email : "",
+        user: [],
         password : "",
         fname : "",
         lname : ""
     })
 
+    /*==== Checks to see if there is a logged in user when loading site =====*/
+    React.useEffect(() => {
+        const loggedInUser = localStorage.getItem('user');
+        if (loggedInUser) {
+          const foundUser = loggedInUser;
+          setState(prevState => ({
+            ...prevState,
+            ['user']: foundUser
+          }));
+          console.log('Found user in useEffect in login file ===>.', foundUser)
+        }
+    }, []);
+
+    /*== Handles updating state as User fills out registration form === */
     const handleChange = (e) => {
         const {id , value} = e.target
         setState(prevState => ({
             ...prevState,
             [id] : value
-        }))
+        }));
         console.log(id, value)
     }
 
+    /*== Changes state when user clicks 'Already a user: login' === */
+    const renderLogin = () => {
+        setState(prevState => ({
+            ...prevState,
+            ['login'] : true
+        }));
+    }
+
+    /*== Handles clicking of LOGIN button === */
+    const handleLogin = (e) => {
+        e.preventDefault()
+        //Send POST to server
+        console.log('Logging before fetch in login_user is called....');
+        const payload = {"email": "heatherlynn1337@gmail.com"};
+        fetch('/login_user', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success in logging in a user:', data, data.user_email, data.user_ID);
+            //Store user_id and user_email in local storage
+            localStorage.setItem('user_id', data.user_ID)
+            localStorage.setItem('user_email', data.user_email)
+            console.log(localStorage, 'localStorage')
+            //Update state with logged in user
+            // setState(prevState => ({
+            //     ...prevState,
+            //     ['user'] : data
+            // }));
+        })
+        .catch((error) => {
+            console.error('Error in logging in a user:', error);
+        });
+    }
+
+    /*== Handles clicking of LOGOUT button === */
+    // const handleLogout = (e) => {
+    //     setState(prevState => ({
+    //         ...prevState,
+    //         "login": false,
+    //         "email" : "",
+    //         "user": [],
+    //         "password" : "",
+    //         "fname" : "",
+    //         "lname" : ""
+    //     }));
+    // }
+
+
+
+    /*======== Calls function for registering a user on button click. ======== */
     const handleRegistrationSubmit = (e) => {
         // e.preventDefault();
         /* Send a POST request to server endpoint to register a
@@ -25,6 +104,7 @@ const RegistrationForm = (props) => {
         registerUserOnServer();
     }
 
+    /*====== Function for sending POST to server with user registration details ========= */
     const registerUserOnServer = () => {
         if(state.email.length && state.password.length && state.fname.length & state.lname.length) {
             const payload={
@@ -49,37 +129,55 @@ const RegistrationForm = (props) => {
         }
     }
 
-
-
-    return (
-        <Form>
-            <Form.Row>
-                <Form.Group as={Col} controlId="fname">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control placeholder="First Name" onChange={handleChange} value={state.fname}/>
+    /*====== Checks state for Login and determines which component to render: Registration form/Login form ========= */
+    if (state.login === false) {
+        return (
+            <Form>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="fname">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control placeholder="First Name" onChange={handleChange} value={state.fname}/>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="lname">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control placeholder="Last Name" onChange={handleChange} value={state.lname}/>
+                    </Form.Group>
+                </Form.Row>
+                <Form.Group controlId="email">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} value={state.email}/>
                 </Form.Group>
-                <Form.Group as={Col} controlId="lname">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control placeholder="Last Name" onChange={handleChange} value={state.lname}/>
+                <Form.Group controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="password" onChange={handleChange} value={state.password}/>
                 </Form.Group>
-            </Form.Row>
-            <Form.Group controlId="email">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} value={state.email}/>
-            </Form.Group>
-            <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="password" onChange={handleChange} value={state.password}/>
-            </Form.Group>
-            <ButtonGroup vertical>
-                <Button variant="primary" type="submit" id="registerButton" onClick={() => handleRegistrationSubmit()}>
-                    Register
-                </Button>
-                <br />
-                <Button href="" variant="outline-secondary" size="sm" >
-                    Already have an account? Login
-                </Button>
-            </ButtonGroup>
-        </Form>
-    )
+                <ButtonGroup vertical>
+                    <Button variant="primary" type="submit" id="registerButton" onClick={() => handleRegistrationSubmit()}>
+                        Register
+                    </Button>
+                    <br />
+                    <Button variant="outline-secondary" size="sm" onClick={()=> renderLogin()}>
+                        Already have an account? Login
+                    </Button>
+                </ButtonGroup>
+            </Form>
+        )
+
+    } else {
+        return (
+            <Form onSubmit={handleLogin}>
+                <Form.Group controlId="email">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} value={state.email}/>
+                </Form.Group>
+                <Form.Group controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="password" onChange={handleChange} value={state.password}/>
+                </Form.Group>
+                    <Button variant="primary" type="submit" id="loginButton">
+                        Login
+                    </Button>
+            </Form>
+        )
+    }
 }
