@@ -73,6 +73,7 @@ def get_user_plants(id):
     # user_plant = Plant.query.get(plant.plant_id)
     user = User.query.get(id)
     user_plants = user.plants
+    print(user_plants[0].user_plant_id)
 
     return user_plants
 
@@ -83,6 +84,13 @@ def get_user_with_email(user_email):
     user_info = User.query.filter(User.email == user_email).first()
 
     return user_info
+
+def remove_user_plant(user_plant_id):
+    """Remove a user's plant."""
+
+    user_plant = User_Plant.query.get(user_plant_id)
+    db.session.delete(user_plant)
+    db.session.commit()
 
 
 

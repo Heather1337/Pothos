@@ -6,8 +6,23 @@ const UserPlant = (props) => {
         <p> {props.water_tip} </p>
         <p> {props.plant_name} </p>
         <Image id="user-plant-photo" src={props.plant_image} rounded fluid />
+        <Row><Button variant="outline-secondary" onClick={(e) => removePlantFromProfile(e)} id={props.user_plant_id}>Remove Plant</Button></Row>
       </Row>
     );
+}
+
+const removePlantFromProfile = (e) => {
+  const plant_id = e.target.id;
+  console.log('plant id trying to delete:', plant_id)
+  if(plant_id) {
+    fetch(`/delete_plant_from_profile/${plant_id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    })
+    .catch((error) => console.log('Error in removing plant from profile.', error))
+  } else {
+    console.log('Missing plant_id', plant_id);
+  }
 }
 
 const ProfilePlantsSearch = () => {
@@ -50,6 +65,7 @@ const UserPlantsContainer = () => {
         plant_name={plant.plant_name}
         plant_image={plant.plant_image}
         water_tip={plant.water_tip}
+        user_plant_id={plant.user_plant_id}
         />
       );
     }

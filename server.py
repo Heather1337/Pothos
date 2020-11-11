@@ -95,8 +95,8 @@ def user_plants(user_id):
     print('DATA returned from CRUD for user plants:', user_plants)
 
     for p in user_plants:
-        print('In USER plants data on server --->', p.plant_info.plant_name, p.plant_info.plant_id)
-        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip})
+        print('In USER plants data on server --->', p.plant_id)
+        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "user_plant_id": p.user_plant_id})
 
     # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
 
@@ -113,6 +113,14 @@ def add_user_plant():
     print('Added plant to profile: ', added_plant)
 
     return jsonify('Added plant to user profile.')
+
+@app.route('/delete_plant_from_profile/<plant_id>', methods=["DELETE"])
+def delete_user_plant(plant_id):
+    """Delete a user's plant."""
+    print('trying to remove plant in server...', plant_id)
+    crud.remove_user_plant(int(plant_id))
+
+    return jsonify('Deleted users plant.')
 
 
 
