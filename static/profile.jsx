@@ -142,7 +142,7 @@ const UserProfileInfo = () => {
   return (
     <Container>
       <Row><h3>Plant Profile</h3></Row>
-      <Row>33 Plants</Row>
+      <Row>{userPlants.length} Plants</Row>
     </Container>
   )
 
