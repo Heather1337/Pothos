@@ -120,6 +120,15 @@ def remove_user_plant(user_plant_id):
     db.session.delete(user_plant)
     db.session.commit()
 
+def remove_wishlist_plant(plant_id, user_id):
+    """Remove a plant on a User's wishlist."""
+
+    plant = User_Plant_Wishlist.query.filter(User_Plant_Wishlist.user_id == user_id and User_Plant_Wishlist.plant_id == plant_id).first()
+
+    db.session.delete(plant)
+    db.session.commit()
+
+
 
 
 

@@ -11,6 +11,34 @@ const UserPlant = (props) => {
     );
 }
 
+const WishlistPlant = (props) => {
+  return (
+    <Row className="wishlistPlant">
+      <p> {props.water_tip} </p>
+      <p> {props.plant_name} </p>
+      <Image id="user-plant-photo" src={props.plant_image} rounded fluid />
+      <Row><Button variant="outline-secondary" onClick={(e) => removePlantFromWishlist(e)} id={props.plant_id}>Remove from wishlist</Button></Row>
+    </Row>
+  );
+}
+
+const removePlantFromWishlist= (e) => {
+  const plant_id = e.target.id;
+  const user_id = localStorage['user_id']
+
+  if(plant_id && user_id) {
+    fetch(`/delete_plant_from_wishlist/${plant_id}/${user_id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    })
+    .then(() => document.location.reload())
+    .catch((error) => console.log('Error in removing plant from profile.', error))
+  } else {
+    console.log('Missing plant_id', plant_id);
+  }
+}
+
+
 const removePlantFromProfile = (e) => {
   const plant_id = e.target.id;
   console.log('plant id trying to delete:', plant_id)
@@ -25,6 +53,8 @@ const removePlantFromProfile = (e) => {
     console.log('Missing plant_id', plant_id);
   }
 }
+
+//'/delete_plant_from_wishlist/<plant_id>/<user_id>'
 
 const ProfilePlantsSearch = () => {
   return (
@@ -87,7 +117,7 @@ const UserPlantsContainer = () => {
     if(wishlist.length !== 0) {
       for (var i = 0; i < wishlist.length; i++) {
         wishlistArr.push(
-            <UserPlant
+            <WishlistPlant
               plant_name={wishlist[i].plant_name}
               plant_tip={wishlist[i].plant_tip}
               plant_image={wishlist[i].plant_image}

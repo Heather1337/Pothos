@@ -151,6 +151,15 @@ def delete_user_plant(plant_id):
     return jsonify('Deleted users plant.')
 
 
+@app.route('/delete_plant_from_wishlist/<plant_id>/<user_id>', methods=["DELETE"])
+def delete_wishlist_plant(plant_id, user_id):
+    """Delete a user's plant."""
+    print('trying to remove plant from wishlist in server...', plant_id, user_id)
+    crud.remove_wishlist_plant(int(plant_id), int(user_id))
+
+    return jsonify('Deleted users wishlist plant.')
+
+
 
 if __name__ == '__main__':
     connect_to_db(app)
