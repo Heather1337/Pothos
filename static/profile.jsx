@@ -19,6 +19,7 @@ const removePlantFromProfile = (e) => {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
     })
+    .then(() => document.location.reload())
     .catch((error) => console.log('Error in removing plant from profile.', error))
   } else {
     console.log('Missing plant_id', plant_id);
@@ -51,7 +52,7 @@ const UserPlantsContainer = () => {
         .then((data) => {
           updateUserPlants(data)
         })
-        .catch((error) => console.log('Error getting user plants...', error))
+        .catch((error) => updateUserPlants([]))
         }
       }, []);
 
@@ -59,16 +60,19 @@ const UserPlantsContainer = () => {
     const [userPlants, updateUserPlants] = React.useState('userPlants');
     const userPlantsArr = [];
 
-    for (let plant of userPlants) {
-      userPlantsArr.push(
-        <UserPlant
-        plant_name={plant.plant_name}
-        plant_image={plant.plant_image}
-        water_tip={plant.water_tip}
-        user_plant_id={plant.user_plant_id}
-        />
-      );
+    if(userPlants.length !== 0) {
+      for (let plant of userPlants) {
+        userPlantsArr.push(
+          <UserPlant
+          plant_name={plant.plant_name}
+          plant_image={plant.plant_image}
+          water_tip={plant.water_tip}
+          user_plant_id={plant.user_plant_id}
+          />
+        );
+      }
     }
+
 
 
 const UserProfileInfo = () => {
@@ -82,7 +86,7 @@ const UserProfileInfo = () => {
 
   return (
     <Container>
-      <Row><h3>Heather's Nursery</h3></Row>
+      <Row><h3>Plant Profile</h3></Row>
       <Row>33 Plants</Row>
     </Container>
   )

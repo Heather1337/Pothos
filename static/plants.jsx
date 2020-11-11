@@ -13,6 +13,7 @@ const Plant = (props) => {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             })
+            .then(()=> alert('Plant added!'))
             .catch((error) => console.log('Error in adding plant to profile.', error))
         } else {
             console.log('Missing plant_id | user_id: ', plant_id, user_id);
