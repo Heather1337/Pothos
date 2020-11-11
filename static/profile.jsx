@@ -46,6 +46,7 @@ const UserPlantsContainer = () => {
       React.useEffect(() => {
         const loggedInUserID = localStorage['user_id']
         if(loggedInUserID) {
+
         console.log('user logged in...fetching user plants with: ', loggedInUserID)
         fetch(`/get_user_plants.json/${loggedInUserID}`)
         .then((response) => response.json())
@@ -53,12 +54,22 @@ const UserPlantsContainer = () => {
           updateUserPlants(data)
         })
         .catch((error) => updateUserPlants([]))
+
+
+        console.log('fetching users wishlist...')
+        fetch(`/get_user_wishlist.json/${loggedInUserID}`)
+        .then((response) => response.json())
+        .then((wishlist) => updateWishlist(wishlist))
+        .catch((error) => updateWishlist([]))
+
         }
       }, []);
 
 
     const [userPlants, updateUserPlants] = React.useState('userPlants');
     const userPlantsArr = [];
+    const [wishlist, updateWishlist] = React.useState('wishList');
+    const wishlistArr = [];
 
     if(userPlants.length !== 0) {
       for (let plant of userPlants) {
@@ -72,6 +83,20 @@ const UserPlantsContainer = () => {
         );
       }
     }
+
+    if(wishlist.length !== 0) {
+      for (var i = 0; i < wishlist.length; i++) {
+        wishlistArr.push(
+            <UserPlant
+              plant_name={wishlist[i].plant_name}
+              plant_tip={wishlist[i].plant_tip}
+              plant_image={wishlist[i].plant_image}
+              plant_id={String(wishlist[i].plant_id)}
+            />
+        )
+      }
+    }
+ 
 
 
 
@@ -97,9 +122,7 @@ const UserPlantWishlist = () => {
 
   return (
     <Container>
-      <Row>Plant 1 on wishlist</Row>
-      <Row>Plant 2 on wishlist</Row>
-      <Row>Plant 3 on wishlist</Row>
+      <Col>{wishlistArr}</Col>
     </Container>
   )
 }

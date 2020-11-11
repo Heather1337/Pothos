@@ -102,6 +102,21 @@ def user_plants(user_id):
 
     return jsonify(user_plants_list)
 
+@app.route('/get_user_wishlist.json/<user_id>')
+def user_wishlist(user_id):
+    """Get plants for a given user."""
+
+    user_wishlist = crud.get_user_wishlist(user_id)
+    wishlist_arr = []
+
+    for p in user_wishlist:
+        print('In USER plants data on server --->', p)
+        wishlist_arr.append({"plant_name": p.plant_name, "plant_image": p.plant_image, "water_tip": p.water_tip, "plant_id": p.plant_id})
+
+    # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
+
+    return jsonify(wishlist_arr)
+
 @app.route('/add_plant_to_profile', methods=["POST"])
 def add_user_plant():
     """Add plant to a user's profile."""
@@ -113,6 +128,19 @@ def add_user_plant():
     print('Added plant to profile: ', added_plant)
 
     return jsonify('Added plant to user profile.')
+
+@app.route('/add_plant_to_wishlist', methods=["POST"])
+def add_plant_to_wl():
+    """Add plant to a user's profile."""
+
+    # TODO: Check if plant is already on wishlist - if yes: do nothing
+    data = request.get_json()
+    user_id = data['user_id']
+    plant_id = data['plant_id']
+    added_plant = crud.add_plant_to_user_wishlist(user_id, plant_id)
+    print('Added plant to wishlist: ', added_plant)
+
+    return jsonify('Added plant to user wishlist.')
 
 @app.route('/delete_plant_from_profile/<plant_id>', methods=["DELETE"])
 def delete_user_plant(plant_id):

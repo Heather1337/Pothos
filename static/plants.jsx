@@ -20,6 +20,24 @@ const Plant = (props) => {
         }
     }
 
+    const addPlantToWishlist = (e) => {
+        //get name of plant clicked on
+        const plant_id = e.target.id;
+        const user_id = localStorage.user_id;
+        if (user_id && plant_id) {
+            const payload = {"user_id": user_id, "plant_id": plant_id};
+            fetch('/add_plant_to_wishlist', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            })
+            .then(()=> alert('Plant added to wishlist!'))
+            .catch((error) => console.log('Error in adding plant to wishlist.', error))
+        } else {
+            console.log('Missing plant_id | user_id: ', plant_id, user_id);
+        }
+    }
+
     return (
         <Container className="userPlant">
             <Row >
@@ -29,7 +47,10 @@ const Plant = (props) => {
                 </Col>
                 <Col>
                 <Row><Image src={props.plant_image} rounded fluid/></Row>
-                <Row><Button variant="outline-secondary" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add Plant</Button></Row>
+                <Row>
+                <Col><Button variant="outline-secondary" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add to Profile</Button></Col>
+                <Col><Button variant="outline-secondary" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to Wishlist</Button></Col>
+                </Row>
                 </Col>
             </Row>
         </Container>

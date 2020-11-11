@@ -79,6 +79,9 @@ class User_Plant_Wishlist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     plant_id = db.Column(db.Integer, db.ForeignKey('plants.plant_id'))
 
+    plant_info = db.relationship('Plant')
+    users = db.relationship('User')
+
 
     def __repr__(self):
         return f'<User_Plant_Wishlist wishlist_plant_id={self.wishlist_plant_id}>'

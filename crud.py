@@ -36,8 +36,18 @@ def get_all_plants():
 
 def add_plant_to_user_profile(user_id, plant_id):
     """Add a plant to a users profile."""
-
+    # TODO: Add field for days_to_water to keep track of count 
     added_plant = User_Plant(user_id=user_id, plant_id=plant_id)
+
+    db.session.add(added_plant)
+    db.session.commit()
+
+    return added_plant
+
+def add_plant_to_user_wishlist(user_id, plant_id):
+    """Add a plant to a users profile wishlist."""
+
+    added_plant = User_Plant_Wishlist(user_id=user_id, plant_id=plant_id)
 
     db.session.add(added_plant)
     db.session.commit()
@@ -76,6 +86,24 @@ def get_user_plants(id):
     print(user_plants[0].user_plant_id)
 
     return user_plants
+
+def get_user_wishlist(id):
+    """Gets the plants that belong to a user."""
+
+    print('In CRUD get user wishlist ====>')
+    # user_plants = User_Plant.query.filter(User_Plant.user_id == 1)
+    # print('USER PLANTS IN DB CRUD FILE', user_plants)
+    #Get all of the plants that belong to a single user
+    #Reference the association table User_Plant ?
+    #User_Plant.query.options(db.joinedLoad('user_id')).all()
+    #
+    # plant = User_Plant.query.filter(User_Plant.user_id == 1).first()
+    # user_plant = Plant.query.get(plant.plant_id)
+    user = User.query.get(id)
+    user_wishlist = user.wishlist
+    print("USER WISHLIST INFO: ==================", user_wishlist)
+
+    return user_wishlist
 
 
 def get_user_with_email(user_email):
