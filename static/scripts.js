@@ -1,13 +1,14 @@
-/*================================================================================*/
 /*=======================          SCRIPTS              ==========================*/
-/*================================================================================*/
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
 const Switch = ReactRouterDOM.Switch;
 const Link = ReactRouterDOM.Link;
+const Redirect = ReactRouterDOM.Redirect;
+// const useHistory = ReactRouterDOM.useHistory;
 
 const Container = ReactBootstrap.Container;
+const Carousel = ReactBootstrap.Carousel;
 const Row = ReactBootstrap.Row;
 const Col = ReactBootstrap.Col;
 const Form = ReactBootstrap.Form;
@@ -20,22 +21,4 @@ const ButtonGroup = ReactBootstrap.ButtonGroup;
 const InputGroup = ReactBootstrap.InputGroup;
 const Badge = ReactBootstrap.Badge;
 
-/*
-
-  <script>let Router = React.BrowserRouter; </script>
-  <script>let Route = React.Route; </script>
-  <script>let Switch = React.Switch; </script>
-
-  <script>let Container = ReactBootstrap.Container;</script>
-  <script>let Row = ReactBootstrap.Row;</script>
-  <script>let Col = ReactBootstrap.Col;</script>
-  <script>let Form = ReactBootstrap.Form;</script>
-  <script>let Button = ReactBootstrap.Button;</script>
-  <script>let Navbar = ReactBootstrap.Navbar;</script>
-  <script>let Nav = ReactBootstrap.Nav;</script>
-  <script>let FormControl = ReactBootstrap.FormControl;</script>
-  <script>let Image = ReactBootstrap.Image;</script>
-  <script>let ButtonGroup = ReactBootstrap.ButtonGroup;</script>
-
-*/
 

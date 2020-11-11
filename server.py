@@ -5,6 +5,8 @@ from model import connect_to_db
 import crud
 
 
+
+
 app = Flask(__name__)
 # app.secret_key = 'dev'
 
@@ -30,9 +32,6 @@ def profile_page():
 def register_user():
     """Add a user to the db."""
 
-    print('Registering a user in server.py....')
-    print('Request on server: ', request.data)
-
     data = request.get_json()
 
     email = data['email']
@@ -52,15 +51,18 @@ def user_login():
 
     print('Logging in a user in server.py....')
 
+    #Parse the request user data
     user_data = request.get_json()
     print(user_data["email"])
 
+    #Get user object from database
     user = crud.get_user_with_email(user_data["email"])
+    #Check provided password matches password stored in db
+    if (user_data["password"] == user.password):
+        return jsonify({'user_email': user.email, 'user_ID': user.user_id, 'fname': user.fname})
+    else:
+        return jsonify('Invalid')
 
-    return jsonify({'user_email': user.email, 'user_ID': user.user_id})
-
-    #use CRUD get user function to get user information to compare stored email/pw with
-    #return user ID and login email back in response
 
 
 #=====================================================================================================#
@@ -74,9 +76,12 @@ def get_plants():
     plants = crud.get_all_plants()
     plants_list = []
 
+
     for p in plants:
-        print('In plants data on server --->', p.plant_tip, p.plant_image)
-        plants_list.append({"plant_tip": p.plant_tip, "plant_name": p.plant_name, "plant_image": p.plant_image})
+        plants_list.append({"plant_tip": p.plant_tip, "plant_name": p.plant_name, "plant_image": p.plant_image, "plant_id": p.plant_id})
+
+    print(plants_list)
+
 
     return jsonify(plants_list)
 
@@ -86,7 +91,6 @@ def get_plants():
 def user_plants():
     """Get plants for a given user."""
 
-    print('I am in get user plants=========>')
     user_plants = crud.get_user_plants(1)
     user_plants_list = []
     print('DATA returned from CRUD for user plants:', user_plants)
@@ -98,6 +102,18 @@ def user_plants():
     # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
 
     return jsonify(user_plants_list)
+
+@app.route('/add_plant_to_profile', methods=["POST"])
+def add_user_plant():
+    """Add plant to a user's profile."""
+
+    data = request.get_json()
+    user_id = data['user_id']
+    plant_id = data['plant_id']
+    added_plant = crud.add_plant_to_user_profile(user_id, plant_id)
+    print('Added plant to profile: ', added_plant)
+
+    return 'Added plant to user profile.'
 
 
 

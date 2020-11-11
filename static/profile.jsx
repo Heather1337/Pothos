@@ -2,11 +2,11 @@
 
 const UserPlant = (props) => {
     return (
-      <div className="userPlant">
+      <Row className="userPlant">
         <p> {props.water_tip} </p>
         <p> {props.plant_name} </p>
-        <Image src="https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_large-zz-plant_variant_large_hyde_black.jpg?v=1600813826" rounded fluid />
-      </div>
+        <Image id="user-plant-photo" src={props.plant_image} rounded fluid />
+      </Row>
     );
 }
 
@@ -46,27 +46,49 @@ const UserPlantsContainer = () => {
       );
     }
 
-    // userPlantsArr.push(
-    //     <UserPlant
-    //       plant_name={userPlants[0].plant_name}
-    //       plant_details={userPlants[0].plant_id}
-    //     />
-    // );
+const UserProfileInfo = () => {
+  // React.useEffect(() => {
+    //fetch for user info
+    //then parse info
+    //then update state with info
+  // })
+
+  // const [userInfo, updateUserInfo] = React.useState('userInfo');
+
+  return (
+    <Container>
+      <Row><h3>Heather's Nursery</h3></Row>
+      <Row>33 Plants</Row>
+    </Container>
+  )
+
+}
+
+const UserPlantWishlist = () => {
+
+  return (
+    <Container>
+      <Row>Plant 1 on wishlist</Row>
+      <Row>Plant 2 on wishlist</Row>
+      <Row>Plant 3 on wishlist</Row>
+    </Container>
+  )
+}
+
 
     return (
       <Container>
+
         <Row>
-          <Col>USER PROFILE DETAILS</Col>
-          <Col xs={6}> PLACEHOLDER </Col>
-          <Col> <ProfilePlantsSearch /> </Col>
+          <Col sm={4}><UserProfileInfo /></Col>
+          <Col sm={8}><ProfilePlantsSearch /></Col>
         </Row>
+
         <Row>
-          <Col>PLACEHOLDER</Col>
-          <Col> USER PLANT WISHLIST</Col>
-          <Col xs={6}>
-          {userPlantsArr}
-          </Col>
+          <Col sm={4}><UserPlantWishlist /></Col>
+          <Col sm={8}>{userPlantsArr}</Col>
         </Row>
+
       </Container>
     );
 

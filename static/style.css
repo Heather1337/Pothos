@@ -15,3 +15,8 @@
      text-decoration:none;
      cursor:pointer;
 }
+
+#user-plant-photo {
+    width: 250px;
+    height: 250px;
+}

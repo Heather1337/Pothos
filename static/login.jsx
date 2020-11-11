@@ -1,37 +1,28 @@
 "use strict";
 
-const RegistrationForm = () => {
-
-    //Testing our Document.cookie
-    // document.cookie=`name: Heather`
-    // let cookies = document.cookie;
-    // console.log('Session cookies:', cookies);
-
-    //Testing localStorage
-    // localStorage.setItem('user', ['Kumo'])
-    // console.log('localStorage', localStorage)
+const RegistrationForm = (props) => {
 
     const [state , setState] = React.useState({
         login: false,
+        user: {},
         email : "",
-        user: [],
         password : "",
         fname : "",
         lname : ""
     })
 
     /*==== Checks to see if there is a logged in user when loading site =====*/
-    React.useEffect(() => {
-        const loggedInUser = localStorage.getItem('user');
-        if (loggedInUser) {
-          const foundUser = loggedInUser;
-          setState(prevState => ({
-            ...prevState,
-            ['user']: foundUser
-          }));
-          console.log('Found user in useEffect in login file ===>.', foundUser)
-        }
-    }, []);
+    // React.useEffect(() => {
+    //     const loggedInUser = localStorage.getItem('user');
+    //     if (loggedInUser) {
+    //         const foundUser = loggedInUser;
+    //         setState(prevState => ({
+    //             ...prevState,
+    //             user: foundUser
+    //         }));
+    //         console.log('Found user in useEffect in login file ===>.', foundUser)
+    //     }
+    // }, []);
 
     /*== Handles updating state as User fills out registration form === */
     const handleChange = (e) => {
@@ -40,23 +31,23 @@ const RegistrationForm = () => {
             ...prevState,
             [id] : value
         }));
-        console.log(id, value)
+        console.log(id, value) //uncomment to debug
     }
 
     /*== Changes state when user clicks 'Already a user: login' === */
     const renderLogin = () => {
         setState(prevState => ({
             ...prevState,
-            ['login'] : true
+            login : true
         }));
     }
+
 
     /*== Handles clicking of LOGIN button === */
     const handleLogin = (e) => {
         e.preventDefault()
-        //Send POST to server
-        console.log('Logging before fetch in login_user is called....');
-        const payload = {"email": "heatherlynn1337@gmail.com"};
+
+        const payload = {"email": "heatherlynn1337@gmail.com", "password": "happy"};
         fetch('/login_user', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -64,16 +55,16 @@ const RegistrationForm = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success in logging in a user:', data, data.user_email, data.user_ID);
-            //Store user_id and user_email in local storage
-            localStorage.setItem('user_id', data.user_ID)
-            localStorage.setItem('user_email', data.user_email)
-            console.log(localStorage, 'localStorage')
-            //Update state with logged in user
-            // setState(prevState => ({
-            //     ...prevState,
-            //     ['user'] : data
-            // }));
+
+            localStorage.setItem('user_id', data.user_ID);
+            localStorage.setItem('user_email', data.user_email);
+            console.log(localStorage);
+            setState(prevState => ({
+                ...prevState,
+                user: data,
+            }));
+            console.log('updated state', state);
+            props.setUser({loggedIn: true});
         })
         .catch((error) => {
             console.error('Error in logging in a user:', error);

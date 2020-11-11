@@ -34,6 +34,16 @@ def get_all_plants():
     print('Getting all plants from CRUD---->', plants[1])
     return plants
 
+def add_plant_to_user_profile(user_id, plant_id):
+    """Add a plant to a users profile."""
+
+    added_plant = User_Plant(user_id=user_id, plant_id=plant_id)
+
+    db.session.add(added_plant)
+    db.session.commit()
+
+    return added_plant
+
 #=====================================================================================================#
 # USER CRUD FUNCTIONS
 #=====================================================================================================#
