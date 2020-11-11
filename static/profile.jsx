@@ -27,11 +27,19 @@ const ProfilePlantsSearch = () => {
 
 const UserPlantsContainer = () => {
 
-    React.useEffect(() => {
-      fetch('/get_user_plants.json')
-      .then((response) => response.json())
-      .then((data) => updateUserPlants(data))
-    }, []);
+      React.useEffect(() => {
+        const loggedInUserID = localStorage['user_id']
+        if(loggedInUserID) {
+        console.log('user logged in...fetching user plants with: ', loggedInUserID)
+        fetch(`/get_user_plants.json/${loggedInUserID}`)
+        .then((response) => response.json())
+        .then((data) => {
+          updateUserPlants(data)
+        })
+        .catch((error) => console.log('Error getting user plants...', error))
+        }
+      }, []);
+
 
     const [userPlants, updateUserPlants] = React.useState('userPlants');
     const userPlantsArr = [];
@@ -45,6 +53,7 @@ const UserPlantsContainer = () => {
         />
       );
     }
+
 
 const UserProfileInfo = () => {
   // React.useEffect(() => {

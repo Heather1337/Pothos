@@ -42,7 +42,7 @@ def register_user():
 
     crud.register_user(password, email, fname, lname)
 
-    return 'hi'
+    return jsonify('hi')
 
 
 @app.route('/login_user', methods=["POST"])
@@ -86,12 +86,11 @@ def get_plants():
     return jsonify(plants_list)
 
 
-
-@app.route('/get_user_plants.json')
-def user_plants():
+@app.route('/get_user_plants.json/<user_id>')
+def user_plants(user_id):
     """Get plants for a given user."""
 
-    user_plants = crud.get_user_plants(1)
+    user_plants = crud.get_user_plants(user_id)
     user_plants_list = []
     print('DATA returned from CRUD for user plants:', user_plants)
 
@@ -113,7 +112,7 @@ def add_user_plant():
     added_plant = crud.add_plant_to_user_profile(user_id, plant_id)
     print('Added plant to profile: ', added_plant)
 
-    return 'Added plant to user profile.'
+    return jsonify('Added plant to user profile.')
 
 
 

@@ -47,28 +47,30 @@ const RegistrationForm = (props) => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        const payload = {"email": "heatherlynn1337@gmail.com", "password": "happy"};
-        fetch('/login_user', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
-        })
-        .then(response => response.json())
-        .then(data => {
-
-            localStorage.setItem('user_id', data.user_ID);
-            localStorage.setItem('user_email', data.user_email);
-            console.log(localStorage);
-            setState(prevState => ({
-                ...prevState,
-                user: data,
-            }));
-            console.log('updated state', state);
-            props.setUser({loggedIn: true});
-        })
-        .catch((error) => {
-            console.error('Error in logging in a user:', error);
-        });
+        if(state.email.length && state.password.length) {
+            console.log('state email and pw', state.email, state.password)
+            const payload = {"email": state.email, "password": state.password};
+            fetch('/login_user', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('user_id', data.user_ID);
+                localStorage.setItem('user_email', data.user_email);
+                console.log(localStorage);
+                setState(prevState => ({
+                    ...prevState,
+                    user: data,
+                }));
+                console.log('updated state', state);
+                props.setUser({loggedIn: true});
+            })
+            .catch((error) => {
+                console.error('Error in logging in a user:', error);
+            });
+        }
     }
 
     /*== Handles clicking of LOGOUT button === */
@@ -91,13 +93,17 @@ const RegistrationForm = (props) => {
         // e.preventDefault();
         /* Send a POST request to server endpoint to register a
         user with the provided email, pw, fname, lname  WHEN register button is clicked*/
+        e.preventDefault();
         console.log('Sending POST fetch to register_user on server')
         registerUserOnServer();
     }
 
     /*====== Function for sending POST to server with user registration details ========= */
     const registerUserOnServer = () => {
-        if(state.email.length && state.password.length && state.fname.length & state.lname.length) {
+        console.log('Registering a user....?');
+        console.log('State when registering: ', state);
+        if(state.email.length && state.password.length && state.fname.length && state.lname.length) {
+            console.log('Inside of register if statement.')
             const payload={
                 "email":state.email,
                 "password":state.password,
@@ -113,6 +119,10 @@ const RegistrationForm = (props) => {
             .then(response => response.json())
             .then(data => {
                 console.log('Success in registering a user:', data);
+                setState(prevState => ({
+                    ...prevState,
+                    login : true
+                }));
             })
             .catch((error) => {
                 console.error('Error in registering a user:', error);
@@ -123,7 +133,7 @@ const RegistrationForm = (props) => {
     /*====== Checks state for Login and determines which component to render: Registration form/Login form ========= */
     if (state.login === false) {
         return (
-            <Form>
+            <Form onSubmit={handleRegistrationSubmit}>
                 <Form.Row>
                     <Form.Group as={Col} controlId="fname">
                         <Form.Label>First Name</Form.Label>
@@ -143,7 +153,7 @@ const RegistrationForm = (props) => {
                     <Form.Control type="password" placeholder="password" onChange={handleChange} value={state.password}/>
                 </Form.Group>
                 <ButtonGroup vertical>
-                    <Button variant="primary" type="submit" id="registerButton" onClick={() => handleRegistrationSubmit()}>
+                    <Button variant="primary" type="submit" id="registerButton">
                         Register
                     </Button>
                     <br />
