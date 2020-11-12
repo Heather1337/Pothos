@@ -20,3 +20,43 @@
     width: 250px;
     height: 250px;
 }
+
+.wishlist-plant {
+    width: 100px;
+    height: 100px;
+}
+
+.wishlistPlant {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.userPlant {
+    padding-bottom: 20px;
+}
+
+.plant-style {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.plant-row-style {
+    align-items: center;
+}
+
+.plant-col-style {
+    padding-left: 50px;
+}
+
+.plant-row-image {
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+

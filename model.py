@@ -59,7 +59,7 @@ class User_Plant(db.Model):
 
     user_plant_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     plant_nickname = db.Column(db.String)
-    last_watered = db.Column(db.DateTime)
+    last_watered = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     plant_id = db.Column(db.Integer, db.ForeignKey('plants.plant_id'))
 

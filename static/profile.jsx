@@ -7,10 +7,12 @@ const UserPlant = (props) => {
 
     return (
       <Row className="userPlant">
-        <p> {props.water_tip} </p>
-        <p> {props.plant_name} </p>
-        <Image id="user-plant-photo" src={props.plant_image} rounded fluid />
-        <Row><Button variant="outline-secondary" onClick={(e) => removePlantFromProfile(e)} id={props.user_plant_id}>Remove Plant</Button></Row>
+        <Col className="user-plant-col">
+        <Row><h5> {props.plant_name} </h5></Row>
+        <Row><p> Water in {props.days_to_water} days </p></Row>
+        <Row><Image id="user-plant-photo" src={props.plant_image} rounded fluid /></Row>
+        <Row><Button variant="outline-secondary" size="sm" onClick={(e) => removePlantFromProfile(e)} id={props.user_plant_id}>Remove Plant</Button></Row>
+        </Col>
       </Row>
     );
 }
@@ -31,16 +33,50 @@ const removePlantFromProfile = (e) => {
   }
 }
 
+// const addPlantNickname = (e) => {
+//   e.preventDefault();
+//   console.log('event target', e)
+//   const plant_id = e.target.id;
+//   const nickname = 'Qwerty';
+//   const payload = {'plant_id': plant_id, 'nickname': nickname}
+
+//   if(plant_id) {
+//     fetch(`/add_nickname_to_plant`, {
+//         method: 'PATCH',
+//         headers: {'Content-Type': 'application/json'},
+//         body: JSON.stringify(payload)
+//     })
+//     .then(() => document.location.reload())
+//     .catch((error) => console.log('Error in removing plant from profile.', error))
+//   } else {
+//     console.log('Missing plant_id', plant_id);
+//   }
+// }
+
+// const NicknameInput = (props) => {
+//   return (
+//     <Form onSubmit={(e)=>addPlantNickname(e)}>
+//     <Form.Group controlId={props.plant_id}>
+//       <Form.Control placeholder="Plant Nickname" />
+//     </Form.Group>
+//     <Button variant="outline-secondary" type="submit" id={props.plant_id}></Button>
+//     </Form>
+//   );
+// }
+
 /* ============ Setup for plants in User Wishlist & Logic for deleting a plant from User's Wishlist ============== */
 
 const WishlistPlant = (props) => {
 
   return (
     <Row className="wishlistPlant">
-      <p> {props.water_tip} </p>
-      <p> {props.plant_name} </p>
-      <Image id="user-plant-photo" src={props.plant_image} rounded fluid />
-      <Row><Button variant="outline-secondary" onClick={(e) => removePlantFromWishlist(e)} id={props.plant_id}>Remove from wishlist</Button></Row>
+      <Col>
+      <Row><p>{props.plant_name}</p></Row>
+      <Row><Button variant="outline-secondary" size="sm" onClick={(e) => removePlantFromWishlist(e)} id={props.plant_id}>Remove</Button></Row>
+      </Col>
+      <Col>
+      <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
+      </Col>
     </Row>
   );
 }
@@ -121,6 +157,8 @@ const UserPlantsContainer = () => {
           plant_image={plant.plant_image}
           water_tip={plant.water_tip}
           user_plant_id={plant.user_plant_id}
+          days_to_water={plant.days_to_water}
+          nickname={plant.nickname}
         />
       );
     }
@@ -128,13 +166,13 @@ const UserPlantsContainer = () => {
 
   //If there are plants in the User wishlist array, create nodes for them to display on profile.
   if(wishlist.length !== 0) {
-    for (let plant of wishlistArr) {
+    for (let plant of wishlist) {
       wishlistArr.push(
         <WishlistPlant
-          plant_name={plant[i].plant_name}
-          plant_tip={plant[i].plant_tip}
-          plant_image={plant[i].plant_image}
-          plant_id={String(plant[i].plant_id)}
+          plant_name={plant.plant_name}
+          plant_tip={plant.plant_tip}
+          plant_image={plant.plant_image}
+          plant_id={String(plant.plant_id)}
         />
       );
     }
@@ -151,13 +189,13 @@ const UserPlantsContainer = () => {
   }
 
   //Contains a user's plant wishlist
-  const UserPlantWishlist = () => {
-    return (
-      <Container>
-        <Col>{wishlistArr}</Col>
-      </Container>
-    )
-  }
+  // const UserPlantWishlist = () => {
+  //   return (
+  //     <Container>
+  //       <Col>{wishlistArr}</Col>
+  //     </Container>
+  //   )
+  // }
 
 
   return (
@@ -165,12 +203,14 @@ const UserPlantsContainer = () => {
 
       <Row>
         <Col sm={4}><UserProfileInfo /></Col>
-        <Col sm={8}><ProfilePlantsSearch /></Col>
+        <Col sm={5}></Col>
+        <Col sm={3}><ProfilePlantsSearch /></Col>
       </Row>
 
       <Row>
-        <Col sm={4}><UserPlantWishlist /></Col>
-        <Col sm={8}>{userPlantsArr}</Col>
+        <Col sm={5}>{wishlistArr}</Col>
+        <Col sm={2}><p></p></Col>
+        <Col sm={5}>{userPlantsArr}</Col>
       </Row>
 
     </Container>

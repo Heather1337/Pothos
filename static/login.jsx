@@ -153,7 +153,7 @@ const RegistrationForm = (props) => {
                     <Form.Control type="password" placeholder="password" onChange={handleChange} value={state.password}/>
                 </Form.Group>
                 <ButtonGroup vertical>
-                    <Button variant="primary" type="submit" id="registerButton">
+                    <Button variant="dark" type="submit" id="registerButton">
                         Register
                     </Button>
                     <br />
@@ -175,7 +175,7 @@ const RegistrationForm = (props) => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="password" onChange={handleChange} value={state.password}/>
                 </Form.Group>
-                    <Button variant="primary" type="submit" id="loginButton">
+                    <Button variant="outline-secondary" type="submit" id="loginButton">
                         Login
                     </Button>
             </Form>

@@ -96,7 +96,8 @@ def user_plants(user_id):
 
     for p in user_plants:
         print('In USER plants data on server --->', p.plant_id)
-        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "user_plant_id": p.user_plant_id})
+
+        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "user_plant_id": p.user_plant_id, "nickname": p.plant_nickname, "days_to_water": 3})
 
     # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
 
@@ -133,7 +134,6 @@ def add_user_plant():
 def add_plant_to_wl():
     """Add plant to a user's profile."""
 
-    # TODO: Check if plant is already on wishlist - if yes: do nothing
     data = request.get_json()
     user_id = data['user_id']
     plant_id = data['plant_id']
@@ -158,6 +158,19 @@ def delete_wishlist_plant(plant_id, user_id):
     crud.remove_wishlist_plant(int(plant_id), int(user_id))
 
     return jsonify('Deleted users wishlist plant.')
+
+@app.route('/add_nickname_to_plant', methods=["PATCH"])
+def add_nickname_to_plant():
+    """Add or update a User's plant nickname."""
+
+    print('trying to update a name on a plant', )
+    data = request.get_json()
+    plant_id = data['plant_id']
+    nickname = data['nickname']
+
+    crud.update_plant_nickname(plant_id, nickname)
+
+    return jsonify('Added or updated a plant nickname.')
 
 
 

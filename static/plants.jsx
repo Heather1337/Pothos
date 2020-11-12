@@ -1,11 +1,14 @@
 "use strict";
 
+/*=================== Layout and logic for individual Plant node =====================*/
 const Plant = (props) => {
 
-    const addPlantToProfile = (e) => {
-        //get name of plant clicked on
+  //Function for adding a plant to a User's profile
+  const addPlantToProfile = (e) => {
+
         const plant_id = e.target.id;
         const user_id = localStorage.user_id;
+
         if (user_id && plant_id) {
             const payload = {"user_id": user_id, "plant_id": plant_id};
             fetch('/add_plant_to_profile', {
@@ -20,10 +23,12 @@ const Plant = (props) => {
         }
     }
 
+    //Function for adding a plant to a User's wishlist
     const addPlantToWishlist = (e) => {
-        //get name of plant clicked on
+
         const plant_id = e.target.id;
         const user_id = localStorage.user_id;
+
         if (user_id && plant_id) {
             const payload = {"user_id": user_id, "plant_id": plant_id};
             fetch('/add_plant_to_wishlist', {
@@ -38,18 +43,21 @@ const Plant = (props) => {
         }
     }
 
+    //Return layout for individual Plant node
     return (
-        <Container className="userPlant">
-            <Row >
+        <Container className="plant-style">
+            <Row className="plant-row-style">
                 <Col>
                 <Row><h3>{props.plant_name}</h3></Row>
                 <Row><p>{props.plant_tip}</p></Row>
                 </Col>
-                <Col>
-                <Row><Image src={props.plant_image} rounded fluid/></Row>
+                <Col className="plant-col-style">
+                <Row className="plant-row-image"><Image src={props.plant_image} rounded fluid/></Row>
                 <Row>
+                <Col></Col>
                 <Col><Button variant="outline-secondary" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add to Profile</Button></Col>
                 <Col><Button variant="outline-secondary" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to Wishlist</Button></Col>
+                <Col></Col>
                 </Row>
                 </Col>
             </Row>
@@ -57,29 +65,33 @@ const Plant = (props) => {
     );
 }
 
+/*=================== Layout and logic for container of Plant nodes =====================*/
+
 const PlantContainer = () => {
 
     React.useEffect(() => {
-        console.log('fetching plants...')
+        // console.log('fetching plants...') //uncomment for debugging
         fetch('/get_plants.json')
         .then((response) => response.json())
-        .then((data) => updatePlants(data))
+        .then((plants) => updatePlants(plants))
     }, []);
 
     const [plants, updatePlants] = React.useState('plants');
     const plantsArr = [];
-    for (var i = 0; i < 6; i++) {
-        console.log(plants[i], plants[i].plant_image, plants[i].plant_name, plants[i].plant_id)
+
+    for (const plant of plants) {
+        // console.log(plants[i], plants[i].plant_image, plants[i].plant_name, plants[i].plant_id); //uncomment for debugging
         plantsArr.push(
             <Plant
-              plant_name={plants[i].plant_name}
-              plant_tip={plants[i].plant_tip}
-              plant_image={plants[i].plant_image}
-              plant_id={String(plants[i].plant_id)}
+              plant_name={plant.plant_name}
+              plant_tip={plant.plant_tip}
+              plant_image={plant.plant_image}
+              plant_id={String(plant.plant_id)}
             />
         );
     }
 
+    //Return list of all User's plant nodes
     return (
         <div>{plantsArr}</div>
     );

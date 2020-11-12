@@ -36,8 +36,8 @@ def get_all_plants():
 
 def add_plant_to_user_profile(user_id, plant_id):
     """Add a plant to a users profile."""
-    # TODO: Add field for days_to_water to keep track of count 
-    added_plant = User_Plant(user_id=user_id, plant_id=plant_id)
+    # TODO: Add field for days_to_water to keep track of count
+    added_plant = User_Plant(user_id=user_id, plant_id=plant_id, last_watered=0)
 
     db.session.add(added_plant)
     db.session.commit()
@@ -48,11 +48,28 @@ def add_plant_to_user_wishlist(user_id, plant_id):
     """Add a plant to a users profile wishlist."""
 
     added_plant = User_Plant_Wishlist(user_id=user_id, plant_id=plant_id)
+    print('Adding plant to user wishlist ======', user_id, plant_id, added_plant)
 
     db.session.add(added_plant)
     db.session.commit()
 
     return added_plant
+
+def update_plant_nickname(plant_id, nickname):
+    """Add or update a nickname for a User's plant."""
+
+    plant = User_Plant.query.get(plant_id)
+    plant.plant_nickname = nickname
+    db.session.commit()
+
+    return plant
+
+def get_user_plants_for_sms():
+    """Get all user_plants saved"""
+
+    users = User.query.filter(User.text_service == True)
+
+    return users
 
 #=====================================================================================================#
 # USER CRUD FUNCTIONS
