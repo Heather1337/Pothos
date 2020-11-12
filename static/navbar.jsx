@@ -7,12 +7,12 @@ const NavbarComp = (props) => {
         <Navbar id="navbar" bg="light" variant="light" sticky="top">
         {/* <Image id="logo" src="/static/images/logo.png"></Image> */}
         <Nav className="mr-auto">
-            <Link to="/profile" id="nav-link-path">Profile</Link>
-            <Link to="/plants" id="nav-link-path">Plants</Link>
-            <Link to="/schedule" id="nav-link-path">Watering Schedule</Link>
-            {/* <Link to="/" id="nav-link-path">Home</Link> */}
-        {/* <Badge variant="light">{props.user.loggedIn ? (`Welcome, ` + props.user.fname) : `sign-in` }</Badge> */}
+            <Link to="/profile" id="profile" className="navbar-links">Profile</Link>
+            <Link to="/plants" id="plants" className="navbar-links">Plants</Link>
+            <Link to="/schedule" id="schedule" className="navbar-links">Watering Schedule</Link>
+            <Link to="/reminders-signup" id="reminders-signup" className="navbar-links">Watering reminders</Link>
         </Nav>
+        <Badge variant="light" className="navbar-links">{props.user ? (`Signed in as ` + localStorage['user_email']) : `Not logged in` }</Badge>
         </Navbar>
     )
 }

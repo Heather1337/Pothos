@@ -3,10 +3,6 @@
 
 const App = () => {
 
-  // let history = ReactRouterDOM.useHistory();
-  // function loginUser() {
-  //   history.push("/profile");
-  // }
   const [user , setUser] = React.useState({
     loggedIn: false,
   })
@@ -25,9 +21,6 @@ const App = () => {
       }
     }, []);
 
-
-
-
   console.log('state in App:', user);
   return (
     <Router>
@@ -35,24 +28,19 @@ const App = () => {
         <Switch>
 
           <Route path="/profile">
-            <NavbarComp user={user}/>
+            <NavbarComp user={user.loggedIn}/>
             <UserPlantsContainer />
           </Route>
 
           <Route path="/plants">
-            <NavbarComp user={user}/>
+            <NavbarComp user={user.loggedIn}/>
             <PlantContainer />
           </Route>
 
           <Route exact path="/">
-            <NavbarComp user={user}/>
+            <NavbarComp user={user.loggedIn}/>
             {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
           </Route>
-
-          {/* <Route path="/">
-            <NavbarComp />
-            <Homepage />
-          </Route> */}
 
         </Switch>
       </div>

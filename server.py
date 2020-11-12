@@ -175,8 +175,6 @@ def user_plants(user_id):
 
         user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "user_plant_id": p.user_plant_id, "nickname": p.plant_nickname, "days_to_water": days_to_water})
 
-    # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
-
     return jsonify(user_plants_list)
 
 
