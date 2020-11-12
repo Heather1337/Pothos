@@ -10,22 +10,20 @@ import crud
 app = Flask(__name__)
 # app.secret_key = 'dev'
 
-#=====================================================================================================#
-# USER ROUTES
-#=====================================================================================================#
+#===============================*    PAGE ROUTES   *========================================#
 
 @app.route('/')
 def my_index():
-    """ Show homepage with form to register.
+    """ Show homepage with form to register."""
 
-    If user is already stored in session, redirect to user profile.
-    """
     return render_template('base.html')
 
 @app.route('/profile')
 def profile_page():
 
     return render_template('base.html')
+
+#===============================*    USER ROUTES   *========================================#
 
 
 @app.route('/register_user', methods=["POST"])
@@ -64,10 +62,7 @@ def user_login():
         return jsonify('Invalid')
 
 
-
-#=====================================================================================================#
-# ROUTES FOR PLANT DATA
-#=====================================================================================================#
+#===============================*   PLANT DATA ROUTES   *========================================#
 
 @app.route('/get_plants.json')
 def get_plants():
@@ -86,22 +81,29 @@ def get_plants():
     return jsonify(plants_list)
 
 
-@app.route('/get_user_plants.json/<user_id>')
-def user_plants(user_id):
-    """Get plants for a given user."""
+#===============================*   WISHLIST PLANT  ROUTES   *========================================#
 
-    user_plants = crud.get_user_plants(user_id)
-    user_plants_list = []
-    print('DATA returned from CRUD for user plants:', user_plants)
+@app.route('/add_plant_to_wishlist', methods=["POST"])
+def add_plant_to_wl():
+    """Add plant to a user's profile."""
 
-    for p in user_plants:
-        print('In USER plants data on server --->', p.plant_id)
+    data = request.get_json()
+    user_id = data['user_id']
+    plant_id = data['plant_id']
+    added_plant = crud.add_plant_to_user_wishlist(user_id, plant_id)
+    print('Added plant to wishlist: ', added_plant)
 
-        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "user_plant_id": p.user_plant_id, "nickname": p.plant_nickname, "days_to_water": 3})
+    return jsonify('Added plant to user wishlist.')
 
-    # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
 
-    return jsonify(user_plants_list)
+@app.route('/delete_plant_from_wishlist/<plant_id>/<user_id>', methods=["DELETE"])
+def delete_wishlist_plant(plant_id, user_id):
+    """Delete a user's plant."""
+    print('trying to remove plant from wishlist in server...', plant_id, user_id)
+    crud.remove_wishlist_plant(int(plant_id), int(user_id))
+
+    return jsonify('Deleted users wishlist plant.')
+
 
 @app.route('/get_user_wishlist.json/<user_id>')
 def user_wishlist(user_id):
@@ -118,29 +120,7 @@ def user_wishlist(user_id):
 
     return jsonify(wishlist_arr)
 
-@app.route('/add_plant_to_profile', methods=["POST"])
-def add_user_plant():
-    """Add plant to a user's profile."""
-
-    data = request.get_json()
-    user_id = data['user_id']
-    plant_id = data['plant_id']
-    added_plant = crud.add_plant_to_user_profile(user_id, plant_id)
-    print('Added plant to profile: ', added_plant)
-
-    return jsonify('Added plant to user profile.')
-
-@app.route('/add_plant_to_wishlist', methods=["POST"])
-def add_plant_to_wl():
-    """Add plant to a user's profile."""
-
-    data = request.get_json()
-    user_id = data['user_id']
-    plant_id = data['plant_id']
-    added_plant = crud.add_plant_to_user_wishlist(user_id, plant_id)
-    print('Added plant to wishlist: ', added_plant)
-
-    return jsonify('Added plant to user wishlist.')
+#===============================*   USER PLANT ROUTES   *========================================#
 
 @app.route('/delete_plant_from_profile/<plant_id>', methods=["DELETE"])
 def delete_user_plant(plant_id):
@@ -150,14 +130,6 @@ def delete_user_plant(plant_id):
 
     return jsonify('Deleted users plant.')
 
-
-@app.route('/delete_plant_from_wishlist/<plant_id>/<user_id>', methods=["DELETE"])
-def delete_wishlist_plant(plant_id, user_id):
-    """Delete a user's plant."""
-    print('trying to remove plant from wishlist in server...', plant_id, user_id)
-    crud.remove_wishlist_plant(int(plant_id), int(user_id))
-
-    return jsonify('Deleted users wishlist plant.')
 
 @app.route('/add_nickname_to_plant', methods=["PATCH"])
 def add_nickname_to_plant():
@@ -171,6 +143,45 @@ def add_nickname_to_plant():
     crud.update_plant_nickname(plant_id, nickname)
 
     return jsonify('Added or updated a plant nickname.')
+
+
+@app.route('/add_plant_to_profile', methods=["POST"])
+def add_user_plant():
+    """Add plant to a user's profile."""
+
+    data = request.get_json()
+    user_id = data['user_id']
+    plant_id = data['plant_id']
+    added_plant = crud.add_plant_to_user_profile(user_id, plant_id)
+    print('Added plant to profile: ', added_plant)
+
+    return jsonify('Added plant to user profile.')
+
+
+@app.route('/get_user_plants.json/<user_id>')
+def user_plants(user_id):
+    """Get plants for a given user."""
+
+    user_plants = crud.get_user_plants(user_id)
+    user_plants_list = []
+    print('DATA returned from CRUD for user plants:', user_plants)
+
+    for p in user_plants:
+        print('In USER plants data on server --->', p.plant_id)
+
+        days_to_water = 0
+        if(p.last_watered < p.plant_info.water_schedule):
+            days_to_water = p.plant_info.water_schedule - p.last_watered
+
+        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "user_plant_id": p.user_plant_id, "nickname": p.plant_nickname, "days_to_water": days_to_water})
+
+    # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
+
+    return jsonify(user_plants_list)
+
+
+#===============================*   USER DATA ROUTES   *========================================#
+
 
 
 
