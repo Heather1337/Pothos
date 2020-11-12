@@ -57,15 +57,19 @@ const RegistrationForm = (props) => {
             })
             .then(response => response.json())
             .then(data => {
-                localStorage.setItem('user_id', data.user_ID);
-                localStorage.setItem('user_email', data.user_email);
-                console.log(localStorage);
-                setState(prevState => ({
-                    ...prevState,
-                    user: data,
-                }));
-                console.log('updated state', state);
-                props.setUser({loggedIn: true});
+                if(data !== 'Invalid') {
+                    localStorage.setItem('user_id', data.user_ID);
+                    localStorage.setItem('user_email', data.user_email);
+                    console.log(localStorage);
+                    setState(prevState => ({
+                        ...prevState,
+                        user: data,
+                    }));
+                    console.log('updated state', state);
+                    props.setUser({loggedIn: true});
+                } else {
+                    alert('Invalid login!')
+                }
             })
             .catch((error) => {
                 console.error('Error in logging in a user:', error);

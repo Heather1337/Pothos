@@ -71,9 +71,34 @@ def get_user_plants_for_sms():
 
     return users
 
+def increment_plant_last_watered(user_plant_id):
+    """Updates a user_plants laster_watered attribute."""
+
+    plant = User_Plant.query.get(user_plant_id)
+    plant.last_watered = plant.last_watered + 1
+    db.session.commit()
+
+    return plant
+
+def reset_plant_last_watered(user_plant_id):
+    """Resets a user_plants laster_watered attribute to 0."""
+
+    plant = User_Plant.query.get(user_plant_id)
+    plant.last_watered = 0
+    db.session.commit()
+
+    return plant
+
 #=====================================================================================================#
 # USER CRUD FUNCTIONS
 #=====================================================================================================#
+def get_all_users():
+    """Returns a list of all Users."""
+
+    users = User.query.all()
+
+    return users
+
 def register_user(password, email, fname, lname):
     """Gets the plants that belong to a user."""
 

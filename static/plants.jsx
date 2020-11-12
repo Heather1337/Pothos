@@ -55,7 +55,7 @@ const Plant = (props) => {
                 <Row className="plant-row-image"><Image src={props.plant_image} rounded fluid/></Row>
                 <Row>
                 <Col></Col>
-                <Col><Button variant="outline-secondary" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add to Profile</Button></Col>
+                <Col><Button variant="outline-secondary" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add Plant</Button></Col>
                 <Col><Button variant="outline-secondary" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to Wishlist</Button></Col>
                 <Col></Col>
                 </Row>
