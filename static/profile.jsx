@@ -19,6 +19,11 @@ const UserPlant = (props) => {
     );
 }
 
+// TODO: Add a input for updating when a plant was last watered if not current with recommended schedule
+/* <label for="tentacles">Number of tentacles (10-100):</label>
+     <input type="number" id="tentacles" name="tentacles"
+       min="10" max="100"></input> */
+
 const removePlantFromProfile = (e) => {
 
   const plant_id = e.target.id;
