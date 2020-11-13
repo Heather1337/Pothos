@@ -42,6 +42,11 @@ const App = () => {
             {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
           </Route>
 
+          <Route path="/watering-reminders">
+            <NavbarComp user={user.loggedIn}/>
+            <MessageForm />
+          </Route>
+
         </Switch>
       </div>
     </Router>

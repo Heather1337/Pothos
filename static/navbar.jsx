@@ -10,7 +10,7 @@ const NavbarComp = (props) => {
             <Link to="/profile" id="profile" className="navbar-links">Profile</Link>
             <Link to="/plants" id="plants" className="navbar-links">Plants</Link>
             <Link to="/schedule" id="schedule" className="navbar-links">Watering Schedule</Link>
-            <Link to="/reminders-signup" id="reminders-signup" className="navbar-links">Watering reminders</Link>
+            <Link to="/watering-reminders" id="watering-reminders" className="navbar-links">Watering reminders</Link>
         </Nav>
         <Badge variant="light" className="navbar-links">{props.user ? (`Signed in as ` + localStorage['user_email']) : `Not logged in` }</Badge>
         </Navbar>

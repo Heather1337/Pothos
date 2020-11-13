@@ -11,7 +11,9 @@ const UserPlant = (props) => {
         <Row><h5> {props.plant_name} </h5></Row>
         <Row><p> Water in {props.days_to_water} days </p></Row>
         <Row><Image id="user-plant-photo" src={props.plant_image} rounded fluid /></Row>
-        <Row><Button variant="outline-secondary" size="sm" onClick={(e) => removePlantFromProfile(e)} id={props.user_plant_id}>Remove Plant</Button></Row>
+        <Row>
+          <Button variant="outline-secondary" size="sm" onClick={(e) => removePlantFromProfile(e)} id={props.user_plant_id}>Remove Plant</Button>
+        </Row>
         </Col>
       </Row>
     );
@@ -102,16 +104,26 @@ const removePlantFromWishlist= (e) => {
 
 const ProfilePlantsSearch = () => {
   return (
-    <InputGroup className="mb-3">
-      <FormControl
-        placeholder="Search for plant"
-        aria-label="Searched for plant"
-        aria-describedby="basic-addon2"
-      />
-      <InputGroup.Append>
-        <Button variant="outline-secondary">Search</Button>
-      </InputGroup.Append>
-    </InputGroup>
+
+    <div>
+      <DropdownButton
+        as={ButtonGroup}
+        key={'secondary'}
+        id={`dropdown-user-plants`}
+        size="sm"
+        variant="outline secondary"
+        title="Filter plants"
+      >
+        <Dropdown.Item eventKey="1">Pet friendly</Dropdown.Item>
+        <Dropdown.Item eventKey="2">Beginner friendly</Dropdown.Item>
+        <Dropdown.Item eventKey="3">Filters air</Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item eventKey="4">Bright light</Dropdown.Item>
+        <Dropdown.Item eventKey="5">Medium bright light</Dropdown.Item>
+        <Dropdown.Item eventKey="6">Low light</Dropdown.Item>
+      </DropdownButton>
+   </div>
+
   )
 }
 

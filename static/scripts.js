@@ -20,5 +20,8 @@ const Image = ReactBootstrap.Image;
 const ButtonGroup = ReactBootstrap.ButtonGroup;
 const InputGroup = ReactBootstrap.InputGroup;
 const Badge = ReactBootstrap.Badge;
+const DropdownType = ReactBootstrap.DropdownType;
+const Dropdown = ReactBootstrap.Dropdown;
+const DropdownButton = ReactBootstrap.DropdownButton;
 
 
