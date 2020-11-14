@@ -180,6 +180,20 @@ def user_plants(user_id):
 
 #===============================*   USER DATA ROUTES   *========================================#
 
+@app.route('/register_user_for_texts', methods=["PATCH"])
+def register_user_for_texts():
+    """Register a user to receive text reminders."""
+
+    data = request.get_json()
+    print(data)
+    phone_number = data['phone_number']
+    text_reminders = data['wants_reminders']
+    user_id = data['user_id']
+
+    print('In register user texts:', phone_number, text_reminders, user_id)
+
+    crud.register_user_for_texts(phone_number, text_reminders, user_id)
+    return jsonify('User has been registered.')
 
 
 
