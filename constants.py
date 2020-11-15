@@ -1,0 +1,6 @@
+EMAIL = 'email'
+PASSWORD = 'password'
+FNAME = 'fname'
+LNAME = 'lname'
+USER_ID = 'user_id'
+PLANT_ID = 'plant_id'

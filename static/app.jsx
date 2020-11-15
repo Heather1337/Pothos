@@ -13,13 +13,21 @@ const App = () => {
       const loggedInUser = localStorage.getItem('user');
       if (loggedInUser) {
           const foundUser = loggedInUser;
-          setState(prevState => ({
+          setUser(prevState => ({
               ...prevState,
               loggedIn: true,
           }));
           console.log('Found user in useEffect in login file ===>.', foundUser)
       }
     }, []);
+
+    const logoutUser = () => {
+      setUser(prevState => ({
+        ...prevState,
+        loggedIn: false
+      }));
+      localStorage.clear()
+    }
 
   console.log('state in App:', user);
   return (
@@ -28,23 +36,25 @@ const App = () => {
         <Switch>
 
           <Route path="/profile">
-            <NavbarComp user={user.loggedIn}/>
-            <UserPlantsContainer />
+            <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
+            {user.loggedIn ? <UserPlantsContainer /> : <Redirect to="/" />}
+            {/* <UserPlantsContainer /> */}
           </Route>
 
           <Route path="/plants">
-            <NavbarComp user={user.loggedIn}/>
-            <PlantContainer />
+            <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
+            {user.loggedIn ? <PlantContainer /> : <Redirect to="/" />}
           </Route>
 
           <Route exact path="/">
-            <NavbarComp user={user.loggedIn}/>
+            {/* <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/> */}
             {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
           </Route>
 
           <Route path="/watering-reminders">
-            <NavbarComp user={user.loggedIn}/>
-            <MessageForm />
+            <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
+            {user.loggedIn ? <MessageForm /> : <Redirect to="/" />}
+            {/* <MessageForm /> */}
           </Route>
 
         </Switch>

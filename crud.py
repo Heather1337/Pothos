@@ -174,7 +174,8 @@ def register_user_for_texts(phone_number, wants_texts, user_id):
     """Updates a user with number and if they would like text reminders."""
 
     user = User.query.get(user_id)
-    user.phone_number = phone_number
+    print('user in register:')
+    user['phone_number'] = phone_number
     user.text_service = wants_texts
     db.session.commit()
 

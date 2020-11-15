@@ -79,7 +79,7 @@ const MessageForm = () => {
                 </Form.Group>
                 <Form.Group controlId="phoneNumber">
                     <Form.Label>Phone number</Form.Label>
-                    <Form.Control type="tel" onChange={handleNumberChange} placeholder="000-000-0000"/>
+                    <Form.Control type="tel" onChange={handleNumberChange} placeholder="(888) 888-8888"/>
                 </Form.Group>
                 <Button variant="outline-secondary" type="submit" id="textRegisterButton">
                         Register
