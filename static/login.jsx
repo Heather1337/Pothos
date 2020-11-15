@@ -131,6 +131,8 @@ const RegistrationForm = (props) => {
             .catch((error) => {
                 console.error('Error in registering a user:', error);
             });
+        } else {
+            alert('Missing or incorrect information. Try again!')
         }
     }
 

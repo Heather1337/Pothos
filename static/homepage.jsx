@@ -4,6 +4,13 @@ const Homepage = (props) => {
     return (
         <div>
           <Container>
+          <Navbar id="navbar" bg="light" variant="light" sticky="top">
+          <Navbar.Brand href="/">Le Sol</Navbar.Brand>
+          <Nav className="mr-auto">
+
+          </Nav>
+          <Badge variant="light" className="navbar-links">Signed out</Badge>
+          </Navbar>
             <Row>
               <Col sm={8}>
               <Carousel>
