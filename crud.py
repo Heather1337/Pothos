@@ -64,6 +64,14 @@ def update_plant_nickname(plant_id, nickname):
 
     return plant
 
+def update_plant_days_to_water(plant_id, days_to_water):
+
+    plant = User_Plant.query.get(plant_id)
+    plant.last_watered = days_to_water
+    db.session.commit()
+
+    return plant
+
 def get_user_plants_for_sms():
     """Get all user_plants saved"""
 
@@ -114,15 +122,6 @@ def register_user(password, email, fname, lname):
 def get_user_plants(id):
     """Gets the plants that belong to a user."""
 
-    print('In CRUD get user plants ====>')
-    # user_plants = User_Plant.query.filter(User_Plant.user_id == 1)
-    # print('USER PLANTS IN DB CRUD FILE', user_plants)
-    #Get all of the plants that belong to a single user
-    #Reference the association table User_Plant ?
-    #User_Plant.query.options(db.joinedLoad('user_id')).all()
-    #
-    # plant = User_Plant.query.filter(User_Plant.user_id == 1).first()
-    # user_plant = Plant.query.get(plant.plant_id)
     user = User.query.get(id)
     user_plants = user.plants
     print(user_plants[0].user_plant_id)
@@ -132,18 +131,8 @@ def get_user_plants(id):
 def get_user_wishlist(id):
     """Gets the plants that belong to a user."""
 
-    print('In CRUD get user wishlist ====>')
-    # user_plants = User_Plant.query.filter(User_Plant.user_id == 1)
-    # print('USER PLANTS IN DB CRUD FILE', user_plants)
-    #Get all of the plants that belong to a single user
-    #Reference the association table User_Plant ?
-    #User_Plant.query.options(db.joinedLoad('user_id')).all()
-    #
-    # plant = User_Plant.query.filter(User_Plant.user_id == 1).first()
-    # user_plant = Plant.query.get(plant.plant_id)
     user = User.query.get(id)
     user_wishlist = user.wishlist
-    print("USER WISHLIST INFO: ==================", user_wishlist)
 
     return user_wishlist
 

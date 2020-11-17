@@ -144,6 +144,19 @@ def add_nickname_to_plant():
 
     return jsonify('Added or updated a plant nickname.')
 
+@app.route('/update_days_since_last_water', methods=["PATCH"])
+def update_days_since_last_water():
+    """Update a User's plant last watering days count."""
+
+    print('trying to update watering days on a plant', )
+    data = request.get_json()
+    plant_id = data['plant_id']
+    days_count = data['days_count']
+
+    crud.update_plant_days_to_water(plant_id, days_count)
+
+    return jsonify('Updated days since last water for User plant.')
+
 
 @app.route('/add_plant_to_profile', methods=["POST"])
 def add_user_plant():

@@ -38,7 +38,6 @@ const App = () => {
           <Route path="/profile">
             <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
             {user.loggedIn ? <UserPlantsContainer /> : <Redirect to="/" />}
-            {/* <UserPlantsContainer /> */}
           </Route>
 
           <Route path="/plants">
@@ -47,14 +46,12 @@ const App = () => {
           </Route>
 
           <Route exact path="/">
-            {/* <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/> */}
             {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
           </Route>
 
           <Route path="/watering-reminders">
             <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
             {user.loggedIn ? <MessageForm /> : <Redirect to="/" />}
-            {/* <MessageForm /> */}
           </Route>
 
         </Switch>
