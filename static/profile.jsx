@@ -59,10 +59,10 @@ const WateringDaysOfPlant = ({
 
 const UserPlant = (props) => {
 
-  const [updatePlant, updatePlantButton] = React.useState({
-    updateButton: false
-  });
-  const [wateringDays, setWateringDays] = React.useState(null);
+  // const [updatePlant, updatePlantButton] = React.useState({
+  //   updateButton: false
+  // });
+  // const [wateringDays, setWateringDays] = React.useState(null);
 
   const removePlantFromProfile = (e) => {
 
@@ -110,7 +110,7 @@ const UserPlant = (props) => {
             <Button variant="outline-secondary" size="sm" onClick={(e) => removePlantFromProfile(e)} id={props.user_plant_id}>Remove</Button>
           </Col>
           <Col sm={9}>
-            <WateringDaysOfPlant plantId={props.user_plant_id} daysSinceLastWatered={3} updateDaysLastWatered={handleWateringClick} />
+            <WateringDaysOfPlant plantId={props.user_plant_id} daysSinceLastWatered={props.last_watered} updateDaysLastWatered={handleWateringClick} />
           </Col>
         </Row>
         </Col>
@@ -216,7 +216,7 @@ const ProfilePlantsSearch = () => {
 
 const UserPlantsContainer = () => {
   const getUserPlants = () => {
-    fetch(`/get_user_plants.json/${loggedInUserID}`)
+    fetch(`/get_user_plants.json/${localStorage['user_id']}`)
       .then((response) => response.json())
       .then((data) => {
         updateUserPlants(data)
@@ -259,6 +259,7 @@ const UserPlantsContainer = () => {
           days_to_water={plant.days_to_water}
           nickname={plant.nickname}
           key={plant.user_plant_id}
+          last_watered={plant.last_watered}
           fetchPlants={getUserPlants}
         />
       );
