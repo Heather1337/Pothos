@@ -4,6 +4,7 @@
 const Plant = (props) => {
 
     const [plantAdded, alertPlantAdded] = React.useState(false)
+    const [wishlistPlantAdded, alertWishlistPlantAdded] = React.useState(false)
 
   //Function for adding a plant to a User's profile
     const addPlantToProfile = (e) => {
@@ -41,7 +42,10 @@ const Plant = (props) => {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             })
-            .then(()=> alert('Plant added to wishlist!'))
+            .then(()=> {
+                alertWishlistPlantAdded(true)
+                setTimeout(()=> alertWishlistPlantAdded(false), 3000)
+            })
             .catch((error) => console.log('Error in adding plant to wishlist.', error))
         } else {
             console.log('Missing plant_id | user_id: ', plant_id, user_id);
@@ -61,7 +65,7 @@ const Plant = (props) => {
                 <Row>
                 <Col></Col>
                 <Col>{plantAdded ? <Button variant="secondary" size="sm">Plant added!</Button> : <Button variant="outline-secondary" size="sm" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add plant to profile</Button>}</Col>
-                <Col><Button variant="outline-secondary" size="sm" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to wishlist</Button></Col>
+                <Col>{wishlistPlantAdded ? <Button variant="secondary" size="sm">Added to wishlist!</Button> : <Button variant="outline-secondary" size="sm" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to wishlist</Button>}</Col>
                 <Col></Col>
                 </Row>
                 </Col>
