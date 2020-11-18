@@ -57,6 +57,22 @@ const WateringDaysOfPlant = ({
   );
 }
 
+const PlantIcons = (props) => {
+  return (
+    <Row>
+    <Col sm={3}>
+    <p>Plant Care</p>
+    </Col>
+    <Col sm={9}>
+    <Row><i class="fas fa-sun"></i>Bright to bright indirect light</Row>
+  <Row><i class="fas fa-tint"></i><p>  {props.water_tip}</p></Row>
+    <Row><i class="fas fa-paw"></i>Pet friendly</Row>
+    <Row><i class="fas fa-wind"></i>Filters the air</Row>
+    </Col>
+    </Row>
+  )
+}
+
 const UserPlant = (props) => {
 
   const removePlantFromProfile = (e) => {
@@ -107,6 +123,7 @@ const UserPlant = (props) => {
             <WateringDaysOfPlant plantId={props.user_plant_id} daysSinceLastWatered={props.last_watered} updateDaysLastWatered={handleWateringClick} />
           </Col>
         </Row>
+        <PlantIcons water_tip={props.water_tip}/>
         </Col>
       </Row>
     );

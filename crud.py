@@ -11,9 +11,9 @@ if __name__=='__main__':
 # PLANT CRUD FUNCTIONS
 #=====================================================================================================#
 
-def create_plant(plant_name, is_toxic, filters_air,
+def create_plant(plant_name, filters_air, is_toxic,
                 sun_lvl, beginner_friendly, water_schedule,
-                water_tip, plant_tip, plant_details, plant_image):
+                plant_tip, plant_details, water_tip,  plant_image):
 
     """Create and return a new plant."""
 
