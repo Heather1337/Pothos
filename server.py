@@ -23,6 +23,17 @@ def profile_page():
 
     return render_template('base.html')
 
+@app.route('/watering-reminders')
+def watering_page():
+
+    return render_template('base.html')
+
+@app.route('/plants')
+def plants_page():
+
+    return render_template('base.html')
+
+
 #===============================*    USER ROUTES   *========================================#
 
 
@@ -57,7 +68,7 @@ def user_login():
     user = crud.get_user_with_email(user_data["email"])
     #Check provided password matches password stored in db
     if (user_data["password"] == user.password):
-        return jsonify({'user_email': user.email, 'user_ID': user.user_id, 'fname': user.fname})
+        return jsonify({'user_email': user.email, 'user_ID': user.user_id, 'fname': user.fname, 'registered_for_texts': user.text_service})
     else:
         return jsonify('Invalid')
 

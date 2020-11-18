@@ -68,7 +68,6 @@ const UserPlant = (props) => {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'}
       })
-      // .then(() => document.location.reload())
       .then(()=> props.fetchPlants())
       .catch((error) => console.log('Error in removing plant from profile.', error))
     } else {

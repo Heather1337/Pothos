@@ -45,14 +45,19 @@ const App = () => {
             {user.loggedIn ? <PlantContainer /> : <Redirect to="/" />}
           </Route>
 
-          <Route exact path="/">
-            {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
-          </Route>
-
           <Route path="/watering-reminders">
             <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
             {user.loggedIn ? <MessageForm /> : <Redirect to="/" />}
           </Route>
+
+          <Route exact path="/">
+            {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
+          </Route>
+{/* 
+          <Route path="/watering-reminders">
+            <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
+            {user.loggedIn ? <MessageForm /> : <Redirect to="/" />}
+          </Route> */}
 
         </Switch>
       </div>
