@@ -125,7 +125,7 @@ def user_wishlist(user_id):
 
     for p in user_wishlist:
         print('In USER plants data on server --->', p)
-        wishlist_arr.append({"plant_name": p.plant_name, "plant_image": p.plant_image, "water_tip": p.water_tip, "plant_id": p.plant_id})
+        wishlist_arr.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "plant_id": p.wishlist_plant_id })
 
     # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
 

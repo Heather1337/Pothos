@@ -22,7 +22,7 @@ class User(db.Model):
 
     plants = db.relationship('User_Plant')
 
-    wishlist = db.relationship('Plant', secondary='users_plant_wishlist')
+    wishlist = db.relationship('User_Plant_Wishlist')
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
