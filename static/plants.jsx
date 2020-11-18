@@ -3,8 +3,10 @@
 /*=================== Layout and logic for individual Plant node =====================*/
 const Plant = (props) => {
 
+    const [plantAdded, alertPlantAdded] = React.useState(false)
+
   //Function for adding a plant to a User's profile
-  const addPlantToProfile = (e) => {
+    const addPlantToProfile = (e) => {
 
         const plant_id = e.target.id;
         const user_id = localStorage.user_id;
@@ -16,7 +18,10 @@ const Plant = (props) => {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             })
-            .then(()=> alert('Plant added!'))
+            .then(()=> {
+                alertPlantAdded(true)
+                setTimeout(()=> alertPlantAdded(false), 3000)
+            })
             .catch((error) => console.log('Error in adding plant to profile.', error))
         } else {
             console.log('Missing plant_id | user_id: ', plant_id, user_id);
@@ -55,8 +60,8 @@ const Plant = (props) => {
                 <Row className="plant-row-image"><Image src={props.plant_image} rounded fluid/></Row>
                 <Row>
                 <Col></Col>
-                <Col><Button variant="outline-secondary" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add Plant</Button></Col>
-                <Col><Button variant="outline-secondary" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to Wishlist</Button></Col>
+                <Col>{plantAdded ? <Button variant="secondary" size="sm">Plant added!</Button> : <Button variant="outline-secondary" size="sm" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add plant to profile</Button>}</Col>
+                <Col><Button variant="outline-secondary" size="sm" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to wishlist</Button></Col>
                 <Col></Col>
                 </Row>
                 </Col>
