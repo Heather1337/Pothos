@@ -2,7 +2,6 @@
 
 const Homepage = (props) => {
     return (
-        <div>
           <Container>
           <Navbar id="navbar" bg="light" variant="light" sticky="top">
           <Navbar.Brand href="/">Le Sol</Navbar.Brand>
@@ -32,7 +31,7 @@ const Homepage = (props) => {
                   />
                   <Carousel.Caption>
                     <h3>Le Sol</h3>
-                    <p>Easy plants to care for.</p>
+                    <p>Get text reminders for when to water your plants.</p>
                   </Carousel.Caption>
                 </Carousel.Item>
               </Carousel>
@@ -44,7 +43,6 @@ const Homepage = (props) => {
 
             </Row>
           </Container>
-        </div>
     );
 }
 

@@ -59,11 +59,6 @@ const WateringDaysOfPlant = ({
 
 const UserPlant = (props) => {
 
-  // const [updatePlant, updatePlantButton] = React.useState({
-  //   updateButton: false
-  // });
-  // const [wateringDays, setWateringDays] = React.useState(null);
-
   const removePlantFromProfile = (e) => {
 
     const plant_id = e.target.id;
@@ -82,7 +77,7 @@ const UserPlant = (props) => {
   }
 
   //Handing button click for when User submits new last watered count
-  const handleWateringClick = (plantId, daysSinceLastWatered, setVisible) => {
+  const handleWateringClick = (plantId, daysSinceLastWatered) => {
 
     console.log('clicked!!! watering days', plantId, daysSinceLastWatered);
 
@@ -94,7 +89,7 @@ const UserPlant = (props) => {
         body: JSON.stringify({'plant_id': plantId, 'days_count': daysSinceLastWatered})
       })
       .then((response)=> response.json())
-      .then((data)=> console.log('data returned from fetch', data))
+      .then(()=> props.fetchPlants())
       .catch((error)=> console.log('Error in updating watering days.', error));
 
   }
@@ -249,7 +244,10 @@ const UserPlantsContainer = () => {
 
   //If there are plants in the User plants array, create nodes for them to display on profile.
   if(userPlants.length !== 0) {
-    for (let plant of userPlants) {
+    const sortedPlants = [].concat(userPlants)
+                         .sort((a, b) => (a.days_to_water > b.days_to_water) ? 1 : -1)
+
+    for (let plant of sortedPlants) {
       userPlantsArr.push(
         <UserPlant
           plant_name={plant.plant_name}
