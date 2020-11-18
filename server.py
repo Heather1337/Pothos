@@ -217,6 +217,18 @@ def register_user_for_texts():
 
     return jsonify('User has been registered.')
 
+@app.route('/unregister_user_for_texts', methods=["PATCH"])
+def unregister_user_for_texts():
+    """Set User record to false for wanting to receive text reminders."""
+
+    data = request.get_json()
+    text_reminders = data['wants_reminders']
+    user_id = data['user_id']
+
+    crud.unregister_user_for_texts(text_reminders, user_id)
+
+    return jsonify('User has been unsubscribed from receiving texts.')
+
 
 
 if __name__ == '__main__':
