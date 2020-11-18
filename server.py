@@ -197,7 +197,18 @@ def user_plants(user_id):
         if(p.last_watered < p.plant_info.water_schedule):
             days_to_water = p.plant_info.water_schedule - p.last_watered
 
-        user_plants_list.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "user_plant_id": p.user_plant_id, "nickname": p.plant_nickname, "days_to_water": days_to_water, "last_watered": p.last_watered})
+        user_plants_list.append({
+                                "plant_name": p.plant_info.plant_name,
+                                "plant_image": p.plant_info.plant_image,
+                                "water_tip": p.plant_info.water_tip,
+                                "user_plant_id": p.user_plant_id,
+                                "nickname": p.plant_nickname,
+                                "days_to_water": days_to_water,
+                                "last_watered": p.last_watered,
+                                "sun_lvl": p.plant_info.sun_lvl,
+                                "pet_friendly": p.plant_info.is_toxic,
+                                "filters_air": p.plant_info.filters_air
+                                })
 
     return jsonify(user_plants_list)
 

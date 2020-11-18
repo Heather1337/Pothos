@@ -58,16 +58,19 @@ const WateringDaysOfPlant = ({
 }
 
 const PlantIcons = (props) => {
+  // let petFriendly = false;
+  // console.log('pet friendly from server:', props.pet_friendly, 'in icons:', petFriendly)
+  // if(props.pet_friendly === 'True') petFriendly = true;
   return (
     <Row>
     <Col sm={3}>
     <p>Plant Care</p>
     </Col>
     <Col sm={9}>
-    <Row><i class="fas fa-sun"></i>Bright to bright indirect light</Row>
-  <Row><i class="fas fa-tint"></i><p>  {props.water_tip}</p></Row>
-    <Row><i class="fas fa-paw"></i>Pet friendly</Row>
-    <Row><i class="fas fa-wind"></i>Filters the air</Row>
+    <Row><i className="fas fa-sun"></i><p>  {props.sun_lvl}</p></Row>
+    <Row><i className="fas fa-tint"></i><p>  {props.water_tip}</p></Row>
+    <Row><i className="fas fa-paw"></i>{props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}</Row>
+  <Row><i className="fas fa-wind"></i>{props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}</Row>
     </Col>
     </Row>
   )
@@ -112,18 +115,30 @@ const UserPlant = (props) => {
     return (
       <Row className="userPlant">
         <Col className="user-plant-col">
-        <Row><h5> {props.plant_name} </h5></Row>
-        <Row><p> Water in {props.days_to_water} days </p></Row>
-        <Row><Image className="user-plant-photo" src={props.plant_image} rounded fluid /></Row>
-        <Row>
+          <Row><h5> {props.plant_name} </h5></Row>
+          <Row><p> Water in {props.days_to_water} days </p></Row>
+          <Row><Image className="user-plant-photo" src={props.plant_image} rounded fluid /></Row>
+          <Row>
           <Col sm={3}>
-            <Button variant="outline-secondary" size="sm" onClick={(e) => removePlantFromProfile(e)} id={props.user_plant_id}>Remove</Button>
+            <Button variant="outline-secondary"
+                    size="sm"
+                    onClick={(e) => removePlantFromProfile(e)}
+                    id={props.user_plant_id}>
+                      Remove
+            </Button>
           </Col>
           <Col sm={9}>
-            <WateringDaysOfPlant plantId={props.user_plant_id} daysSinceLastWatered={props.last_watered} updateDaysLastWatered={handleWateringClick} />
+            <WateringDaysOfPlant  plantId={props.user_plant_id}
+                                  daysSinceLastWatered={props.last_watered}
+                                  updateDaysLastWatered={handleWateringClick}
+            />
           </Col>
-        </Row>
-        <PlantIcons water_tip={props.water_tip}/>
+          </Row>
+        <PlantIcons water_tip={props.water_tip}
+                    sun_lvl={props.sun_lvl}
+                    pet_friendly={props.pet_friendly}
+                    filters_air={props.filters_air}
+        />
         </Col>
       </Row>
     );
@@ -269,6 +284,9 @@ const UserPlantsContainer = () => {
           plant_name={plant.plant_name}
           plant_image={plant.plant_image}
           water_tip={plant.water_tip}
+          sun_lvl={plant.sun_lvl}
+          filters_air={plant.filters_air}
+          pet_friendly={plant.pet_friendly}
           user_plant_id={plant.user_plant_id}
           days_to_water={plant.days_to_water}
           nickname={plant.nickname}
