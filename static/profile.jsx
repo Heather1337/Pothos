@@ -16,7 +16,7 @@ const WateringDaysOfPlant = ({
         onClick={() => setVisible(!visible)}
         id={plantId}
       >
-        Update plant
+        Edit
       </Button>
   );
   const wateringDaysInput = (
@@ -57,27 +57,12 @@ const WateringDaysOfPlant = ({
   );
 }
 
-const PlantIcons = (props) => {
-  // let petFriendly = false;
-  // console.log('pet friendly from server:', props.pet_friendly, 'in icons:', petFriendly)
-  // if(props.pet_friendly === 'True') petFriendly = true;
-  return (
-    <Row>
-    <Col>
-    <Row><i className="fas fa-sun"></i><p>  {props.sun_lvl}</p></Row>
-    <Row><i className="fas fa-tint"></i><p>  {props.water_tip}</p></Row>
-    <Row><i className="fas fa-paw"></i>{props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}</Row>
-  <Row><i className="fas fa-wind"></i>{props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}</Row>
-    </Col>
-    </Row>
-  )
-}
-
 const UserPlant = (props) => {
 
   const removePlantFromProfile = (e) => {
 
     const plant_id = e.target.id;
+    console.log(e.target, 'event target in remove plant')
 
     if(plant_id) {
       fetch(`/delete_plant_from_profile/${plant_id}`, {
@@ -112,31 +97,28 @@ const UserPlant = (props) => {
     return (
       <Row className="userPlant">
         <Col className="user-plant-col">
-          <Row><h5> {props.plant_name} </h5></Row>
-          <Row><p> Water in {props.days_to_water} days </p></Row>
-          <Row><Image className="user-plant-photo" src={props.plant_image} rounded fluid /></Row>
-          <Row>
-          <Col sm={3}>
-            <Button variant="outline-secondary"
-                    size="sm"
-                    onClick={(e) => removePlantFromProfile(e)}
-                    id={props.user_plant_id}>
-                      Remove
-            </Button>
-          </Col>
-          <Col sm={9}>
-            <WateringDaysOfPlant  plantId={props.user_plant_id}
-                                  daysSinceLastWatered={props.last_watered}
-                                  updateDaysLastWatered={handleWateringClick}
-            />
-          </Col>
-          </Row>
-        <PlantIcons water_tip={props.water_tip}
-                    sun_lvl={props.sun_lvl}
-                    pet_friendly={props.pet_friendly}
-                    filters_air={props.filters_air}
-        />
+            <Row><h5> {props.plant_name} </h5></Row>
+            <Row>
+              <Col sm={6}><p> Water in {props.days_to_water} days </p></Col>
+              <Col sm={6}><WateringDaysOfPlant  plantId={props.user_plant_id}
+                                    daysSinceLastWatered={props.last_watered}
+                                    updateDaysLastWatered={handleWateringClick}
+              /></Col>
+            </Row>
+            </Col>
+
+        <Col sm={3}>
+          <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
         </Col>
+        <Col sm={1}>
+          <Button variant="outline-secondary"
+                  size="sm"
+                  onClick={(e) => removePlantFromProfile(e)}
+                  id={props.user_plant_id}
+                  >x
+          </Button>
+        </Col>
+
       </Row>
     );
 }
@@ -176,41 +158,41 @@ const UserPlant = (props) => {
 
 /* ============ Setup for plants in User Wishlist & Logic for deleting a plant from User's Wishlist ============== */
 
-const WishlistPlant = (props) => {
+// const WishlistPlant = (props) => {
 
-  const removePlantFromWishlist= (e) => {
-    const plant_id = e.target.id;
-    console.log('Wishlist plant ID: ', plant_id)
-    const user_id = localStorage['user_id'];
+//   const removePlantFromWishlist= (e) => {
+//     const plant_id = e.target.id;
+//     console.log('Wishlist plant ID: ', plant_id)
+//     const user_id = localStorage['user_id'];
 
-    if(plant_id && user_id) {
-      fetch(`/delete_plant_from_wishlist/${plant_id}/${user_id}`, {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json'}
-      })
-      .then(() => props.getWishlist())
-      .catch((error) => console.log('Error in removing plant from profile.', error))
-    } else {
-      console.log('Missing plant_id', plant_id);
-    }
-  }
+//     if(plant_id && user_id) {
+//       fetch(`/delete_plant_from_wishlist/${plant_id}/${user_id}`, {
+//         method: 'DELETE',
+//         headers: {'Content-Type': 'application/json'}
+//       })
+//       .then(() => props.getWishlist())
+//       .catch((error) => console.log('Error in removing plant from profile.', error))
+//     } else {
+//       console.log('Missing plant_id', plant_id);
+//     }
+//   }
 
-  return (
-    <Row className="wishlistPlant">
-      <Col>
-      <Row><p>{props.plant_name}</p></Row>
-      <Row><Button variant="outline-secondary"
-                  size="sm"
-                  onClick={(e) => removePlantFromWishlist(e)}
-                  id={props.plant_id}>Remove
-      </Button></Row>
-      </Col>
-      <Col>
-      <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
-      </Col>
-    </Row>
-  );
-}
+//   return (
+//     <Row className="wishlistPlant">
+//       <Col>
+//       <Row><p>{props.plant_name}</p></Row>
+//       <Row><Button variant="outline-secondary"
+//                   size="sm"
+//                   onClick={(e) => removePlantFromWishlist(e)}
+//                   id={props.plant_id}>Remove
+//       </Button></Row>
+//       </Col>
+//       <Col>
+//       <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
+//       </Col>
+//     </Row>
+//   );
+// }
 
 
 /*================= DROP DOWN filter for searching for plants on a User's profile ====================*/
@@ -266,7 +248,7 @@ const UserPlantsContainer = () => {
       getUserPlants();
 
       //Send a request for User's wishlist
-      getUserWishlist();
+      // getUserWishlist();
     }
   }, []);
 
@@ -275,8 +257,8 @@ const UserPlantsContainer = () => {
   const [userPlants, updateUserPlants] = React.useState('userPlants');
   const userPlantsArr = [];
   //State for User's wishlist
-  const [wishlist, updateWishlist] = React.useState('wishList');
-  const wishlistArr = [];
+  // const [wishlist, updateWishlist] = React.useState('wishList');
+  // const wishlistArr = [];
 
   //If there are plants in the User plants array, create nodes for them to display on profile.
   if(userPlants.length !== 0) {
@@ -303,27 +285,13 @@ const UserPlantsContainer = () => {
     }
   }
 
-  //If there are plants in the User wishlist array, create nodes for them to display on profile.
-  if(wishlist.length !== 0) {
-    for (let plant of wishlist) {
-      wishlistArr.push(
-        <WishlistPlant
-          plant_name={plant.plant_name}
-          plant_tip={plant.plant_tip}
-          plant_image={plant.plant_image}
-          // plant_id={String(plant.plant_id)}
-          plant_id={plant.plant_id}
-          getWishlist={getUserWishlist}
-        />
-      );
-    }
-  }
+
 
   //Contains plant count and nursery name
   const UserProfileInfo = () => {
     return (
       <Container>
-        <Row><h3>Plant Profile</h3></Row>
+        {/* <Row><h3>Plant Profile</h3></Row> */}
         <Row>{userPlants.length} Plants</Row>
       </Container>
     )
@@ -339,10 +307,9 @@ const UserPlantsContainer = () => {
       </Row>
 
       <Row>
-        <Col sm={5}><Row><h3>Wishlist</h3></Row>
-        <Col>{wishlistArr}</Col></Col>
-        <Col sm={2}><p></p></Col>
-        <Col sm={5}>{userPlantsArr}</Col>
+        <Col sm={3}></Col>
+        <Col sm={6}>{userPlantsArr}</Col>
+        <Col sm={3}></Col>
       </Row>
 
     </Container>

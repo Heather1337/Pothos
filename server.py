@@ -84,7 +84,17 @@ def get_plants():
 
 
     for p in plants:
-        plants_list.append({"plant_tip": p.plant_tip, "plant_name": p.plant_name, "plant_image": p.plant_image, "plant_id": p.plant_id})
+        plants_list.append({"plant_tip": p.plant_tip,
+                            "plant_name": p.plant_name,
+                            "plant_image": p.plant_image,
+                            "plant_id": p.plant_id,
+                            "water_tip": p.water_tip,
+                            "sun_lvl": p.sun_lvl,
+                            "is_toxic": p.is_toxic,
+                            "filters_air": p.filters_air,
+                            "beginner_friendly": p.beginner_friendly,
+                            "water_tip": p.water_tip,
+                            "plant_details": p.plant_details})
 
     print(plants_list)
 

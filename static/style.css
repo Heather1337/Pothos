@@ -22,8 +22,8 @@
 }
 
 .wishlist-plant {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
 }
 
 .wishlistPlant {
@@ -62,5 +62,9 @@
 
 #navbar {
     height: 50px;
+}
+
+.userPlant {
+    border-bottom: 1px solid lightgray;
 }
 

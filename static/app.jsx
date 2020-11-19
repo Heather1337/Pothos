@@ -29,7 +29,18 @@ const App = () => {
       localStorage.clear()
     }
 
-  console.log('state in App:', user);
+    /*===== Callback for when User navigates to :id endpoint for plants. ======*/
+    // const renderPlant = (routerProps) => {
+    //   const plantID = parseInt(routerProps.match.params.id)
+    //   console.log('in render plant: ', plantID)
+    //   return(
+    //   <React.Fragment>
+    //     <NavbarComp user={user.loggedIn} logoutUser={logoutUser}></NavbarComp>
+    //     <Plant plantID={plantID} />
+    //   </React.Fragment>
+    //   )
+    // }
+
   return (
     <Router>
       <div>
@@ -40,7 +51,7 @@ const App = () => {
             {user.loggedIn ? <UserPlantsContainer /> : <Redirect to="/" />}
           </Route>
 
-          <Route path="/plants">
+          <Route exact path="/plants">
             <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
             {user.loggedIn ? <PlantContainer /> : <Redirect to="/" />}
           </Route>
@@ -50,14 +61,16 @@ const App = () => {
             {user.loggedIn ? <MessageForm /> : <Redirect to="/" />}
           </Route>
 
+          <Route path="/wishlist">
+            <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
+            {user.loggedIn ? <WishListContainer /> : <Redirect to="/" />}
+          </Route>
+
+          <Route path="/plant/:plantId" component={Plant} />
+
           <Route exact path="/">
             {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
           </Route>
-{/* 
-          <Route path="/watering-reminders">
-            <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
-            {user.loggedIn ? <MessageForm /> : <Redirect to="/" />}
-          </Route> */}
 
         </Switch>
       </div>

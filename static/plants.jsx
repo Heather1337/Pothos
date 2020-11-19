@@ -1,5 +1,20 @@
 "use strict";
 
+
+const PlantIcons = (props) => {
+
+    return (
+      <Row>
+      <Col>
+      <Row><i className="fas fa-sun"></i><p>  {props.sun_lvl}</p></Row>
+      <Row><i className="fas fa-tint"></i><p>  {props.water_tip}</p></Row>
+      <Row><i className="fas fa-paw"></i>{props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}</Row>
+      <Row><i className="fas fa-wind"></i>{props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}</Row>
+      </Col>
+      </Row>
+    )
+}
+
 /*=================== Layout and logic for individual Plant node =====================*/
 const Plant = (props) => {
 
@@ -52,13 +67,19 @@ const Plant = (props) => {
         }
     }
 
-    //Return layout for individual Plant node
+    //Return layout for individual Plant
     return (
         <Container className="plant-style">
             <Row className="plant-row-style">
                 <Col>
+                <Link to={`/plant/2`}>Test</Link>
                 <Row><h3>{props.plant_name}</h3></Row>
                 <Row><p>{props.plant_tip}</p></Row>
+                <PlantIcons water_tip={props.water_tip}
+                            sun_lvl={props.sun_lvl}
+                            pet_friendly={props.is_toxic}
+                            filters_air={props.filters_air}
+                />
                 </Col>
                 <Col className="plant-col-style">
                 <Row className="plant-row-image"><Image src={props.plant_image} rounded fluid/></Row>
@@ -72,7 +93,7 @@ const Plant = (props) => {
             </Row>
         </Container>
     );
-}
+};
 
 /*=================== Layout and logic for container of Plant nodes =====================*/
 
@@ -89,20 +110,27 @@ const PlantContainer = () => {
     const plantsArr = [];
 
     for (const plant of plants) {
-        // console.log(plants[i], plants[i].plant_image, plants[i].plant_name, plants[i].plant_id); //uncomment for debugging
+
         plantsArr.push(
             <Plant
               plant_name={plant.plant_name}
               plant_tip={plant.plant_tip}
               plant_image={plant.plant_image}
               plant_id={String(plant.plant_id)}
+              is_toxic={plant.is_toxic}
+              beginner_friendly={plant.beginner_friendly}
+              plant_image={plant.plant_image}
+              water_tip={plant.water_tip}
+              plant_image={plant.plant_image}
+              sun_lvl={plant.sun_lvl}
+              filters_air={plant.filters_air}
+              plant_details={plant.plant_details}
             />
         );
     }
 
-    //Return list of all User's plant nodes
     return (
         <div>{plantsArr}</div>
     );
-}
+};
 
