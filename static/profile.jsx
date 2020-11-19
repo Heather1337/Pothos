@@ -63,10 +63,7 @@ const PlantIcons = (props) => {
   // if(props.pet_friendly === 'True') petFriendly = true;
   return (
     <Row>
-    <Col sm={3}>
-    <p>Plant Care</p>
-    </Col>
-    <Col sm={9}>
+    <Col>
     <Row><i className="fas fa-sun"></i><p>  {props.sun_lvl}</p></Row>
     <Row><i className="fas fa-tint"></i><p>  {props.water_tip}</p></Row>
     <Row><i className="fas fa-paw"></i>{props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}</Row>
@@ -181,11 +178,32 @@ const UserPlant = (props) => {
 
 const WishlistPlant = (props) => {
 
+  const removePlantFromWishlist= (e) => {
+    const plant_id = e.target.id;
+    console.log('Wishlist plant ID: ', plant_id)
+    const user_id = localStorage['user_id'];
+
+    if(plant_id && user_id) {
+      fetch(`/delete_plant_from_wishlist/${plant_id}/${user_id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+      })
+      .then(() => props.getWishlist())
+      .catch((error) => console.log('Error in removing plant from profile.', error))
+    } else {
+      console.log('Missing plant_id', plant_id);
+    }
+  }
+
   return (
     <Row className="wishlistPlant">
       <Col>
       <Row><p>{props.plant_name}</p></Row>
-      <Row><Button variant="outline-secondary" size="sm" onClick={(e) => removePlantFromWishlist(e)} id={props.plant_id}>Remove</Button></Row>
+      <Row><Button variant="outline-secondary"
+                  size="sm"
+                  onClick={(e) => removePlantFromWishlist(e)}
+                  id={props.plant_id}>Remove
+      </Button></Row>
       </Col>
       <Col>
       <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
@@ -194,22 +212,6 @@ const WishlistPlant = (props) => {
   );
 }
 
-const removePlantFromWishlist= (e) => {
-
-  const plant_id = e.target.id;
-  const user_id = localStorage['user_id'];
-
-  if(plant_id && user_id) {
-    fetch(`/delete_plant_from_wishlist/${plant_id}/${user_id}`, {
-      method: 'DELETE',
-      headers: {'Content-Type': 'application/json'}
-    })
-    .then(() => document.location.reload())
-    .catch((error) => console.log('Error in removing plant from profile.', error))
-  } else {
-    console.log('Missing plant_id', plant_id);
-  }
-}
 
 /*================= DROP DOWN filter for searching for plants on a User's profile ====================*/
 
@@ -244,11 +246,17 @@ const UserPlantsContainer = () => {
   const getUserPlants = () => {
     fetch(`/get_user_plants.json/${localStorage['user_id']}`)
       .then((response) => response.json())
-      .then((data) => {
-        updateUserPlants(data)
-      })
+      .then((data) => updateUserPlants(data))
       .catch(() => updateUserPlants([]))
   }
+
+  const getUserWishlist = () => {
+    fetch(`/get_user_wishlist.json/${localStorage['user_id']}`)
+    .then((response) => response.json())
+    .then((wishlist) => updateWishlist(wishlist))
+    .catch(() => updateWishlist([]))
+  }
+
   React.useEffect(() => {
 
     const loggedInUserID = localStorage['user_id'];
@@ -258,10 +266,7 @@ const UserPlantsContainer = () => {
       getUserPlants();
 
       //Send a request for User's wishlist
-      fetch(`/get_user_wishlist.json/${loggedInUserID}`)
-      .then((response) => response.json())
-      .then((wishlist) => updateWishlist(wishlist))
-      .catch(() => updateWishlist([]))
+      getUserWishlist();
     }
   }, []);
 
@@ -306,7 +311,9 @@ const UserPlantsContainer = () => {
           plant_name={plant.plant_name}
           plant_tip={plant.plant_tip}
           plant_image={plant.plant_image}
-          plant_id={String(plant.plant_id)}
+          // plant_id={String(plant.plant_id)}
+          plant_id={plant.plant_id}
+          getWishlist={getUserWishlist}
         />
       );
     }

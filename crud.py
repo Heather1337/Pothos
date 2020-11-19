@@ -97,6 +97,24 @@ def reset_plant_last_watered(user_plant_id):
 
     return plant
 
+def get_most_wished_for_plant():
+    """Returns most wished for plant."""
+
+    wished_for_plants = User_Plant_Wishlist.query.all()
+
+    wished_for_plants_count = {}
+
+    for plant in wished_for_plants:
+        if plant.plant_info.plant_name in wished_for_plants_count:
+            wished_for_plants_count[plant.plant_info.plant_name] += 1
+        else:
+            wished_for_plants_count[plant.plant_info.plant_name] = 1
+    print('PLANT OBJECT COUNT=============', wished_for_plants_count)
+    plant = max(wished_for_plants_count, key=wished_for_plants_count.get)
+    print('PLANT MOST POPULAR========================================', plant)
+
+
+
 #=====================================================================================================#
 # USER CRUD FUNCTIONS
 #=====================================================================================================#
@@ -151,10 +169,10 @@ def remove_user_plant(user_plant_id):
     db.session.delete(user_plant)
     db.session.commit()
 
-def remove_wishlist_plant(plant_id, user_id):
+def remove_wishlist_plant(plant_id):
     """Remove a plant on a User's wishlist."""
 
-    plant = User_Plant_Wishlist.query.filter(User_Plant_Wishlist.user_id == user_id and User_Plant_Wishlist.plant_id == plant_id).first()
+    plant = User_Plant_Wishlist.query.get(plant_id)
 
     db.session.delete(plant)
     db.session.commit()

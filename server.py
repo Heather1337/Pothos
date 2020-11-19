@@ -111,7 +111,7 @@ def add_plant_to_wl():
 def delete_wishlist_plant(plant_id, user_id):
     """Delete a user's plant."""
     print('trying to remove plant from wishlist in server...', plant_id, user_id)
-    crud.remove_wishlist_plant(int(plant_id), int(user_id))
+    crud.remove_wishlist_plant(int(plant_id))
 
     return jsonify('Deleted users wishlist plant.')
 
