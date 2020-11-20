@@ -1,3 +1,11 @@
+body {
+    color: #2d2a24;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+}
+
 #logo {
     width: 75px;
     height: 75px;
@@ -34,10 +42,6 @@
     border-bottom: 1px solid lightgray;
 }
 
-.userPlant {
-    padding-bottom: 20px;
-}
-
 .plant-style {
     padding: 10px;
     display: flex;
@@ -58,12 +62,51 @@
     padding-left: 50px;
 }
 
+.plant-page-top-row {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
 .plant-row-image {
     justify-content: center;
     align-items: center;
     padding-bottom: 20px;
-    height: 300px;
-    width: 250px;
+    height: 350px;
+    width: 300px;
+}
+
+.plant-profile-image {
+    float: right;
+    height: 400px;
+    width: 350px;
+}
+
+.water-days-count {
+    justify-content: left;
+}
+
+.user-plant-delete-button {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.svg-inline--fa {
+    margin-right: 6px;
+    margin-top: 4px;
+}
+
+.plant-bio-profile {
+    padding-top: 5px;
+    border-top: 1px solid lightgray;
+    margin-bottom: 1.25rem;
+    font-family: Domaine-Regular,helvetica,roboto,arial,sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
 }
 
 #navbar {
@@ -71,6 +114,12 @@
 }
 
 .userPlant {
+    padding-bottom: 10px;
+    padding-top: 10px;
     border-bottom: 1px solid lightgray;
 }
 
+.plant-filter-search {
+    padding-right: 150px;
+    justify-content: flex-end;
+}

@@ -41,6 +41,13 @@ def get_plant(plant_id):
 
     return plant
 
+def get_filtered_plants(filterId):
+    """Get all plants filtered by given conditional."""
+
+    plants = Plant.query.filter(Plant.is_toxic == False)
+
+    return plants
+
 def add_plant_to_user_profile(user_id, plant_id):
     """Add a plant to a users profile."""
     # TODO: Add field for days_to_water to keep track of count

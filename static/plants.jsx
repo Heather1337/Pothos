@@ -23,6 +23,45 @@ const PlantIcons = (props) => {
     )
 }
 
+const ProfilePlantsSearch = (props) => {
+
+    const handlePlantsFilter = (e) => {
+        e.preventDefault();
+        const filterBy = e.target.text;
+        if(filterBy !== undefined) {
+            console.log(filterBy)
+            fetch(`/filter_plants_by/${filterBy}`)
+            .then((response) => response.json())
+            .then((plants) => props.updatePlants(plants))
+            .catch((error) => console.log('Error in filtering plants: ', error))
+        }
+    }
+
+    return (
+
+      <div>
+        <DropdownButton
+          as={ButtonGroup}
+          key={'secondary'}
+          id={`dropdown-user-plants`}
+          size="sm"
+          variant="outline secondary"
+          title="Filter plants"
+          onClick={(e)=>{handlePlantsFilter(e)}}
+        >
+          <Dropdown.Item eventKey="1" >Pet friendly</Dropdown.Item>
+          <Dropdown.Item eventKey="2">Beginner friendly</Dropdown.Item>
+          <Dropdown.Item eventKey="3">Filters air</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item eventKey="4">Bright light</Dropdown.Item>
+          <Dropdown.Item eventKey="5">Medium bright light</Dropdown.Item>
+          <Dropdown.Item eventKey="6">Low light</Dropdown.Item>
+        </DropdownButton>
+     </div>
+
+    )
+}
+
 /*=================== Layout and logic for individual Plant node =====================*/
 const Plant = (props) => {
 
@@ -80,19 +119,19 @@ const Plant = (props) => {
         <Container className="plant-style">
             <Row className="plant-row-style">
                 <Col className="plant-col-style">
-                <Row><p>{props.plant_name}</p></Row>
                 <Row>
                 <Link to={`/plant/${props.plant_id}`} className="link-to-plant">
                     <Image src={props.plant_image} rounded fluid className="plant-row-image"/>
                 </Link>
                 </Row>
+                <Row><p>{props.plant_name}</p></Row>
                 <Row>
                 <Col>{plantAdded ?
                     <Button variant="secondary" size="sm">Plant added!</Button> :
                     <Button variant="outline-secondary"
                             size="sm"
                             onClick={(e) => addPlantToProfile(e)}
-                            id={props.plant_id}>Add plant to profile
+                            id={props.plant_id}>Add plant
                     </Button>}
                 </Col>
                 <Col>{wishlistPlantAdded ?
@@ -100,7 +139,7 @@ const Plant = (props) => {
                     <Button variant="outline-secondary"
                             size="sm"
                             onClick={(e) => addPlantToWishlist(e)}
-                            id={props.plant_id}>Add to wishlist
+                            id={props.plant_id}>Wishlist
                     </Button>}
                 </Col>
                 </Row>
@@ -144,25 +183,24 @@ const PlantContainer = () => {
         );
     }
 
-    const makePlantRows = (plants) => {
+    const makePlantRows = (plantsArr) => {
         let rows = [];
-        for(let i = 0; i < plantsArr.length; i=i+4) {
+        for(let i = 0; i < plantsArr.length; i=i+3) {
             rows.push(
                 <Row>
-                    <Col>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
                     {plantsArr[i]}
                     </Col>
-                    <Col>
+                    <Col sm={4}>
                     {plantsArr[i+1]}
                     </Col>
-                    <Col>
+                    <Col sm={3}>
                     {plantsArr[i+2]}
                     </Col>
-                    <Col>
-                    {plantsArr[i+3]}
-                    </Col>
+                    <Col sm={1}></Col>
                 </Row>
-            )
+            );
         }
         return rows
     }
@@ -170,13 +208,9 @@ const PlantContainer = () => {
     const plantRows = makePlantRows(plantsArr)
 
     return (
-        // <React.Fragment>
-        //     {plantsArr}
-        // </React.Fragment>
         <React.Fragment>
-            {
-                plantRows
-            }
+            <Row className="plant-filter-search" ><ProfilePlantsSearch updatePlants={updatePlants} /></Row>
+            {plantRows}
         </React.Fragment>
     );
 };

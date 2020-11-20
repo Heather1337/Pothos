@@ -121,6 +121,30 @@ def get_plant(plantId):
 
     return jsonify(plant)
 
+@app.route('/filter_plants_by/<filterId>')
+def get_filtered_plants(filterId):
+    """Return a list of plants filtered by filter provided."""
+
+    plants = crud.get_filtered_plants(filterId)
+    plants_list = []
+
+
+    for p in plants:
+        print('I am in the loop for filtered plants=======================')
+        plants_list.append({"plant_tip": p.plant_tip,
+                            "plant_name": p.plant_name,
+                            "plant_image": p.plant_image,
+                            "plant_id": p.plant_id,
+                            "water_tip": p.water_tip,
+                            "sun_lvl": p.sun_lvl,
+                            "is_toxic": p.is_toxic,
+                            "filters_air": p.filters_air,
+                            "beginner_friendly": p.beginner_friendly,
+                            "water_tip": p.water_tip,
+                            "plant_details": p.plant_details})
+
+    return jsonify(plants_list)
+
 
 #===============================*   WISHLIST PLANT  ROUTES   *========================================#
 

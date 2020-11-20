@@ -3,22 +3,24 @@
 const PlantIcons = (props) => {
 
     return (
-      <Row>
-        <Col>
-            <Row><i className="fas fa-sun"></i>
+        <Row>
+            <Row>
+                <div className="plant-icon"><i className="fas fa-sun"></i></div>
                 <p>{props.sun_lvl}</p>
             </Row>
-            <Row><i className="fas fa-tint"></i>
+            <Row>
+                <div className="plant-icon"><i className="fas fa-tint"></i></div>
                 <p>  {props.water_tip}</p>
             </Row>
-            <Row><i className="fas fa-paw"></i>
+            <Row>
+                <div className="plant-icon"><i className="fas fa-paw"></i></div>
                 {props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}
             </Row>
-            <Row><i className="fas fa-wind"></i>{
-                props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}
+            <Row>
+                <div className="plant-icon"><i className="fas fa-wind"></i></div>
+                {props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}
             </Row>
-        </Col>
-      </Row>
+        </Row>
     )
 };
 
@@ -36,19 +38,33 @@ const PlantView = ({match, location}) => {
     }, []);
 
     return (
-        <div>
-            <p> This will be plant page </p>
-            <p>Plant id: {match.params.plantId}</p>
-            <p>{"" + plant.is_toxic}</p>
-            <p>{"" + plant.beginner_friendly}</p>
-            <p>{plant.water_tip}</p>
+        <Col>
+        <NavbarComp/>
+        <Row className="plant-page-top-row">
+            <Col sm={1}></Col>
+            <Col sm={5}>
+                <Image src={plant.plant_image} className="plant-profile-image"></Image>
+            </Col>
+            <Col sm={3}>
+                <Row><h3>{plant.plant_name}</h3></Row>
+                <PlantIcons sun_lvl={plant.sun_lvl}
+                            pet_friendly={plant.is_toxic}
+                            filters_air={plant.filters_air}
+                            water_tip={plant.water_tip}
+                />
+            <Row ><p className="plant-tip-profile">{plant.plant_tip}</p></Row>
+            </Col>
+            <Col sm={3}></Col>
+        </Row>
+        <Row >
+            <Col sm={3}></Col>
+            <Col sm={6} className="plant-bio-profile">
+            <h5>Plant Bio</h5>
             <p>{plant.plant_details}</p>
-            <p>{"" + plant.filters_air}</p>
-            <p>{plant.plant_name}</p>
-            <p>{plant.plant_tip}</p>
-            <p>{plant.plant_id}</p>
-            <p>{plant.sun_lvl}</p>
-            <p>{plant.plant_tip}</p>
-        </div>
+            </Col>
+            <Col sm={3}></Col>
+        </Row>
+        </Col>
+
     );
 };
