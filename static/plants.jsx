@@ -5,12 +5,20 @@ const PlantIcons = (props) => {
 
     return (
       <Row>
-      <Col>
-      <Row><i className="fas fa-sun"></i><p>  {props.sun_lvl}</p></Row>
-      <Row><i className="fas fa-tint"></i><p>  {props.water_tip}</p></Row>
-      <Row><i className="fas fa-paw"></i>{props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}</Row>
-      <Row><i className="fas fa-wind"></i>{props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}</Row>
-      </Col>
+        <Col>
+            <Row><i className="fas fa-sun"></i>
+                <p>{props.sun_lvl}</p>
+            </Row>
+            <Row><i className="fas fa-tint"></i>
+                <p>  {props.water_tip}</p>
+            </Row>
+            <Row><i className="fas fa-paw"></i>
+                {props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}
+            </Row>
+            <Row><i className="fas fa-wind"></i>{
+                props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}
+            </Row>
+        </Col>
       </Row>
     )
 }
@@ -71,23 +79,30 @@ const Plant = (props) => {
     return (
         <Container className="plant-style">
             <Row className="plant-row-style">
-                <Col>
-                <Link to={`/plant/2`}>Test</Link>
-                <Row><h3>{props.plant_name}</h3></Row>
-                <Row><p>{props.plant_tip}</p></Row>
-                <PlantIcons water_tip={props.water_tip}
-                            sun_lvl={props.sun_lvl}
-                            pet_friendly={props.is_toxic}
-                            filters_air={props.filters_air}
-                />
-                </Col>
                 <Col className="plant-col-style">
-                <Row className="plant-row-image"><Image src={props.plant_image} rounded fluid/></Row>
+                <Row><p>{props.plant_name}</p></Row>
                 <Row>
-                <Col></Col>
-                <Col>{plantAdded ? <Button variant="secondary" size="sm">Plant added!</Button> : <Button variant="outline-secondary" size="sm" onClick={(e) => addPlantToProfile(e)} id={props.plant_id}>Add plant to profile</Button>}</Col>
-                <Col>{wishlistPlantAdded ? <Button variant="secondary" size="sm">Added to wishlist!</Button> : <Button variant="outline-secondary" size="sm" onClick={(e) => addPlantToWishlist(e)} id={props.plant_id}>Add to wishlist</Button>}</Col>
-                <Col></Col>
+                <Link to={`/plant/${props.plant_id}`} className="link-to-plant">
+                    <Image src={props.plant_image} rounded fluid className="plant-row-image"/>
+                </Link>
+                </Row>
+                <Row>
+                <Col>{plantAdded ?
+                    <Button variant="secondary" size="sm">Plant added!</Button> :
+                    <Button variant="outline-secondary"
+                            size="sm"
+                            onClick={(e) => addPlantToProfile(e)}
+                            id={props.plant_id}>Add plant to profile
+                    </Button>}
+                </Col>
+                <Col>{wishlistPlantAdded ?
+                    <Button variant="secondary" size="sm">Added to wishlist!</Button> :
+                    <Button variant="outline-secondary"
+                            size="sm"
+                            onClick={(e) => addPlantToWishlist(e)}
+                            id={props.plant_id}>Add to wishlist
+                    </Button>}
+                </Col>
                 </Row>
                 </Col>
             </Row>
@@ -129,8 +144,40 @@ const PlantContainer = () => {
         );
     }
 
+    const makePlantRows = (plants) => {
+        let rows = [];
+        for(let i = 0; i < plantsArr.length; i=i+4) {
+            rows.push(
+                <Row>
+                    <Col>
+                    {plantsArr[i]}
+                    </Col>
+                    <Col>
+                    {plantsArr[i+1]}
+                    </Col>
+                    <Col>
+                    {plantsArr[i+2]}
+                    </Col>
+                    <Col>
+                    {plantsArr[i+3]}
+                    </Col>
+                </Row>
+            )
+        }
+        return rows
+    }
+
+    const plantRows = makePlantRows(plantsArr)
+
     return (
-        <div>{plantsArr}</div>
+        // <React.Fragment>
+        //     {plantsArr}
+        // </React.Fragment>
+        <React.Fragment>
+            {
+                plantRows
+            }
+        </React.Fragment>
     );
 };
 

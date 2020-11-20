@@ -96,10 +96,30 @@ def get_plants():
                             "water_tip": p.water_tip,
                             "plant_details": p.plant_details})
 
-    print(plants_list)
-
-
     return jsonify(plants_list)
+
+
+@app.route('/get_plant_by_id.json/<plantId>')
+def get_plant(plantId):
+    """Return a JSON response data for a single plant."""
+
+    p = crud.get_plant(plantId)
+
+    plant = {
+        "plant_tip": p.plant_tip,
+        "plant_name": p.plant_name,
+        "plant_image": p.plant_image,
+        "plant_id": p.plant_id,
+        "water_tip": p.water_tip,
+        "sun_lvl": p.sun_lvl,
+        "is_toxic": p.is_toxic,
+        "filters_air": p.filters_air,
+        "beginner_friendly": p.beginner_friendly,
+        "water_tip": p.water_tip,
+        "plant_details": p.plant_details
+    }
+
+    return jsonify(plant)
 
 
 #===============================*   WISHLIST PLANT  ROUTES   *========================================#

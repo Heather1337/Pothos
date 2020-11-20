@@ -66,7 +66,7 @@ const App = () => {
             {user.loggedIn ? <WishListContainer /> : <Redirect to="/" />}
           </Route>
 
-          <Route path="/plant/:plantId" component={Plant} />
+          <Route path="/plant/:plantId" component={PlantView} />
 
           <Route exact path="/">
             {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}

@@ -34,6 +34,13 @@ def get_all_plants():
     print('Getting all plants from CRUD---->', plants[1])
     return plants
 
+def get_plant(plant_id):
+    """Get information for a single plant."""
+
+    plant = Plant.query.get(plant_id)
+
+    return plant
+
 def add_plant_to_user_profile(user_id, plant_id):
     """Add a plant to a users profile."""
     # TODO: Add field for days_to_water to keep track of count
