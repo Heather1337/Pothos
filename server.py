@@ -125,7 +125,22 @@ def get_plant(plantId):
 def get_filtered_plants(filterId):
     """Return a list of plants filtered by filter provided."""
 
-    plants = crud.get_filtered_plants(filterId)
+    brightLight = set(['Bright indirect to low light', 'Medium to low indirect light', 'Bright direct to indirect light',
+                        'Low to bright indirect light', 'Bright indirect to medium light', 'Bright indirect'])
+
+    if(filterId == 'Pet friendly'):
+        plants = crud.filter_by_is_toxic()
+    if(filterId == 'Beginner friendly'):
+        plants = crud.filter_by_beginner_friendly()
+    if(filterId == 'Filters air'):
+        plants = crud.filter_by_filters_air()
+    if(filterId == 'Bright light'):
+        plants = crud.filter_by_bright_light()
+    if(filterId == 'Medium light'):
+        plants = crud.filter_by_medium_light()
+    if(filterId == 'Low light'):
+        plants = cud.filter_by_low_light()
+
     plants_list = []
 
 

@@ -41,12 +41,65 @@ def get_plant(plant_id):
 
     return plant
 
-def get_filtered_plants(filterId):
+def filter_by_is_toxic():
     """Get all plants filtered by given conditional."""
 
     plants = Plant.query.filter(Plant.is_toxic == False)
 
     return plants
+
+def filter_by_beginner_friendly():
+    """Get all plants filtered by given conditional."""
+
+    plants = Plant.query.filter(Plant.beginner_friendly == True)
+
+    return plants
+
+def filter_by_filters_air():
+    """Get all plants filtered by given conditional."""
+
+    plants = Plant.query.filter(Plant.filters_air == True)
+
+    return plants
+
+        # 'Bright indirect to low light': 3,
+        #     'Medium to low indirect light': 4,
+        #     'Bright direct to indirect light': 5,
+        #     'Low to bright indirect light': 6,
+        #     'Bright indirect to medium light': 7,
+        #     'Bright indirect': 8
+
+def filter_by_bright_light():
+    """Get all plants filtered by given conditional."""
+
+    plants = Plant.query.filter((Plant.sun_lvl == 'Bright indirect to low light') |
+                                (Plant.sun_lvl == 'Bright direct to indirect light') |
+                                (Plant.sun_lvl == 'Low to bright indirect light') |
+                                (Plant.sun_lvl == 'Bright indirect to medium light') |
+                                (Plant.sun_lvl == 'Bright indirect')).all()
+
+    return plants
+
+def filter_by_medium_light():
+    """Get all plants filtered by given conditional."""
+
+    plants = Plant.query.filter((Plant.sun_lvl == 'Bright indirect to low light') |
+                                (Plant.sun_lvl == 'Low to bright indirect light') |
+                                (Plant.sun_lvl == 'Bright indirect to medium light') |
+                                (Plant.sun_lvl == 'Bright indirect to low light') |
+                                (Plant.sun_lvl == 'Bright indirect')).all()
+
+    return plants
+
+def filter_by_low_light():
+    """Get all plants filtered by given conditional."""
+
+    plants = Plant.query.filter((Plant.sun_lvl == 'Bright indirect to low light') |
+                                (Plant.sun_lvl == 'Low to bright indirect light') |
+                                (Plant.sun_lvl == 'Bright indirect to low light')).all()
+
+    return plants
+
 
 def add_plant_to_user_profile(user_id, plant_id):
     """Add a plant to a users profile."""

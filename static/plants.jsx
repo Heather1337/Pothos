@@ -28,6 +28,17 @@ const ProfilePlantsSearch = (props) => {
     const handlePlantsFilter = (e) => {
         e.preventDefault();
         const filterBy = e.target.text;
+        const filterByCode = {
+            'Pet friendly': 0,
+            'Beginner friendly': 1,
+            'Filters air': 2,
+            'Bright indirect to low light': 3,
+            'Medium to low indirect light': 4,
+            'Bright direct to indirect light': 5,
+            'Low to bright indirect light': 6,
+            'Bright indirect to medium light': 7,
+            'Bright indirect': 8
+        }
         if(filterBy !== undefined) {
             console.log(filterBy)
             fetch(`/filter_plants_by/${filterBy}`)
