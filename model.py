@@ -21,7 +21,6 @@ class User(db.Model):
     text_service = db.Column(db.Boolean)
 
     plants = db.relationship('User_Plant')
-
     wishlist = db.relationship('User_Plant_Wishlist')
 
     def __repr__(self):
@@ -45,11 +44,25 @@ class Plant(db.Model):
     water_tip = db.Column(db.String)
     plant_image = db.Column(db.String)
 
-
-
+    comments = db.relationship('Plant_Comment')
 
     def __repr__(self):
         return f'<Plant plant_id={self.plant_id}>'
+
+class Plant_Comment(db.Model):
+    """A Plant comment by a User."""
+
+    __tablename__='plant_comments'
+
+    plant_comment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    plant_id = db.Column(db.Integer, db.ForeignKey('plants.plant_id'))
+    comment = db.Column(db.String)
+
+    plants = db.relationship('Plant')
+
+    def __repr__(self):
+        return f'<Plant_Comment plant_comment_id={self.plant_comment_id}>'
 
 
 class User_Plant(db.Model):

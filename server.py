@@ -160,6 +160,33 @@ def get_filtered_plants(filterId):
 
     return jsonify(plants_list)
 
+@app.route('/get_plant_comments/<plant_id>')
+def get_plant_comments(plant_id):
+
+    print('================= plant id ', plant_id)
+
+    comments = crud.get_plant_comments(plant_id)
+    plant_comments = []
+
+    for c in comments:
+        plant_comments.append(c.comment)
+
+    return jsonify(plant_comments)
+
+@app.route('/add_plant_comment', methods=['POST'])
+def add_plant_comment():
+
+    data = request.get_json()
+    user_id = data['user_id']
+    plant_id = data['plant_id']
+    comment = data['comment']
+
+    print(user_id, plant_id, comment)
+
+    added_comment = crud.create_plant_comment(plant_id, user_id, comment)
+
+    return jsonify(added_comment)
+
 
 #===============================*   WISHLIST PLANT  ROUTES   *========================================#
 

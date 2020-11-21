@@ -1,6 +1,6 @@
 """Pothos CRUD operations."""
 
-from model import db, User, Plant, User_Plant, User_Plant_Wishlist, connect_to_db
+from model import db, User, Plant, User_Plant, User_Plant_Wishlist, Plant_Comment, connect_to_db
 
 if __name__=='__main__':
     from server import app
@@ -25,6 +25,22 @@ def create_plant(plant_name, filters_air, is_toxic,
     db.session.commit()
 
     return plant
+
+def create_plant_comment(plant_id, user_id, comment):
+    """Create a comment belonging to a Plant created by a User."""
+
+    comment = Plant_Comment(plant_id=plant_id, user_id=user_id, comment=comment)
+
+    db.session.add(comment)
+    db.session.commit()
+
+def get_plant_comments(plant_id):
+    """Get comments belonging to a given plant."""
+
+    plant = Plant.query.get(plant_id)
+    comments = plant.comments
+
+    return comments
 
 def get_all_plants():
     """Get all plants in db and return."""
@@ -62,12 +78,6 @@ def filter_by_filters_air():
 
     return plants
 
-        # 'Bright indirect to low light': 3,
-        #     'Medium to low indirect light': 4,
-        #     'Bright direct to indirect light': 5,
-        #     'Low to bright indirect light': 6,
-        #     'Bright indirect to medium light': 7,
-        #     'Bright indirect': 8
 
 def filter_by_bright_light():
     """Get all plants filtered by given conditional."""
