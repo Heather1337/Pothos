@@ -38,7 +38,10 @@ def get_plant_comments(plant_id):
     """Get comments belonging to a given plant."""
 
     plant = Plant.query.get(plant_id)
-    comments = plant.comments
+    comments = []
+    if len(plant.comments):
+        comments = plant.comments
+
 
     return comments
 

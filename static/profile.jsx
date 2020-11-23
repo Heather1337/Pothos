@@ -1,5 +1,7 @@
 "use strict";
-
+const myWidget = cloudinary.createUploadWidget({cloudName: 'leetpotato',upload_preset: 'ml_default',}, (error, result) => { if (result.event == "success") {
+  console.log(result.info.url) // result.info contains data from upload
+} })
 
 /* ============ Setup for User plant & Logic for deleting a plant from User's profile ============== */
 
@@ -104,6 +106,15 @@ const UserPlant = (props) => {
                                     daysSinceLastWatered={props.last_watered}
                                     updateDaysLastWatered={handleWateringClick}
               /></Col>
+            </Row>
+            <Row><p>TODO: Room</p></Row>
+            <Row>
+            <Button variant="outline-secondary"
+                    id="upload_widget"
+                    size="sm"
+                    onClick={()=> {myWidget.open()}}
+                    >Add photo
+            </Button>
             </Row>
             </Col>
 
