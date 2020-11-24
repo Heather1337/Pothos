@@ -9,7 +9,6 @@ const App = () => {
 
     /*==== Checks to see if there is a logged in user when loading site =====*/
     React.useEffect(() => {
-      console.log('useEffect triggered in App component')
       const loggedInUser = localStorage.getItem('user_id');
       if (loggedInUser) {
           const foundUser = loggedInUser;
@@ -17,7 +16,6 @@ const App = () => {
               ...prevState,
               loggedIn: true,
           }));
-          console.log('Found user in useEffect in login file ===>.', foundUser)
       }
     }, []);
 

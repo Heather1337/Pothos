@@ -1,7 +1,14 @@
 "use strict";
-const myWidget = cloudinary.createUploadWidget({cloudName: 'leetpotato',upload_preset: 'ml_default',}, (error, result) => { if (result.event == "success") {
-  console.log(result.info.url) // result.info contains data from upload
-} })
+
+
+const myWidget = cloudinary.createUploadWidget(
+    {cloudName: 'leetpotato', upload_preset: 'ml_default'},
+    (error, result) => { if (result.event == "success") {
+      console.log(result.info.url);
+    } else {
+      console.log('Error in Cloudinary: ', error);
+    }
+});
 
 /* ============ Setup for User plant & Logic for deleting a plant from User's profile ============== */
 
@@ -26,7 +33,7 @@ const WateringDaysOfPlant = ({
       <label>Days since last watering:</label>
       <input
         type="number"
-        id="daysSinceWater"
+        // id="daysSinceWater"
         name="daysSinceLastWater"
         min="0"
         max="21"
@@ -110,7 +117,6 @@ const UserPlant = (props) => {
             <Row><p>TODO: Room</p></Row>
             <Row>
             <Button variant="outline-secondary"
-                    id="upload_widget"
                     size="sm"
                     onClick={()=> {myWidget.open()}}
                     >Add photo
@@ -139,28 +145,38 @@ const UserPlant = (props) => {
 
 /*================= DROP DOWN filter for searching for plants on a User's profile ====================*/
 
-const ProfilePlantsSearch = () => {
+const UserRoomsDropdown = (e) => {
+
+  const [rooms, setRooms] = React.useState([]);
+
+  const addRoomClick= (e) => {
+    e.preventDefault();
+    const addRoom = e.target.text;
+    if (addRoom) console.log('Clicked add room button: ', e.target.text);
+  };
+
+  const userRooms = ['Living room', 'Master bedroom', 'Balcony'];
+  const dropDownRooms = userRooms.map((room)=> {
+    return (
+    <Dropdown.Item eventKey="replace">{room}</Dropdown.Item>
+  )});
+
 
   return (
     <div>
       <DropdownButton
         as={ButtonGroup}
         key={'secondary'}
-        id={`dropdown-user-plants`}
+        className={`dropdown-user-rooms`}
         size="sm"
         variant="outline secondary"
-        title="Filter plants"
+        title="My rooms"
+        onClick={(e)=>{addRoomClick(e)}}
       >
-        <Dropdown.Item eventKey="1">Pet friendly</Dropdown.Item>
-        <Dropdown.Item eventKey="2">Beginner friendly</Dropdown.Item>
-        <Dropdown.Item eventKey="3">Filters air</Dropdown.Item>
-        <Dropdown.Divider />
-        <Dropdown.Item eventKey="4">Bright light</Dropdown.Item>
-        <Dropdown.Item eventKey="5">Medium bright light</Dropdown.Item>
-        <Dropdown.Item eventKey="6">Low light</Dropdown.Item>
+        <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
+        { dropDownRooms }
       </DropdownButton>
    </div>
-
   );
 }
 
@@ -245,7 +261,7 @@ const UserPlantsContainer = () => {
       </Row>
 
       <Row>
-        <Col sm={3}></Col>
+        <Col sm={3}><UserRoomsDropdown/></Col>
         <Col sm={6}>{userPlantsArr}</Col>
         <Col sm={3}></Col>
       </Row>
