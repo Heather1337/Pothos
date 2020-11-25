@@ -66,6 +66,7 @@ const WateringDaysOfPlant = ({
 }
 
 const UserPlant = (props) => {
+  const [showRoomForm, setShowRoomForm] = React.useState(false);
 
   const removePlantFromProfile = (e) => {
 
@@ -99,8 +100,29 @@ const UserPlant = (props) => {
       .then((response)=> response.json())
       .then(()=> props.fetchPlants())
       .catch((error)=> console.log('Error in updating watering days.', error));
-
   }
+
+  const dropDownRooms = props.rooms.map((room)=> {
+    return (
+    <Dropdown.Item id={room.user_room_id}>{room.room_name}</Dropdown.Item>
+  )});
+
+  const handlePlantRoomClick = (e, user_plant_id) => {
+    if(e.target.text !== '+ Add Room' && e.target.text !== undefined) {
+      setShowRoomForm(false)
+      const plantRoomName = e.target.text;
+      const payload = {'user_plant_id': user_plant_id, 'user_room_id': e.target.id}
+      console.log(payload)
+      fetch(`/add_room_to_user_plant`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      })
+      .then((response)=> response.json())
+      .then(()=> props.fetchPlants())
+      .catch((error)=> console.log('Error in adding room to plant.'))
+    }
+  };
 
     return (
       <Row className="userPlant">
@@ -114,7 +136,23 @@ const UserPlant = (props) => {
               /></Col>
             </Row>
             <Row>
-              <p>Location: {props.room}</p>
+              {showRoomForm ?
+              <Row>
+                <DropdownButton
+                  as={ButtonGroup}
+                  key={'secondary'}
+                  className={`dropdown-user-rooms`}
+                  size="sm"
+                  variant="outline secondary"
+                  title="Select room"
+                  onClick={(e)=>handlePlantRoomClick(e, props.user_plant_id)}
+                >
+                  { dropDownRooms }
+                  <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
+                </DropdownButton>
+              </Row> :
+              <p onClick={()=> setShowRoomForm(true)}>Location: {props.room_name}</p>
+              }
             </Row>
             <Row>
             <Button variant="outline-secondary"
@@ -151,30 +189,14 @@ const UserRoomsDropdown = (props) => {
   const [showRooms, setShowRooms] = React.useState(false);
   const [newRoom, setNewRoom] = React.useState("");
 
-
-  //TODO: Create a model table for User_Rooms and when page loads update rooms state with existing rooms
-
+  /* Swaps component between being an input form or drop down select of user rooms. */
   const roomsClick= (e) => {
     e.preventDefault();
-    const addRoom = e.target.text;
-    console.log('Clicked ', addRoom)
-    if (addRoom == '+ Add Room') {
-      setShowRooms(true)
-      const payload = {
-        'user_id': localStorage['user_id'],
-        'room_name': addRoom
-      }
-              // fetch('/create_user_room', {
-    //   method: 'POST',
-    //   headers: {'Content-Type': 'application/json'},
-    //   body: JSON.stringify(payload)
-    // })
-    // .then((response)=> response.json())
-    // .then(()=> props.getUserRooms())
-    // .catch(()=> console.log('Error in adding a new user room.'))
-    }
+    const clickedRoom = e.target.text;
+    console.log('Clicked ', clickedRoom)
+    if (clickedRoom == '+ Add Room') setShowRooms(true);
   };
-
+  /* Handles a click when a user adds a new room name to their profile. */
   const addRoomClick = (e) => {
     e.preventDefault();
     const addRoom = newRoom;
@@ -194,12 +216,11 @@ const UserRoomsDropdown = (props) => {
     })
     .catch(()=> console.log('Error in adding a new user room.'))
   }
-
+  /* An array of user rooms passed down from UserPlantsContainer. */
   const userRooms = props.userRooms;
-  console.log(props)
   const dropDownRooms = userRooms.map((room)=> {
     return (
-    <Dropdown.Item eventKey="replace">{room.room_name}</Dropdown.Item>
+    <Dropdown.Item eventKey="replace" id={room.user_room_id}>{room.room_name}</Dropdown.Item>
   )});
 
 
@@ -288,7 +309,8 @@ const UserPlantsContainer = () => {
           key={plant.user_plant_id}
           last_watered={plant.last_watered}
           fetchPlants={getUserPlants}
-          room={'Living room'}
+          room_name={plant.room_name}
+          rooms={userRooms}
         />
       );
     }

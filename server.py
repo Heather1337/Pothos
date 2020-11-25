@@ -285,9 +285,13 @@ def user_plants(user_id):
     user_plants = crud.get_user_plants(user_id)
     user_plants_list = []
     print('DATA returned from CRUD for user plants:', user_plants)
+    
 
     for p in user_plants:
         print('In USER plants data on server --->', p.plant_id)
+        room = ""
+        if not (len(p.room) == 0):
+            room = p.room[0].user_room.room_name
 
         days_to_water = 0
         if(p.last_watered < p.plant_info.water_schedule):
@@ -303,7 +307,8 @@ def user_plants(user_id):
                                 "last_watered": p.last_watered,
                                 "sun_lvl": p.plant_info.sun_lvl,
                                 "pet_friendly": p.plant_info.is_toxic,
-                                "filters_air": p.plant_info.filters_air
+                                "filters_air": p.plant_info.filters_air,
+                                "room_name": room
                                 })
 
     return jsonify(user_plants_list)
@@ -319,6 +324,18 @@ def user_rooms(user_id):
         user_rooms_list.append({'room_name': r.room_name, 'user_room_id': r.user_room_id})
 
     return jsonify(user_rooms_list)
+
+@app.route('/add_room_to_user_plant', methods=['POST'])
+def add_room_to_user_plant():
+    """Add/update room to user plant."""
+
+    data = request.get_json()
+    user_room_id = data['user_room_id']
+    user_plant_id = data['user_plant_id']
+
+    crud.add_room_to_user_plant(user_plant_id, user_room_id)
+
+    return jsonify('success')
 
 @app.route('/create_user_room', methods=["POST"])
 def create_room():

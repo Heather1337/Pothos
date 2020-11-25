@@ -5,7 +5,7 @@ const Route = ReactRouterDOM.Route;
 const Switch = ReactRouterDOM.Switch;
 const Link = ReactRouterDOM.Link;
 const Redirect = ReactRouterDOM.Redirect;
-// const useHistory = ReactRouterDOM.useHistory;
+const useHistory = ReactRouterDOM.useHistory;
 
 const Container = ReactBootstrap.Container;
 const Carousel = ReactBootstrap.Carousel;
