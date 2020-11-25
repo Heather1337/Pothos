@@ -88,9 +88,6 @@ const UserPlant = (props) => {
   //Handing button click for when User submits new last watered count
   const handleWateringClick = (plantId, daysSinceLastWatered) => {
 
-    console.log('clicked!!! watering days', plantId, daysSinceLastWatered);
-
-
     // Send a PATCH request to update the days since last watered for a User
       fetch('/update_days_since_last_water', {
         method: 'PATCH',
@@ -108,7 +105,7 @@ const UserPlant = (props) => {
   )});
 
   const handlePlantRoomClick = (e, user_plant_id) => {
-    if(e.target.text !== '+ Add Room' && e.target.text !== undefined) {
+    if(e.target.text !== 'Add Room' && e.target.text !== undefined && e.target.text !== 'All rooms') {
       setShowRoomForm(false)
       const plantRoomName = e.target.text;
       const payload = {'user_plant_id': user_plant_id, 'user_room_id': e.target.id}
@@ -147,7 +144,9 @@ const UserPlant = (props) => {
                   title="Select room"
                   onClick={(e)=>handlePlantRoomClick(e, props.user_plant_id)}
                 >
+                  <Dropdown.Item eventKey="0">All Rooms</Dropdown.Item>
                   { dropDownRooms }
+                  <Dropdown.Divider />
                   <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
                 </DropdownButton>
               </Row> :
@@ -193,8 +192,20 @@ const UserRoomsDropdown = (props) => {
   const roomsClick= (e) => {
     e.preventDefault();
     const clickedRoom = e.target.text;
-    console.log('Clicked ', clickedRoom)
-    if (clickedRoom == '+ Add Room') setShowRooms(true);
+
+    if (clickedRoom === 'Add Room') setShowRooms(true);
+    else if (clickedRoom === 'All rooms') props.fetchPlants();
+    else if (clickedRoom !== undefined && clickedRoom !== 'All rooms'){
+      // send fetch to get plants with selected room
+      fetch(`/get_filtered_plants/${e.target.id}`)
+      .then((response)=> response.json())
+      .then((data)=> {
+        if(data.length === 0) alert('No plants in room!')
+        else props.updateUserPlants(data)
+      })
+      .catch((error)=> console.log('error in getting plants', error));
+    }
+
   };
   /* Handles a click when a user adds a new room name to their profile. */
   const addRoomClick = (e) => {
@@ -249,8 +260,10 @@ const UserRoomsDropdown = (props) => {
         title="My rooms"
         onClick={(e)=>{roomsClick(e)}}
       >
+        <Dropdown.Item eventKey="0">All rooms</Dropdown.Item>
         { dropDownRooms }
-        <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item eventKey="1">Add Room</Dropdown.Item>
       </DropdownButton>
     }
     </div>
@@ -271,7 +284,6 @@ const UserPlantsContainer = () => {
     fetch(`/get_user_rooms.json/${localStorage['user_id']}`)
       .then((response)=> response.json())
       .then((data)=> updateUserRooms(data))
-      .then(()=> console.log(userRooms))
       .catch(()=> updateUserRooms([]))
   }
 
@@ -337,7 +349,14 @@ const UserPlantsContainer = () => {
       </Row>
 
       <Row>
-        <Col sm={3}><UserRoomsDropdown getUserRooms={getUserRooms} userRooms={userRooms}/></Col>
+        <Col sm={3}>
+          <UserRoomsDropdown
+            getUserRooms={getUserRooms}
+            userRooms={userRooms}
+            updateUserPlants={updateUserPlants}
+            fetchPlants={getUserPlants}
+          />
+        </Col>
         <Col sm={6}>{userPlantsArr}</Col>
         <Col sm={3}></Col>
       </Row>

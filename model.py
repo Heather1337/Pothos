@@ -81,6 +81,7 @@ class User_Plant(db.Model):
     users = db.relationship('User')
     plant_info = db.relationship('Plant')
     room = db.relationship('User_Plant_Room')
+    #! rooms = db.relationship('User_Room', secondary = 'user_plant_rooms')
 
     def __repr__(self):
         return f'<User_Plant user_plant_id={self.user_plant_id}>'
@@ -96,6 +97,7 @@ class User_Room(db.Model):
 
     users = db.relationship('User')
     plants = db.relationship('User_Plant_Room')
+    #! plants = db.relationship('User_Plant', secondary='user_plant_rooms')
 
     def __repr__(self):
         return f'<User_Room user_room_id={self.user_room_id}>'

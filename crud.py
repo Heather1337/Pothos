@@ -136,6 +136,19 @@ def filter_by_low_light():
 
     return plants
 
+def get_filtered_user_plants(user_room_id):
+    """Get plants in a given room with user_id."""
+
+    # filtered_plants = User_Plant.query.filter(user_id == user_id & room_id == room_id)
+    # filtered_plants = db.session.query(User_Plant_Room.room).select_from(UserPlantRoom)
+    # .join(User, User.user_id == UserPlantRoom.user_id).filter(User.userid == user_id, User.room == room_id).all()
+    user_room = User_Room.query.get(user_room_id)
+    user_room_plants = user_room.plants
+    # user_room_plants_info = [plant.user_plant for plant in user_room_plants]
+
+    return user_room_plants
+
+
 
 def add_plant_to_user_profile(user_id, plant_id):
     """Add a plant to a users profile."""
@@ -151,7 +164,6 @@ def add_plant_to_user_wishlist(user_id, plant_id):
     """Add a plant to a users profile wishlist."""
 
     added_plant = User_Plant_Wishlist(user_id=user_id, plant_id=plant_id)
-    print('Adding plant to user wishlist ======', user_id, plant_id, added_plant)
 
     db.session.add(added_plant)
     db.session.commit()

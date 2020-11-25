@@ -285,7 +285,7 @@ def user_plants(user_id):
     user_plants = crud.get_user_plants(user_id)
     user_plants_list = []
     print('DATA returned from CRUD for user plants:', user_plants)
-    
+
 
     for p in user_plants:
         print('In USER plants data on server --->', p.plant_id)
@@ -312,6 +312,36 @@ def user_plants(user_id):
                                 })
 
     return jsonify(user_plants_list)
+
+@app.route('/get_filtered_plants/<clickedRoom>')
+def filter_user_plants(clickedRoom):
+    """Get plants in a given users room."""
+
+    filtered_user_plants = crud.get_filtered_user_plants(clickedRoom)
+    user_plants_list = []
+
+    for p in filtered_user_plants:
+        room = p.user_room.room_name
+        days_to_water = 0
+        if(p.user_plant.last_watered < p.user_plant.plant_info.water_schedule):
+            days_to_water = p.user_plant.plant_info.water_schedule - p.user_plant.last_watered
+
+        user_plants_list.append({
+                                "plant_name": p.user_plant.plant_info.plant_name,
+                                "plant_image": p.user_plant.plant_info.plant_image,
+                                "water_tip": p.user_plant.plant_info.water_tip,
+                                "user_plant_id": p.user_plant_id,
+                                "nickname": p.user_plant.plant_nickname,
+                                "days_to_water": days_to_water,
+                                "last_watered": p.user_plant.last_watered,
+                                "sun_lvl": p.user_plant.plant_info.sun_lvl,
+                                "pet_friendly": p.user_plant.plant_info.is_toxic,
+                                "filters_air": p.user_plant.plant_info.filters_air,
+                                "room_name": room
+                                })
+
+    return jsonify(user_plants_list)
+
 
 @app.route('/get_user_rooms.json/<user_id>')
 def user_rooms(user_id):
