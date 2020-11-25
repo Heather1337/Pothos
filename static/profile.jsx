@@ -114,7 +114,9 @@ const UserPlant = (props) => {
                                     updateDaysLastWatered={handleWateringClick}
               /></Col>
             </Row>
-            <Row><p>TODO: Room</p></Row>
+            <Row>
+              <p>Location: {props.room}</p>
+            </Row>
             <Row>
             <Button variant="outline-secondary"
                     size="sm"
@@ -145,20 +147,26 @@ const UserPlant = (props) => {
 
 /*================= DROP DOWN filter for searching for plants on a User's profile ====================*/
 
-const UserRoomsDropdown = (e) => {
+const UserRoomsDropdown = (props) => {
 
-  const [rooms, setRooms] = React.useState([]);
+  //TODO: Create a model table for User_Rooms and when page loads update rooms state with existing rooms
 
   const addRoomClick= (e) => {
     e.preventDefault();
     const addRoom = e.target.text;
-    if (addRoom) console.log('Clicked add room button: ', e.target.text);
+    //Fetch request to add room to User_Rooms in db
+    //Once added - parse response
+    //If successful - call fetchUserRooms to rerender
+    //If error - console log error
+    if (addRoom) userRooms.push(addRoom);
+
   };
 
-  const userRooms = ['Living room', 'Master bedroom', 'Balcony'];
+  const userRooms = props.userRooms;
+  console.log(props)
   const dropDownRooms = userRooms.map((room)=> {
     return (
-    <Dropdown.Item eventKey="replace">{room}</Dropdown.Item>
+    <Dropdown.Item eventKey="replace">{room.room_name}</Dropdown.Item>
   )});
 
 
@@ -173,8 +181,8 @@ const UserRoomsDropdown = (e) => {
         title="My rooms"
         onClick={(e)=>{addRoomClick(e)}}
       >
-        <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
         { dropDownRooms }
+        <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
       </DropdownButton>
    </div>
   );
@@ -190,29 +198,26 @@ const UserPlantsContainer = () => {
       .catch(() => updateUserPlants([]))
   }
 
-  const getUserWishlist = () => {
-    fetch(`/get_user_wishlist.json/${localStorage['user_id']}`)
-    .then((response) => response.json())
-    .then((wishlist) => updateWishlist(wishlist))
-    .catch(() => updateWishlist([]))
+  const getUserRooms = () => {
+    fetch(`/get_user_rooms.json/${localStorage['user_id']}`)
+      .then((response)=> response.json())
+      .then((data)=> updateUserRooms(data))
+      .then(()=> console.log(userRooms))
+      .catch(()=> updateUserRooms([]))
   }
 
   React.useEffect(() => {
-
     const loggedInUserID = localStorage['user_id'];
-
     if(loggedInUserID) {
-      //Send a request for User's plants
       getUserPlants();
-
-      //Send a request for User's wishlist
-      // getUserWishlist();
+      getUserRooms();
     }
   }, []);
 
+  const [userRooms, updateUserRooms] = React.useState([]);
 
   //State for User's plants
-  const [userPlants, updateUserPlants] = React.useState('userPlants');
+  const [userPlants, updateUserPlants] = React.useState([]);
   const userPlantsArr = [];
 
   //If there are plants in the User plants array, create nodes for them to display on profile.
@@ -235,6 +240,7 @@ const UserPlantsContainer = () => {
           key={plant.user_plant_id}
           last_watered={plant.last_watered}
           fetchPlants={getUserPlants}
+          room={'Living room'}
         />
       );
     }
@@ -249,7 +255,7 @@ const UserPlantsContainer = () => {
         <h3>{userPlants.length} Plants</h3>
       </React.Fragment>
     )
-  }
+  };
 
   return (
     <Container>
@@ -261,7 +267,7 @@ const UserPlantsContainer = () => {
       </Row>
 
       <Row>
-        <Col sm={3}><UserRoomsDropdown/></Col>
+        <Col sm={3}><UserRoomsDropdown getUserRooms={getUserRooms} userRooms={userRooms}/></Col>
         <Col sm={6}>{userPlantsArr}</Col>
         <Col sm={3}></Col>
       </Row>

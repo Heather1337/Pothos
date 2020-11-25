@@ -1,6 +1,6 @@
 """Pothos CRUD operations."""
 
-from model import db, User, Plant, User_Plant, User_Plant_Wishlist, Plant_Comment, connect_to_db
+from model import db, User, Plant, User_Plant, User_Plant_Wishlist, Plant_Comment, User_Room, connect_to_db
 
 if __name__=='__main__':
     from server import app
@@ -50,8 +50,24 @@ def get_all_plants():
 
     plants = Plant.query.all()
 
-    print('Getting all plants from CRUD---->', plants[1])
     return plants
+
+def get_all_user_rooms(user_id):
+    """Get all user rooms in db and return."""
+
+    user = User.query.get(user_id)
+    user_rooms = user.rooms
+
+    return user_rooms
+
+def add_user_room(user_id, room_name):
+    """Add a room to a user's profile."""
+
+    user_room = User_Room(user_id=user_id, room_name=room_name)
+    db.session.add(user_room)
+    db.session.commit()
+
+    return user_room
 
 def get_plant(plant_id):
     """Get information for a single plant."""

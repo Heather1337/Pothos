@@ -308,6 +308,18 @@ def user_plants(user_id):
 
     return jsonify(user_plants_list)
 
+@app.route('/get_user_rooms.json/<user_id>')
+def user_rooms(user_id):
+    """Get rooms for a given user."""
+
+    user_rooms = crud.get_all_user_rooms(user_id)
+    user_rooms_list = []
+
+    for r in user_rooms:
+        user_rooms_list.append({'room_name': r.room_name, 'user_room_id': r.user_room_id})
+
+    return jsonify(user_rooms_list)
+
 
 #===============================*   USER DATA ROUTES   *========================================#
 

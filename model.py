@@ -22,6 +22,7 @@ class User(db.Model):
 
     plants = db.relationship('User_Plant')
     wishlist = db.relationship('User_Plant_Wishlist')
+    rooms = db.relationship('User_Room')
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
@@ -79,9 +80,40 @@ class User_Plant(db.Model):
 
     users = db.relationship('User')
     plant_info = db.relationship('Plant')
+    room = db.relationship('User_Plant_Room')
 
     def __repr__(self):
         return f'<User_Plant user_plant_id={self.user_plant_id}>'
+
+class User_Room(db.Model):
+    """A user's room."""
+
+    __tablename__='user_rooms'
+
+    user_room_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    room_name = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    users = db.relationship('User')
+    plants = db.relationship('User_Plant_Room')
+
+    def __repr__(self):
+        return f'<User_Room user_room_id={self.user_room_id}>'
+
+class User_Plant_Room(db.Model):
+    """A user's plant's room."""
+
+    __tablename__='user_plant_rooms'
+
+    user_plant_room_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_plant_id = db.Column(db.Integer, db.ForeignKey('user_plants.user_plant_id'))
+    user_room_id = db.Column(db.Integer, db.ForeignKey('user_rooms.user_room_id'))
+
+    user_room = db.relationship('User_Room')
+    user_plant = db.relationship('User_Plant')
+
+    def __repr__(self):
+        return f'<User_Plant_Room user_plant_room_id={self.user_plant_room_id}>'
 
 class User_Plant_Wishlist(db.Model):
     """A user's plant wishlist."""
