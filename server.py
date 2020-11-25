@@ -320,6 +320,18 @@ def user_rooms(user_id):
 
     return jsonify(user_rooms_list)
 
+@app.route('/create_user_room', methods=["POST"])
+def create_room():
+    """Creates a new user room."""
+
+    data = request.get_json()
+    user_id = data['user_id']
+    room_name = data['room_name']
+
+    crud.add_user_room(user_id, room_name)
+
+    return jsonify('Success')
+
 
 #===============================*   USER DATA ROUTES   *========================================#
 

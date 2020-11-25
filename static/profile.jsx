@@ -33,7 +33,6 @@ const WateringDaysOfPlant = ({
       <label>Days since last watering:</label>
       <input
         type="number"
-        // id="daysSinceWater"
         name="daysSinceLastWater"
         min="0"
         max="21"
@@ -149,18 +148,52 @@ const UserPlant = (props) => {
 
 const UserRoomsDropdown = (props) => {
 
+  const [showRooms, setShowRooms] = React.useState(false);
+  const [newRoom, setNewRoom] = React.useState("");
+
+
   //TODO: Create a model table for User_Rooms and when page loads update rooms state with existing rooms
 
-  const addRoomClick= (e) => {
+  const roomsClick= (e) => {
     e.preventDefault();
     const addRoom = e.target.text;
-    //Fetch request to add room to User_Rooms in db
-    //Once added - parse response
-    //If successful - call fetchUserRooms to rerender
-    //If error - console log error
-    if (addRoom) userRooms.push(addRoom);
-
+    console.log('Clicked ', addRoom)
+    if (addRoom == '+ Add Room') {
+      setShowRooms(true)
+      const payload = {
+        'user_id': localStorage['user_id'],
+        'room_name': addRoom
+      }
+              // fetch('/create_user_room', {
+    //   method: 'POST',
+    //   headers: {'Content-Type': 'application/json'},
+    //   body: JSON.stringify(payload)
+    // })
+    // .then((response)=> response.json())
+    // .then(()=> props.getUserRooms())
+    // .catch(()=> console.log('Error in adding a new user room.'))
+    }
   };
+
+  const addRoomClick = (e) => {
+    e.preventDefault();
+    const addRoom = newRoom;
+    const payload = {
+      'user_id': localStorage['user_id'],
+      'room_name': addRoom
+    }
+    fetch('/create_user_room', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    })
+    .then((response)=> response.json())
+    .then(()=> {
+      props.getUserRooms();
+      setShowRooms(false);
+    })
+    .catch(()=> console.log('Error in adding a new user room.'))
+  }
 
   const userRooms = props.userRooms;
   console.log(props)
@@ -172,6 +205,20 @@ const UserRoomsDropdown = (props) => {
 
   return (
     <div>
+    { showRooms ?
+      <Row>
+        <label>New room name:</label>
+        <input name="room-name-input" onChange={(e)=>setNewRoom(e.target.value)}/>
+        <Button variant="outline-secondary"
+                size="sm"
+                id="room-name-submit"
+                onClick={(e)=> {
+                  setShowRooms(false);
+                  addRoomClick(e);
+                }}
+                >Add</Button>
+      </Row>
+      :
       <DropdownButton
         as={ButtonGroup}
         key={'secondary'}
@@ -179,12 +226,13 @@ const UserRoomsDropdown = (props) => {
         size="sm"
         variant="outline secondary"
         title="My rooms"
-        onClick={(e)=>{addRoomClick(e)}}
+        onClick={(e)=>{roomsClick(e)}}
       >
         { dropDownRooms }
         <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
       </DropdownButton>
-   </div>
+    }
+    </div>
   );
 }
 
