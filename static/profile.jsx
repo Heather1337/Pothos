@@ -1,14 +1,42 @@
 "use strict";
 
 
-const myWidget = cloudinary.createUploadWidget(
-    {cloudName: 'leetpotato', upload_preset: 'ml_default'},
-    (error, result) => { if (result.event == "success") {
-      console.log(result.info.url);
-    } else {
-      console.log('Error in Cloudinary: ', error);
-    }
-});
+function ControlledCarousel(props) {
+  const [index, setIndex] = React.useState(0);
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+
+  const carouselPlantImages = [];
+  props.plant_images.forEach((image)=> {
+    carouselPlantImages.push(
+      <Carousel.Item>
+      <img
+        className="d-block w-100 h-100"
+        src={image}
+        alt="First slide"
+      />
+    </Carousel.Item>
+    )
+  })
+
+  // const carouselPlantImages = props.plant_images.map((plantImage)=>{
+  //   <Carousel.Item>
+  //   <img
+  //     className="d-block w-100 h-100"
+  //     src='http://res.cloudinary.com/leetpotato/image/upload/v1606346114/_original_Logo_draft_02_se0nhi.jpg'
+  //     alt="First slide"
+  //   />
+  // </Carousel.Item>
+  // });
+
+  return (
+    <Carousel activeIndex={index} onSelect={handleSelect}>
+      {carouselPlantImages}
+    </Carousel>
+  )
+};
+
 
 /* ============ Setup for User plant & Logic for deleting a plant from User's profile ============== */
 
@@ -68,6 +96,28 @@ const WateringDaysOfPlant = ({
 const UserPlant = (props) => {
   const [showRoomForm, setShowRoomForm] = React.useState(false);
 
+
+  const myWidget = cloudinary.createUploadWidget(
+    {cloudName: 'leetpotato', upload_preset: 'ml_default'},
+    (error, result) => { if (result.event == "success") {
+      const url = result.info.url;
+      const payload = {'user_plant_id': props.user_plant_id, 'image_url': url}
+      fetch('add_plant_image', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      })
+      //send a POST fetch request with userplantid and image url
+      .then((response)=> response.json())
+      //on success make a new request to get user plants
+      .then(()=> console.log('Success in adding a new photo'))
+      //on fail console log server error
+      .catch((error)=> console.log(error))
+    } else {
+      console.log('Error in Cloudinary: ', error);
+    }
+  });
+
   const removePlantFromProfile = (e) => {
 
     const plant_id = e.target.id;
@@ -105,7 +155,7 @@ const UserPlant = (props) => {
   )});
 
   const handlePlantRoomClick = (e, user_plant_id) => {
-    if(e.target.text !== 'Add Room' && e.target.text !== undefined && e.target.text !== 'All rooms') {
+    if(e.target.text !== '+ Add Room' && e.target.text !== undefined && e.target.text !== 'All rooms') {
       setShowRoomForm(false)
       const plantRoomName = e.target.text;
       const payload = {'user_plant_id': user_plant_id, 'user_room_id': e.target.id}
@@ -144,10 +194,7 @@ const UserPlant = (props) => {
                   title="Select room"
                   onClick={(e)=>handlePlantRoomClick(e, props.user_plant_id)}
                 >
-                  <Dropdown.Item eventKey="0">All Rooms</Dropdown.Item>
                   { dropDownRooms }
-                  <Dropdown.Divider />
-                  <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
                 </DropdownButton>
               </Row> :
               <p onClick={()=> setShowRoomForm(true)}>Location: {props.room_name}</p>
@@ -156,6 +203,7 @@ const UserPlant = (props) => {
             <Row>
             <Button variant="outline-secondary"
                     size="sm"
+                    id={props.user_plant_id}
                     onClick={()=> {myWidget.open()}}
                     >Add photo
             </Button>
@@ -163,7 +211,10 @@ const UserPlant = (props) => {
             </Col>
 
         <Col sm={3}>
-          <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
+          {(props.plant_images).length > 0 ?
+            <Row><ControlledCarousel plant_images={props.plant_images}/></Row> :
+            <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
+          }
         </Col>
         <Col sm={1}>
           <div className="user-plant-delete-button">
@@ -193,9 +244,9 @@ const UserRoomsDropdown = (props) => {
     e.preventDefault();
     const clickedRoom = e.target.text;
 
-    if (clickedRoom === 'Add Room') setShowRooms(true);
+    if (clickedRoom === '+ Add Room') setShowRooms(true);
     else if (clickedRoom === 'All rooms') props.fetchPlants();
-    else if (clickedRoom !== undefined && clickedRoom !== 'All rooms'){
+    else if (clickedRoom !== undefined){
       // send fetch to get plants with selected room
       fetch(`/get_filtered_plants/${e.target.id}`)
       .then((response)=> response.json())
@@ -261,9 +312,10 @@ const UserRoomsDropdown = (props) => {
         onClick={(e)=>{roomsClick(e)}}
       >
         <Dropdown.Item eventKey="0">All rooms</Dropdown.Item>
+        <Dropdown.Divider />
         { dropDownRooms }
         <Dropdown.Divider />
-        <Dropdown.Item eventKey="1">Add Room</Dropdown.Item>
+        <Dropdown.Item eventKey="1">+ Add Room</Dropdown.Item>
       </DropdownButton>
     }
     </div>
@@ -323,6 +375,7 @@ const UserPlantsContainer = () => {
           fetchPlants={getUserPlants}
           room_name={plant.room_name}
           rooms={userRooms}
+          plant_images={plant.plant_images}
         />
       );
     }

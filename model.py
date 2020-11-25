@@ -81,6 +81,7 @@ class User_Plant(db.Model):
     users = db.relationship('User')
     plant_info = db.relationship('Plant')
     room = db.relationship('User_Plant_Room')
+    images = db.relationship('User_Plant_Image')
     #! rooms = db.relationship('User_Room', secondary = 'user_plant_rooms')
 
     def __repr__(self):
@@ -116,6 +117,20 @@ class User_Plant_Room(db.Model):
 
     def __repr__(self):
         return f'<User_Plant_Room user_plant_room_id={self.user_plant_room_id}>'
+
+class User_Plant_Image(db.Model):
+    """A user's plant's room."""
+
+    __tablename__='user_plant_images'
+
+    user_plant_image_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_plant_id = db.Column(db.Integer, db.ForeignKey('user_plants.user_plant_id'))
+    image_url = db.Column(db.String)
+
+    user_plant = db.relationship('User_Plant')
+
+    def __repr__(self):
+        return f'<User_Plant_Image user_plant_image_id={self.user_plant_image_id}>'
 
 class User_Plant_Wishlist(db.Model):
     """A user's plant wishlist."""

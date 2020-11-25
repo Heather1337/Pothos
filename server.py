@@ -187,6 +187,17 @@ def add_plant_comment():
 
     return jsonify(added_comment)
 
+@app.route('/add_plant_image', methods=['POST'])
+def add_plant_image():
+
+    data = request.get_json()
+    user_plant_id = data['user_plant_id']
+    image_url = data['image_url']
+
+    added_image = crud.create_plant_image(user_plant_id, image_url)
+
+    return jsonify('success')
+
 
 #===============================*   WISHLIST PLANT  ROUTES   *========================================#
 
@@ -284,12 +295,12 @@ def user_plants(user_id):
 
     user_plants = crud.get_user_plants(user_id)
     user_plants_list = []
-    print('DATA returned from CRUD for user plants:', user_plants)
-
 
     for p in user_plants:
         print('In USER plants data on server --->', p.plant_id)
         room = ""
+        images = [image.image_url for image in p.images]
+        print('Images for a plant================: ', images)
         if not (len(p.room) == 0):
             room = p.room[0].user_room.room_name
 
@@ -308,7 +319,8 @@ def user_plants(user_id):
                                 "sun_lvl": p.plant_info.sun_lvl,
                                 "pet_friendly": p.plant_info.is_toxic,
                                 "filters_air": p.plant_info.filters_air,
-                                "room_name": room
+                                "room_name": room,
+                                "plant_images": images
                                 })
 
     return jsonify(user_plants_list)

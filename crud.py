@@ -1,6 +1,6 @@
 """Pothos CRUD operations."""
 
-from model import db, User, Plant, User_Plant, User_Plant_Wishlist, Plant_Comment, User_Room, User_Plant_Room, connect_to_db
+from model import db, User, Plant, User_Plant, User_Plant_Wishlist, Plant_Comment, User_Room, User_Plant_Room, User_Plant_Image, connect_to_db
 
 if __name__=='__main__':
     from server import app
@@ -178,6 +178,16 @@ def update_plant_nickname(plant_id, nickname):
     db.session.commit()
 
     return plant
+
+def create_plant_image(user_plant_id, image_url):
+    """Add an image to a user plant record."""
+
+    plant_image = User_Plant_Image(user_plant_id=user_plant_id, image_url=image_url)
+
+    db.session.add(plant_image)
+    db.session.commit()
+
+    return plant_image
 
 def update_plant_days_to_water(plant_id, days_to_water):
 

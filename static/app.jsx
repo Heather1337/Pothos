@@ -67,7 +67,7 @@ const App = () => {
           <Route path="/plant/:plantId" component={PlantView} />
 
           <Route exact path="/">
-            {user.loggedIn ? <Redirect to="/profile" /> : <Homepage setUser={setUser}/>}
+            {user.loggedIn ? <Redirect to="/plants" /> : <Homepage setUser={setUser}/>}
           </Route>
 
         </Switch>
@@ -78,33 +78,3 @@ const App = () => {
 }
 
 ReactDOM.render(<App></App>, document.getElementById("app"));
-
-
-
-
-
-/*
-
-<div>
-      <Homepage />
-      <PlantContainer />
-    </div>
-
-
-  <Router>
-      <div>
-        <Switch>
-          <Route path="/plants">
-            <PlantContainer />
-          </Route>
-           <Route path="/profile">
-            <PlantContainer />
-          </Route>
-          <Route path="/">
-            <Homepage />
-          </Route>
-        </Switch>
-      </div>
-  </Router>
-
-*/
