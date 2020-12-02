@@ -48,6 +48,7 @@ const RegistrationForm = (props) => {
                     localStorage.setItem('user_id', data.user_ID);
                     localStorage.setItem('user_email', data.user_email);
                     localStorage.setItem('registered_for_texts', data.registered_for_texts);
+                    localStorage.setItem('fname', data.fname)
                     console.log(localStorage);
                     setState(prevState => ({
                         ...prevState,

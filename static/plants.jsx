@@ -7,21 +7,37 @@ const PlantIcons = (props) => {
       <Row>
         <Col>
             <Row><i className="fas fa-sun"></i>
-                <p>{props.sun_lvl}</p>
+                <p className="pl-attr">{props.sun_lvl}</p>
             </Row>
             <Row><i className="fas fa-tint"></i>
-                <p>  {props.water_tip}</p>
+                <p className="pl-attr">  {props.water_tip}</p>
             </Row>
             <Row><i className="fas fa-paw"></i>
-                {props.pet_friendly ? <p>Not pet friendly</p> : <p>Pet friendly</p>}
+                {props.pet_friendly ? <p className="pl-attr">Not pet friendly</p> : <p className="pl-attr">Pet friendly</p>}
             </Row>
             <Row><i className="fas fa-wind"></i>{
-                props.filters_air ? <p>Filters the air</p> : <p>Does not filter the air</p>}
+                props.filters_air ? <p className="pl-attr">Filters the air</p> : <p className="pl-attr">Does not filter the air</p>}
             </Row>
         </Col>
       </Row>
     )
 }
+
+const PlantSearchBar = (props) => {
+    const [searchedForPlant, setSearchedForPlant] = React.useState("");
+
+    return (
+        <Row >
+        <input
+          className="plant-search-bar"
+          name="plantSearchBar"
+          value={""}
+          placeholder="Search for plant"
+          onChange={(e) => setSearchedForPlant(e.target.value)}
+        />
+        </Row>
+    )
+};
 
 
 const ProfilePlantsSearch = (props) => {
@@ -37,10 +53,9 @@ const ProfilePlantsSearch = (props) => {
             .then((plants) => props.updatePlants(plants))
             .catch((error) => console.log('Error in filtering plants: ', error))
         }
-    }
+    };
 
     return (
-
       <div>
         <DropdownButton
           as={ButtonGroup}
@@ -60,9 +75,8 @@ const ProfilePlantsSearch = (props) => {
           <Dropdown.Item eventKey="6">Low light</Dropdown.Item>
         </DropdownButton>
      </div>
-
     )
-}
+};
 
 /*=================== Layout and logic for individual Plant node =====================*/
 const Plant = (props) => {
@@ -111,6 +125,7 @@ const Plant = (props) => {
                 alertWishlistPlantAdded(true)
                 setTimeout(()=> alertWishlistPlantAdded(false), 3000)
             })
+            .then(()=> props.notify('Plant added to wishlist'))
             .catch((error) => console.log('Error in adding plant to wishlist.', error))
         } else {
             console.log('Missing plant_id | user_id: ', plant_id, user_id);
@@ -127,9 +142,9 @@ const Plant = (props) => {
                     <Image src={props.plant_image} rounded fluid className="plant-row-image"/>
                 </Link>
                 </Row>
-                <Row><p>{props.plant_name}</p></Row>
-                <Row>
-                <Col>{plantAdded ?
+                <Row className="plant-name-container"><p>{props.plant_name}</p></Row>
+                <Row className="plant-button-container">
+                <Col className="btn-cont">{plantAdded ?
                     <Button variant="secondary" size="sm">Plant added!</Button> :
                     <Button variant="outline-secondary"
                             size="sm"
@@ -137,7 +152,7 @@ const Plant = (props) => {
                             id={props.plant_id}>Add plant
                     </Button>}
                 </Col>
-                <Col>{wishlistPlantAdded ?
+                <Col className="btn-cont">{wishlistPlantAdded ?
                     <Button variant="secondary" size="sm">Added to wishlist!</Button> :
                     <Button variant="outline-secondary"
                             size="sm"
@@ -163,7 +178,7 @@ const PlantContainer = (props) => {
         .then((plants) => updatePlants(plants))
     }, []);
 
-    const [plants, updatePlants] = React.useState('plants');
+    const [plants, updatePlants] = React.useState([]);
     const plantsArr = [];
 
     for (const plant of plants) {
@@ -213,7 +228,11 @@ const PlantContainer = (props) => {
 
     return (
         <React.Fragment>
-            <Row className="plant-filter-search" ><ProfilePlantsSearch updatePlants={updatePlants} /></Row>
+            <Row className="plant-filter-search">
+                {/* <PlantSearchBar /> */}
+                <Col></Col>
+                <ProfilePlantsSearch updatePlants={updatePlants} />
+            </Row>
             {plantRows}
         </React.Fragment>
     );

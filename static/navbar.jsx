@@ -13,7 +13,8 @@ const NavbarComp = (props) => {
             <Link to="/wishlist" id="schedule" className="navbar-links">Wishlist</Link>
             <Link to="/watering-reminders" id="watering-reminders" className="navbar-links">Reminders</Link>
         </Nav>
-        <Badge variant="light" className="navbar-links">{localStorage['user_email'] ? (`Signed in as ` + localStorage['user_email']) : `Not logged in` }</Badge>
+        {/* <i class="far fa-user"></i> */}
+        <Link variant="light" className="navbar-links">{localStorage['user_email'] ? (`Hi ` + localStorage['fname']) : `Signed out` }</Link>
         <Button variant="light" className="navbar-links" onClick={props.logoutUser}>Logout</Button>
         </Navbar>
     );

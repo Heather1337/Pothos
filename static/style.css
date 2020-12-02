@@ -40,6 +40,18 @@ body {
     height: 250px;
 }
 
+.plant-search-bar {
+    font-size: 14px;
+    border-radius: .25rem;
+    border: 1px solid lightgrey;
+    margin-top: 5px;
+}
+
+.pl-attr {
+    /* color: rgb(42, 72, 45); */
+    color: #4d4d4d;
+}
+
 .wishlist-plant {
     width: 150px;
     height: 150px;
@@ -62,6 +74,8 @@ body {
 }
 .plant-style {
     padding: 10px;
+    margin-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,13 +90,14 @@ body {
     align-items: center;
 }
 
-.plant-col-style {
-    padding-left: 50px;
+.btn-cont {
+    display: flex;
+    justify-content: space-around;
 }
 
 .plant-page-top-row {
-    padding-bottom: 15px;
-    padding-top: 15px;
+    padding-bottom: 25px;
+    padding-top: 25px;
 }
 
 .plant-row-image {
@@ -140,15 +155,26 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.plant-name-container {
+    justify-content: center;
+}
+
+.plant-button-container {
+    justify-content: space-around;
+}
+
 .plant-filter-search {
+    display:flex;
     padding-right: 150px;
-    justify-content: flex-end;
+    padding-left:150px;
+    margin-top: 10px;
+    justify-content: space-between;
 }
 
 .wishlist-title-container {
     display: flex;
     justify-content: left;
-    padding-top: 10px;
+    padding-top: 25px;
     border-bottom: 1px solid#263d29;
 }
 
@@ -166,7 +192,7 @@ body {
     font-weight: 700;
     color: #111111;
     font-size: 22px;
-    padding-top: 10px;
+    padding-top: 25px;
     border-bottom: 1px solid#263d29;
 }
 
@@ -177,24 +203,22 @@ body {
 }
 
 .comments-container {
-    padding-top: 40px;
+    padding-top: 30px;
 }
 
 .plant-comment-container {
     font-weight: 400;
-    color: #111111;
-    background: rgb(149, 153, 136, .2);
     border-radius: 7px;
-    margin: 7px;
+    padding: 5px;
+    background-color: rgb(38, 61, 41, .1);
+    margin-top: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .pcc {
-    padding: 10px;
+    padding-left: 20px;
 }
 
-.comment-submit {
-    background-color:rgb(11, 29, 17);
-}
 
 .sprig {
     width: 35px;
@@ -218,5 +242,9 @@ body {
 
 .dropdown-user-rooms {
     float: right;
+}
+
+.pb-title {
+    margin-top: 20px;
 }
 

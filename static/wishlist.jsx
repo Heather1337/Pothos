@@ -11,6 +11,7 @@ const WishlistPlant = (props) => {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'}
         })
+        .then(()=> props.notify('Removed plant from wishlist'))
         .then(() => props.getWishlist())
         .catch((error) => console.log('Error in removing plant from profile.', error))
       } else {
@@ -36,7 +37,7 @@ const WishlistPlant = (props) => {
 }
 
 
-const WishListContainer = () => {
+const WishListContainer = (props) => {
 
     const getUserWishlist = () => {
         fetch(`/get_user_wishlist.json/${localStorage['user_id']}`)
@@ -64,7 +65,7 @@ const WishListContainer = () => {
           plant_name={plant.plant_name}
           plant_tip={plant.plant_tip}
           plant_image={plant.plant_image}
-        //   plant_id={String(plant.plant_id)}
+          notify={props.notify}
           plant_id={plant.plant_id}
           getWishlist={getUserWishlist}
         />

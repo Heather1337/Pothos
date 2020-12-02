@@ -47,7 +47,6 @@ def register_user():
     password = data['password']
     fname = data['fname']
     lname = data['lname']
-    print(f'Registering user with email: {email}, fname: {fname} lname: {lname}')
 
     crud.register_user(password, email, fname, lname)
 
@@ -58,17 +57,20 @@ def register_user():
 def user_login():
     """Handle a user logging in."""
 
-    print('Logging in a user in server.py....')
+    # print('Logging in a user in server.py....')
 
     #Parse the request user data
     user_data = request.get_json()
-    print(user_data["email"])
+    # print(user_data["email"])
 
     #Get user object from database
     user = crud.get_user_with_email(user_data["email"])
     #Check provided password matches password stored in db
     if (user_data["password"] == user.password):
-        return jsonify({'user_email': user.email, 'user_ID': user.user_id, 'fname': user.fname, 'registered_for_texts': user.text_service})
+        return jsonify({'user_email': user.email,
+                        'user_ID': user.user_id,
+                        'fname': user.fname,
+                        'registered_for_texts': user.text_service})
     else:
         return jsonify('Invalid')
 
@@ -145,7 +147,7 @@ def get_filtered_plants(filterId):
 
 
     for p in plants:
-        print('I am in the loop for filtered plants=======================')
+        # print('I am in the loop for filtered plants=======================')
         plants_list.append({"plant_tip": p.plant_tip,
                             "plant_name": p.plant_name,
                             "plant_image": p.plant_image,
@@ -163,7 +165,7 @@ def get_filtered_plants(filterId):
 @app.route('/get_plant_comments/<plant_id>')
 def get_plant_comments(plant_id):
 
-    print('================= plant id ', plant_id)
+    # print('================= plant id ', plant_id)
 
     comments = crud.get_plant_comments(plant_id)
     plant_comments = []
@@ -181,7 +183,7 @@ def add_plant_comment():
     plant_id = data['plant_id']
     comment = data['comment']
 
-    print(user_id, plant_id, comment)
+    # print(user_id, plant_id, comment)
 
     added_comment = crud.create_plant_comment(plant_id, user_id, comment)
 
@@ -209,7 +211,7 @@ def add_plant_to_wl():
     user_id = data['user_id']
     plant_id = data['plant_id']
     added_plant = crud.add_plant_to_user_wishlist(user_id, plant_id)
-    print('Added plant to wishlist: ', added_plant)
+    # print('Added plant to wishlist: ', added_plant)
 
     return jsonify('Added plant to user wishlist.')
 
@@ -217,7 +219,7 @@ def add_plant_to_wl():
 @app.route('/delete_plant_from_wishlist/<plant_id>/<user_id>', methods=["DELETE"])
 def delete_wishlist_plant(plant_id, user_id):
     """Delete a user's plant."""
-    print('trying to remove plant from wishlist in server...', plant_id, user_id)
+    # print('trying to remove plant from wishlist in server...', plant_id, user_id)
     crud.remove_wishlist_plant(int(plant_id))
 
     return jsonify('Deleted users wishlist plant.')
@@ -231,7 +233,7 @@ def user_wishlist(user_id):
     wishlist_arr = []
 
     for p in user_wishlist:
-        print('In USER plants data on server --->', p)
+        # print('In USER plants data on server --->', p)
         wishlist_arr.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "plant_id": p.wishlist_plant_id })
 
     # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
@@ -243,7 +245,7 @@ def user_wishlist(user_id):
 @app.route('/delete_plant_from_profile/<plant_id>', methods=["DELETE"])
 def delete_user_plant(plant_id):
     """Delete a user's plant."""
-    print('trying to remove plant in server...', plant_id)
+    # print('trying to remove plant in server...', plant_id)
     crud.remove_user_plant(int(plant_id))
 
     return jsonify('Deleted users plant.')
@@ -295,7 +297,7 @@ def add_user_plant():
     user_id = data['user_id']
     plant_id = data['plant_id']
     added_plant = crud.add_plant_to_user_profile(user_id, plant_id)
-    print('Added plant to profile: ', added_plant)
+    # print('Added plant to profile: ', added_plant)
 
     return jsonify('Added plant to user profile.')
 
@@ -308,10 +310,10 @@ def user_plants(user_id):
     user_plants_list = []
 
     for p in user_plants:
-        print('In USER plants data on server --->', p.plant_id)
+        # print('In USER plants data on server --->', p.plant_id)
         room = ""
         images = [image.image_url for image in p.images]
-        print('Images for a plant================: ', images)
+        # print('Images for a plant================: ', images)
         if not (len(p.room) == 0):
             room = p.room[0].user_room.room_name
 

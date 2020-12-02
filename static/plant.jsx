@@ -32,7 +32,7 @@ const PlantCommentForm = (props) => {
             <Form.Label>Share your experience with this plant</Form.Label>
             <Form.Control as="textarea" id="plantComment" rows={3} />
             </Form.Group>
-            <Button className="comment-submit" variant="dark" size="sm" onClick={(e)=>props.handlePlantCommentSubmit(e)} id={props.plant_id}>Submit</Button>
+            <Button className="comment-submit" variant="outline-secondary" size="sm" onClick={(e)=>props.handlePlantCommentSubmit(e)} id={props.plant_id}>Submit</Button>
         </Form>
     )
 };
@@ -43,8 +43,8 @@ const PlantComment = (props) => {
         <Col className="plant-comment-container">
          <Row className="pcc">
          <i className="fas fa-star"></i>
-         <i className="fas fa-star"></i>
-         <i className="fas fa-star"></i>
+         <i className="fas fa-star "></i>
+         <i className="fas fa-star "></i>
          <i className="fas fa-star"></i>
          <i className="fas fa-star"></i>
 
@@ -126,7 +126,7 @@ const PlantView = ({match, location}) => {
         <Row >
             <Col sm={3}></Col>
             <Col sm={6} className="plant-bio-profile">
-            <h5>Plant Bio</h5>
+            <h5 className="pb-title">Plant Bio</h5>
             <p>{plant.plant_details}</p>
             </Col>
             <Col sm={3}></Col>

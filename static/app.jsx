@@ -35,23 +35,11 @@ const App = () => {
         close: true,
         gravity: "top",
         position: "right",
-        // backgroundColor: "linear-gradient(to right, #959988, #e8e7e3)",
-        backgroundColor: "#6e846f",
+        backgroundColor: "rgb(38, 61, 41, .7)",
         stopOnFocus: true
       }).showToast()
     }
 
-    /*===== Callback for when User navigates to :id endpoint for plants. ======*/
-    // const renderPlant = (routerProps) => {
-    //   const plantID = parseInt(routerProps.match.params.id)
-    //   console.log('in render plant: ', plantID)
-    //   return(
-    //   <React.Fragment>
-    //     <NavbarComp user={user.loggedIn} logoutUser={logoutUser}></NavbarComp>
-    //     <Plant plantID={plantID} />
-    //   </React.Fragment>
-    //   )
-    // }
 
   return (
     <Router>
