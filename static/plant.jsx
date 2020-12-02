@@ -28,46 +28,37 @@ const PlantCommentForm = (props) => {
 
     return (
         <Form>
-            <Form.Group controlId="plantCommentForm">
-            <Form.Label>Leave a comment</Form.Label>
+            <Form.Group controlId="plantCommentForm" id="plantForm">
+            <Form.Label>Share your experience with this plant</Form.Label>
             <Form.Control as="textarea" id="plantComment" rows={3} />
             </Form.Group>
-            <Button onClick={(e)=>props.handlePlantCommentSubmit(e)} id={props.plant_id}>Submit</Button>
+            <Button className="comment-submit" variant="dark" size="sm" onClick={(e)=>props.handlePlantCommentSubmit(e)} id={props.plant_id}>Submit</Button>
         </Form>
     )
 };
 
-// const handlePlantCommentSubmit = (e) => {
-//     e.preventDefault();
-//     const comment = document.getElementById('plantComment').value;
-//     // console.log('pushed comment submit', e.target.id, localStorage['user_id'], comment)
-//     const payload = {
-//         'user_id': localStorage['user_id'],
-//         'plant_id': e.target.id,
-//         'comment': comment
-//     }
-//     fetch('/add_plant_comment',  {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify(payload)
-//     })
-//     .then((response) => response.json())
-//     .then()
-
-
-// }
 
 const PlantComment = (props) => {
     return (
-        <Row>
+        <Col className="plant-comment-container">
+         <Row className="pcc">
+         <i className="fas fa-star"></i>
+         <i className="fas fa-star"></i>
+         <i className="fas fa-star"></i>
+         <i className="fas fa-star"></i>
+         <i className="fas fa-star"></i>
+
+        </Row>
+         <Row className="pcc">
             <p>{props.userComment}</p>
         </Row>
+        </Col>
     )
 };
 
 const PlantView = ({match, location}) => {
 
-    // console.log(match.params.plantId)
+    // console.log(match.params.plantId) //uncomment for debugging
     const plant_id = match.params.plantId;
     const [plant, setPlant] = React.useState({});
     const [comments, setComments] = React.useState([]);
@@ -80,14 +71,11 @@ const PlantView = ({match, location}) => {
     };
 
     React.useEffect(() => {
-        // console.log('fetching plants...') //uncomment for debugging
         fetch(`/get_plant_by_id.json/${plant_id}`)
         .then((response) => response.json())
         .then((plant) => setPlant(plant))
 
-        getComments(plant_id)
-        // setComments(['This plant is so cute!', 'This plant thrives in low light.', 'This was my first plant.'])
-
+        getComments(plant_id);
     }, []);
 
     const plantComments = []
@@ -113,6 +101,7 @@ const PlantView = ({match, location}) => {
             body: JSON.stringify(payload)
         })
         .then((response) => response.json())
+        .then(()=> document.getElementById("plantForm").reset())
         .then(getComments(plantId))
         .catch((error)=> console.log(error))
 
@@ -122,8 +111,8 @@ const PlantView = ({match, location}) => {
         <Col>
         <NavbarComp/>
         <Row className="plant-page-top-row">
-            <Col sm={1}></Col>
-            <Col sm={5}>
+            <Col sm={3}></Col>
+            <Col sm={3}>
                 <Image src={plant.plant_image} className="plant-profile-image"></Image>
             </Col>
             <Col sm={3}>
@@ -154,7 +143,7 @@ const PlantView = ({match, location}) => {
         </Row>
         <Row>
             <Col sm={3}></Col>
-            <Col sm={6}>
+            <Col sm={6} className="comments-container">
             {plantComments}
             </Col>
             <Col sm={3}></Col>

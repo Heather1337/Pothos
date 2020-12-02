@@ -20,15 +20,6 @@ function ControlledCarousel(props) {
     )
   })
 
-  // const carouselPlantImages = props.plant_images.map((plantImage)=>{
-  //   <Carousel.Item>
-  //   <img
-  //     className="d-block w-100 h-100"
-  //     src='http://res.cloudinary.com/leetpotato/image/upload/v1606346114/_original_Logo_draft_02_se0nhi.jpg'
-  //     alt="First slide"
-  //   />
-  // </Carousel.Item>
-  // });
 
   return (
     <Carousel activeIndex={index} onSelect={handleSelect}>
@@ -93,6 +84,55 @@ const WateringDaysOfPlant = ({
   );
 }
 
+const PlantNickname = (props) => {
+  const [visible, setVisible] = React.useState(false);
+  const [nickname, setNickname] = React.useState(props.nickname)
+
+  const updateBtn = (
+    <Button
+      variant="outline-secondary"
+      size="sm"
+      onClick={() => setVisible(!visible)}
+      id={props.plantId}
+    >
+      {nickname ? nickname : 'Add nickname'}
+    </Button>
+  );
+
+  const nicknameInput = (
+    <Row>
+    <label>Nickname:</label>
+    <input
+      name="plantNickname"
+      value={nickname}
+      onChange={(e) => setNickname(e.target.value)}
+    />
+    <Button
+      variant="outline-secondary"
+      onClick={() => {
+        setVisible(false);
+        props.updatePlantNickname(
+          props.plantId,
+          nickname
+        );
+      }}
+      size="sm"
+      id={props.plantId}
+    >
+      Update
+    </Button>
+    </Row>
+  );
+
+  return (
+    <React.Fragment>
+      {visible ? nicknameInput : updateBtn}
+    </React.Fragment>
+  );
+
+}
+
+
 const UserPlant = (props) => {
   const [showRoomForm, setShowRoomForm] = React.useState(false);
 
@@ -107,11 +147,8 @@ const UserPlant = (props) => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload)
       })
-      //send a POST fetch request with userplantid and image url
       .then((response)=> response.json())
-      //on success make a new request to get user plants
-      .then(()=> console.log('Success in adding a new photo'))
-      //on fail console log server error
+      .then(()=> props.fetchPlants())
       .catch((error)=> console.log(error))
     } else {
       console.log('Error in Cloudinary: ', error);
@@ -121,7 +158,6 @@ const UserPlant = (props) => {
   const removePlantFromProfile = (e) => {
 
     const plant_id = e.target.id;
-    console.log(e.target, 'event target in remove plant')
 
     if(plant_id) {
       fetch(`/delete_plant_from_profile/${plant_id}`, {
@@ -149,6 +185,18 @@ const UserPlant = (props) => {
       .catch((error)=> console.log('Error in updating watering days.', error));
   }
 
+  const updatePlantNickname = (userPlantId, nickname) => {
+    //send a patch to update the nickname of a user's plant
+    fetch('/update_plant_nickname', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({'user_plant_id': userPlantId, 'nickname': nickname})
+    })
+    .then((response)=> response.json())
+    .then(() => props.fetchPlants())
+    .catch((error)=> console.log(error));
+  }
+
   const dropDownRooms = props.rooms.map((room)=> {
     return (
     <Dropdown.Item id={room.user_room_id}>{room.room_name}</Dropdown.Item>
@@ -159,7 +207,6 @@ const UserPlant = (props) => {
       setShowRoomForm(false)
       const plantRoomName = e.target.text;
       const payload = {'user_plant_id': user_plant_id, 'user_room_id': e.target.id}
-      console.log(payload)
       fetch(`/add_room_to_user_plant`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -167,14 +214,19 @@ const UserPlant = (props) => {
       })
       .then((response)=> response.json())
       .then(()=> props.fetchPlants())
-      .catch((error)=> console.log('Error in adding room to plant.'))
+      .catch((error)=> console.log('Error in adding room to plant.', error))
     }
   };
 
     return (
       <Row className="userPlant">
         <Col className="user-plant-col">
-            <Row><h5> {props.plant_name} </h5></Row>
+            <Row><h4> {props.plant_name} </h4></Row>
+            <Row>{props.nickname ? <h6>{props.nickname}</h6> :
+            <PlantNickname plantId={props.user_plant_id}
+            updatePlantNickname={updatePlantNickname}
+            nickname={props.nickname}/>
+            }</Row>
             <Row>
               <div className="water-days-count"><p> Water in {props.days_to_water} days </p></div>
               <Col sm={6}><WateringDaysOfPlant  plantId={props.user_plant_id}
@@ -211,7 +263,7 @@ const UserPlant = (props) => {
             </Col>
 
         <Col sm={3}>
-          {(props.plant_images).length > 0 ?
+          {props.plant_images.length > 0 ?
             <Row><ControlledCarousel plant_images={props.plant_images}/></Row> :
             <Row><Image className="wishlist-plant" src={props.plant_image} rounded fluid /></Row>
           }
@@ -240,6 +292,7 @@ const UserRoomsDropdown = (props) => {
   const [newRoom, setNewRoom] = React.useState("");
 
   /* Swaps component between being an input form or drop down select of user rooms. */
+  /* Renders plants for clicked room */
   const roomsClick= (e) => {
     e.preventDefault();
     const clickedRoom = e.target.text;
@@ -251,8 +304,8 @@ const UserRoomsDropdown = (props) => {
       fetch(`/get_filtered_plants/${e.target.id}`)
       .then((response)=> response.json())
       .then((data)=> {
-        if(data.length === 0) alert('No plants in room!')
-        else props.updateUserPlants(data)
+        if(data.length === 0) alert('No plants in room!');
+        else props.updateUserPlants(data);
       })
       .catch((error)=> console.log('error in getting plants', error));
     }
@@ -347,6 +400,7 @@ const UserPlantsContainer = () => {
     }
   }, []);
 
+  //State for User's rooms
   const [userRooms, updateUserRooms] = React.useState([]);
 
   //State for User's plants
@@ -387,7 +441,8 @@ const UserPlantsContainer = () => {
   const UserProfileInfo = () => {
     return (
       <React.Fragment>
-        <h3>{userPlants.length} Plants</h3>
+        <Row>Plant Collection</Row>
+        <Row className="plant-count">{userPlants.length} Plants</Row>
       </React.Fragment>
     )
   };
@@ -397,18 +452,26 @@ const UserPlantsContainer = () => {
 
       <Row>
         <Col sm={3}></Col>
-        <Col sm={6}><UserProfileInfo /></Col>
+        <Col sm={6} className="user-plant-profile">
+          <Row>
+          <Col>
+            <UserProfileInfo />
+          </Col>
+          <Col>
+            <UserRoomsDropdown className="rooms-dd"
+                getUserRooms={getUserRooms}
+                userRooms={userRooms}
+                updateUserPlants={updateUserPlants}
+                fetchPlants={getUserPlants}
+            />
+          </Col>
+          </Row>
+        </Col>
         <Col sm={3}></Col>
       </Row>
 
       <Row>
         <Col sm={3}>
-          <UserRoomsDropdown
-            getUserRooms={getUserRooms}
-            userRooms={userRooms}
-            updateUserPlants={updateUserPlants}
-            fetchPlants={getUserPlants}
-          />
         </Col>
         <Col sm={6}>{userPlantsArr}</Col>
         <Col sm={3}></Col>

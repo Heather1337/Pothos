@@ -9,24 +9,11 @@ const RegistrationForm = (props) => {
         password : "",
         fname : "",
         lname : ""
-    })
-
-    /*==== Checks to see if there is a logged in user when loading site =====*/
-    // React.useEffect(() => {
-    //     const loggedInUser = localStorage.getItem('user');
-    //     if (loggedInUser) {
-    //         const foundUser = loggedInUser;
-    //         setState(prevState => ({
-    //             ...prevState,
-    //             user: foundUser
-    //         }));
-    //         console.log('Found user in useEffect in login file ===>.', foundUser)
-    //     }
-    // }, []);
+    });
 
     /*== Handles updating state as User fills out registration form === */
     const handleChange = (e) => {
-        const {id , value} = e.target
+        const {id , value} = e.target;
         setState(prevState => ({
             ...prevState,
             [id] : value
@@ -45,10 +32,10 @@ const RegistrationForm = (props) => {
 
     /*== Handles clicking of LOGIN button === */
     const handleLogin = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         if(state.email.length && state.password.length) {
-            console.log('state email and pw', state.email, state.password)
+            console.log('state email and pw', state.email, state.password);
             const payload = {"email": state.email, "password": state.password};
             fetch('/login_user', {
                 method: 'POST',
@@ -78,19 +65,6 @@ const RegistrationForm = (props) => {
         }
     }
 
-    /*== Handles clicking of LOGOUT button === */
-    // const handleLogout = (e) => {
-    //     setState(prevState => ({
-    //         ...prevState,
-    //         "login": false,
-    //         "email" : "",
-    //         "user": [],
-    //         "password" : "",
-    //         "fname" : "",
-    //         "lname" : ""
-    //     }));
-    // }
-
 
 
     /*======== Calls function for registering a user on button click. ======== */
@@ -99,7 +73,7 @@ const RegistrationForm = (props) => {
         /* Send a POST request to server endpoint to register a
         user with the provided email, pw, fname, lname  WHEN register button is clicked*/
         e.preventDefault();
-        console.log('Sending POST fetch to register_user on server')
+        console.log('Sending POST fetch to register_user on server');
         registerUserOnServer();
     }
 

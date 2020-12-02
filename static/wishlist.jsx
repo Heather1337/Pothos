@@ -21,7 +21,7 @@ const WishlistPlant = (props) => {
     return (
         <Row className="wishlistPlant">
           <Col>
-          <Row><p>{props.plant_name}</p></Row>
+          <Row><p className="pn">{props.plant_name}</p></Row>
           <Row><Button variant="outline-secondary"
                       size="sm"
                       onClick={(e) => removePlantFromWishlist(e)}
@@ -76,7 +76,13 @@ const WishListContainer = () => {
     <Row>
     <Col sm={4}></Col>
     <Col sm={4}>
-      <Row><h3>Wishlist</h3></Row>
+      <Col>
+        <Row className="wishlist-title-container">
+          <div className="wishlist-title">
+            <div className="wishlist-title-text">Wishlist</div>
+          </div>
+        </Row>
+      </Col>
       <Col>{wishlistArr}</Col>
     </Col>
     <Col sm={4}></Col>

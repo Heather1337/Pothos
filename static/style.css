@@ -2,8 +2,10 @@ body {
     color: #2d2a24;
     font-size: 16px;
     line-height: 1.5;
+    /* font-family: "Lusitana"; */
     -webkit-font-smoothing: antialiased;
     font-weight: 400;
+    background-color: 	#FFFFFF;
 }
 
 #logo {
@@ -15,6 +17,15 @@ body {
     color: grey;
     text-decoration: none;
     margin: 20px;
+}
+
+.navbar-plant-collection {
+    color: #111111;
+    font-weight: 400;
+    font-size: 18px;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 14px;
 }
 
 .navbar-links:hover
@@ -39,9 +50,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: rgb(38, 61, 41, .1);
+    margin: 20px;
 }
 
+#messages-form-banner {
+    box-shadow: 0 0 8px 8px white inset;
+}
 .plant-style {
     padding: 10px;
     display: flex;
@@ -70,7 +88,6 @@ body {
 .plant-row-image {
     justify-content: center;
     align-items: center;
-    padding-bottom: 20px;
     height: 350px;
     width: 300px;
 }
@@ -79,6 +96,7 @@ body {
     float: right;
     height: 400px;
     width: 350px;
+    border-radius: 7px;
 }
 
 .water-days-count {
@@ -111,15 +129,94 @@ body {
 
 #navbar {
     height: 50px;
+    background-color: 	rgb(107, 118, 104);
 }
 
 .userPlant {
-    padding-bottom: 10px;
-    padding-top: 10px;
-    border-bottom: 1px solid lightgray;
+    border-radius: 7px;
+    background-color: rgb(38, 61, 41, .1);
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .plant-filter-search {
     padding-right: 150px;
     justify-content: flex-end;
 }
+
+.wishlist-title-container {
+    display: flex;
+    justify-content: left;
+    padding-top: 10px;
+    border-bottom: 1px solid#263d29;
+}
+
+.wishlist-title {
+    padding: 8px 16px;
+}
+
+.wishlist-title-text {
+    font-weight: 700;
+    color: #111111;;
+    font-size: 22px;
+}
+
+.user-plant-profile {
+    font-weight: 700;
+    color: #111111;
+    font-size: 22px;
+    padding-top: 10px;
+    border-bottom: 1px solid#263d29;
+}
+
+.plant-count {
+    font-size: 18px;
+    font-weight: 400;
+    color: #263d29;
+}
+
+.comments-container {
+    padding-top: 40px;
+}
+
+.plant-comment-container {
+    font-weight: 400;
+    color: #111111;
+    background: rgb(149, 153, 136, .2);
+    border-radius: 7px;
+    margin: 7px;
+}
+
+.pcc {
+    padding: 10px;
+}
+
+.comment-submit {
+    background-color:rgb(11, 29, 17);
+}
+
+.sprig {
+    width: 35px;
+    position: absolute;
+    margin-top: 6px;
+}
+
+.reminders-form {
+    border-radius: 7px;
+    background-color: rgb(38, 61, 41, .1);
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.pn {
+    font-size: 18px;
+    font-weight: 400;
+    color: #263d29;
+}
+
+.dropdown-user-rooms {
+    float: right;
+}
+

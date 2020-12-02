@@ -11,7 +11,7 @@ const App = () => {
     React.useEffect(() => {
       const loggedInUser = localStorage.getItem('user_id');
       if (loggedInUser) {
-          const foundUser = loggedInUser;
+          // const foundUser = loggedInUser;
           setUser(prevState => ({
               ...prevState,
               loggedIn: true,

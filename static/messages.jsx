@@ -64,7 +64,7 @@ const TextRegistrationForm = (props) => {
         <Row>
         <Col sm={4}>
         </Col>
-        <Col sm={4}>
+        <Col sm={4} className="reminders-form">
             <Row><Image id="messages-form-banner" src="/static/images/lesolbanner.jpg" rounded fluid /></Row>
             <Row><p>Never let another plant go thirsty! Sign up for reminders
                 of when to water your precious plants. Reminders will be sent out on the
@@ -114,7 +114,7 @@ const UnsubscribeForm = (props) => {
         <Row>
         <Col sm={4}>
         </Col>
-        <Col sm={4}>
+        <Col sm={4} className="reminders-form">
             <Row><Image id="messages-form-banner" src="/static/images/lesolbanner.jpg" rounded fluid /></Row>
             <Row><p>You are signed up to receive text reminders for when your plants are ready to be watered.
                 If you'd like to unsubscribe from receiving messages click the unsubscribe button below. </p></Row>
@@ -145,6 +145,10 @@ const MessageForm = () => {
         }, []);
 
     return (
-        <div>{userWantsTexts ? <UnsubscribeForm setUserWantsTexts={setUserWantsTexts}/> : <TextRegistrationForm setUserWantsTexts={setUserWantsTexts}/>}</div>
+        <div className="reminders-div">
+            <div className="reminders-container">
+            {userWantsTexts ? <UnsubscribeForm setUserWantsTexts={setUserWantsTexts}/> : <TextRegistrationForm setUserWantsTexts={setUserWantsTexts}/>}
+            </div>
+        </div>
     )
 }

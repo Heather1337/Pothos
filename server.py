@@ -249,24 +249,23 @@ def delete_user_plant(plant_id):
     return jsonify('Deleted users plant.')
 
 
-@app.route('/add_nickname_to_plant', methods=["PATCH"])
-def add_nickname_to_plant():
-    """Add or update a User's plant nickname."""
+# @app.route('/add_nickname_to_plant', methods=["PATCH"])
+# def add_nickname_to_plant():
+#     """Add or update a User's plant nickname."""
 
-    print('trying to update a name on a plant', )
-    data = request.get_json()
-    plant_id = data['plant_id']
-    nickname = data['nickname']
+#     print('trying to update a name on a plant', )
+#     data = request.get_json()
+#     plant_id = data['plant_id']
+#     nickname = data['nickname']
 
-    crud.update_plant_nickname(plant_id, nickname)
+#     crud.update_plant_nickname(plant_id, nickname)
 
-    return jsonify('Added or updated a plant nickname.')
+#     return jsonify('Added or updated a plant nickname.')
 
 @app.route('/update_days_since_last_water', methods=["PATCH"])
 def update_days_since_last_water():
     """Update a User's plant last watering days count."""
 
-    print('trying to update watering days on a plant', )
     data = request.get_json()
     plant_id = data['plant_id']
     days_count = data['days_count']
@@ -274,6 +273,18 @@ def update_days_since_last_water():
     crud.update_plant_days_to_water(plant_id, days_count)
 
     return jsonify('Updated days since last water for User plant.')
+
+@app.route('/update_plant_nickname', methods=["PATCH"])
+def update_plant_nickname():
+    """Update a User's plant nickname."""
+
+    data = request.get_json()
+    plant_id = data['user_plant_id']
+    nickname = data['nickname']
+
+    crud.update_plant_nickname(plant_id, nickname)
+
+    return jsonify('Updated plants nickname in User plant')
 
 
 @app.route('/add_plant_to_profile', methods=["POST"])
@@ -333,6 +344,8 @@ def filter_user_plants(clickedRoom):
     user_plants_list = []
 
     for p in filtered_user_plants:
+        #plant.plants[0].user_plant.images
+        images = [image.image_url for image in p.user_plant.images]
         room = p.user_room.room_name
         days_to_water = 0
         if(p.user_plant.last_watered < p.user_plant.plant_info.water_schedule):
@@ -349,7 +362,8 @@ def filter_user_plants(clickedRoom):
                                 "sun_lvl": p.user_plant.plant_info.sun_lvl,
                                 "pet_friendly": p.user_plant.plant_info.is_toxic,
                                 "filters_air": p.user_plant.plant_info.filters_air,
-                                "room_name": room
+                                "room_name": room,
+                                "plant_images": images
                                 })
 
     return jsonify(user_plants_list)
