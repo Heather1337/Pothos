@@ -164,6 +164,7 @@ const UserPlant = (props) => {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'}
       })
+      .then(()=> props.notify('Plant removed from collection'))
       .then(()=> props.fetchPlants())
       .catch((error) => console.log('Error in removing plant from profile.', error))
     } else {
@@ -193,6 +194,7 @@ const UserPlant = (props) => {
       body: JSON.stringify({'user_plant_id': userPlantId, 'nickname': nickname})
     })
     .then((response)=> response.json())
+    .then(()=> props.notify('Updated plant nickname'))
     .then(() => props.fetchPlants())
     .catch((error)=> console.log(error));
   }
@@ -213,6 +215,7 @@ const UserPlant = (props) => {
         body: JSON.stringify(payload)
       })
       .then((response)=> response.json())
+      .then(()=> props.notify('Plant added to room'))
       .then(()=> props.fetchPlants())
       .catch((error)=> console.log('Error in adding room to plant.', error))
     }
@@ -377,7 +380,7 @@ const UserRoomsDropdown = (props) => {
 
 /*============= Container for Profile Page & Logic for fetching User plants and Wishlist ================*/
 
-const UserPlantsContainer = () => {
+const UserPlantsContainer = (props) => {
   const getUserPlants = () => {
     fetch(`/get_user_plants.json/${localStorage['user_id']}`)
       .then((response) => response.json())
@@ -430,6 +433,7 @@ const UserPlantsContainer = () => {
           room_name={plant.room_name}
           rooms={userRooms}
           plant_images={plant.plant_images}
+          notify={props.notify}
         />
       );
     }

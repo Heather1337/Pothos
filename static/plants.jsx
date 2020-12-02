@@ -87,6 +87,7 @@ const Plant = (props) => {
                 alertPlantAdded(true)
                 setTimeout(()=> alertPlantAdded(false), 3000)
             })
+            .then(()=>props.notify('Added plant to profile!'))
             .catch((error) => console.log('Error in adding plant to profile.', error))
         } else {
             console.log('Missing plant_id | user_id: ', plant_id, user_id);
@@ -153,7 +154,7 @@ const Plant = (props) => {
 
 /*=================== Layout and logic for container of Plant nodes =====================*/
 
-const PlantContainer = () => {
+const PlantContainer = (props) => {
 
     React.useEffect(() => {
         // console.log('fetching plants...') //uncomment for debugging
@@ -181,6 +182,7 @@ const PlantContainer = () => {
               sun_lvl={plant.sun_lvl}
               filters_air={plant.filters_air}
               plant_details={plant.plant_details}
+              notify={props.notify}
             />
         );
     }

@@ -27,6 +27,20 @@ const App = () => {
       localStorage.clear()
     }
 
+    const notify = (text) => {
+      Toastify({
+        text: text,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right",
+        // backgroundColor: "linear-gradient(to right, #959988, #e8e7e3)",
+        backgroundColor: "#6e846f",
+        stopOnFocus: true
+      }).showToast()
+    }
+
     /*===== Callback for when User navigates to :id endpoint for plants. ======*/
     // const renderPlant = (routerProps) => {
     //   const plantID = parseInt(routerProps.match.params.id)
@@ -46,12 +60,12 @@ const App = () => {
 
           <Route path="/profile">
             <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
-            {user.loggedIn ? <UserPlantsContainer /> : <Redirect to="/" />}
+            {user.loggedIn ? <UserPlantsContainer notify={notify}/> : <Redirect to="/" />}
           </Route>
 
           <Route exact path="/plants">
-            <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
-            {user.loggedIn ? <PlantContainer /> : <Redirect to="/" />}
+            <NavbarComp user={user.loggedIn} logoutUser={logoutUser} />
+            {user.loggedIn ? <PlantContainer notify={notify}/> : <Redirect to="/" />}
           </Route>
 
           <Route path="/watering-reminders">
@@ -61,7 +75,7 @@ const App = () => {
 
           <Route path="/wishlist">
             <NavbarComp user={user.loggedIn} logoutUser={logoutUser}/>
-            {user.loggedIn ? <WishListContainer /> : <Redirect to="/" />}
+            {user.loggedIn ? <WishListContainer notify={notify}/> : <Redirect to="/" />}
           </Route>
 
           <Route path="/plant/:plantId" component={PlantView} />

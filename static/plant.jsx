@@ -58,7 +58,6 @@ const PlantComment = (props) => {
 
 const PlantView = ({match, location}) => {
 
-    // console.log(match.params.plantId) //uncomment for debugging
     const plant_id = match.params.plantId;
     const [plant, setPlant] = React.useState({});
     const [comments, setComments] = React.useState([]);
@@ -89,7 +88,6 @@ const PlantView = ({match, location}) => {
         e.preventDefault();
         const comment = document.getElementById('plantComment').value;
         const plantId = e.target.id;
-        console.log('pushed comment submit', e.target.id, localStorage['user_id'], comment)
         const payload = {
             'user_id': localStorage['user_id'],
             'plant_id': e.target.id,
@@ -101,7 +99,6 @@ const PlantView = ({match, location}) => {
             body: JSON.stringify(payload)
         })
         .then((response) => response.json())
-        .then(()=> document.getElementById("plantForm").reset())
         .then(getComments(plantId))
         .catch((error)=> console.log(error))
 
