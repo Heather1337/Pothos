@@ -145,8 +145,10 @@ def get_filtered_user_plants(user_room_id):
     user_room = User_Room.query.get(user_room_id)
     user_room_plants = user_room.plants
     # user_room_plants_info = [plant.user_plant for plant in user_room_plants]
-
-    return user_room_plants
+    if (len(user_room_plants) >= 1):
+        return user_room_plants
+    else:
+        return []
 
 
 

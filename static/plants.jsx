@@ -21,7 +21,7 @@ const PlantIcons = (props) => {
         </Col>
       </Row>
     )
-}
+};
 
 const PlantSearchBar = (props) => {
     const [searchedForPlant, setSearchedForPlant] = React.useState("");
@@ -207,17 +207,15 @@ const PlantContainer = (props) => {
         for(let i = 0; i < plantsArr.length; i=i+3) {
             rows.push(
                 <Row>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
+                    <Col sm={4}>
                     {plantsArr[i]}
                     </Col>
                     <Col sm={4}>
                     {plantsArr[i+1]}
                     </Col>
-                    <Col sm={3}>
+                    <Col sm={4}>
                     {plantsArr[i+2]}
                     </Col>
-                    <Col sm={1}></Col>
                 </Row>
             );
         }
@@ -227,14 +225,14 @@ const PlantContainer = (props) => {
     const plantRows = makePlantRows(plantsArr)
 
     return (
-        <React.Fragment>
+        <Container className="padding-b">
             <Row className="plant-filter-search">
                 {/* <PlantSearchBar /> */}
                 <Col></Col>
                 <ProfilePlantsSearch updatePlants={updatePlants} />
             </Row>
             {plantRows}
-        </React.Fragment>
+        </Container>
     );
 };
 

@@ -66,7 +66,7 @@ const TextRegistrationForm = (props) => {
         </Col>
         <Col sm={4} className="reminders-form">
             <Row><Image id="messages-form-banner" src="/static/images/lesolbanner.jpg" rounded fluid /></Row>
-            <Row><p>Never let another plant go thirsty! Sign up for reminders
+            <Row className="pad-top-15"><p>Never let another plant go thirsty! Sign up for reminders
                 of when to water your precious plants. Reminders will be sent out on the
                 recommended days a plant should be watered. </p></Row>
             <Row><p>Don't worry you can always update your watering schedule at any time if you miss a day.</p></Row>
@@ -116,7 +116,7 @@ const UnsubscribeForm = (props) => {
         </Col>
         <Col sm={4} className="reminders-form">
             <Row><Image id="messages-form-banner" src="/static/images/lesolbanner.jpg" rounded fluid /></Row>
-            <Row><p>You are signed up to receive text reminders for when your plants are ready to be watered.
+            <Row><p className="pad-top-15">You are signed up to receive text reminders for when your plants are ready to be watered.
                 If you'd like to unsubscribe from receiving messages click the unsubscribe button below. </p></Row>
             <Form>
             <Button variant="outline-secondary" type="submit" id="textRegisterButton" onClick={handleUnsubscribe}>
@@ -145,7 +145,7 @@ const MessageForm = () => {
         }, []);
 
     return (
-        <div className="reminders-div">
+        <div className="reminders-div padding-b">
             <div className="reminders-container">
             {userWantsTexts ? <UnsubscribeForm setUserWantsTexts={setUserWantsTexts}/> : <TextRegistrationForm setUserWantsTexts={setUserWantsTexts}/>}
             </div>

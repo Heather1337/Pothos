@@ -53,9 +53,10 @@ body {
 }
 
 .wishlist-plant {
-    width: 150px;
+    /* width: 150px; */
     height: 150px;
 }
+
 
 .wishlistPlant {
     padding: 10px;
@@ -116,14 +117,37 @@ body {
 
 .water-days-count {
     justify-content: left;
+    padding-top: 5px;
+}
+
+.borderless-button {
+    border: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.homepage {
+    padding-top: 40px;
+    padding-bottom: 80px;
 }
 
 .user-plant-delete-button {
     margin: 0;
     position: absolute;
+    height: 20px;
+    width: 20px;
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+}
+
+
+
+.pad-l {
+    padding-left: 30px;
+}
+.user-plants-cont {
+    padding-top: 8px;
 }
 
 .svg-inline--fa {
@@ -144,7 +168,10 @@ body {
 
 #navbar {
     height: 50px;
-    background-color: 	rgb(107, 118, 104);
+}
+
+.p-l-10 {
+    padding-left: 10px;
 }
 
 .userPlant {
@@ -163,6 +190,15 @@ body {
     justify-content: space-around;
 }
 
+.center-cont {
+    justify-content: center;
+}
+
+.footer-icon {
+    height: 20px;
+    width: 20px;
+}
+
 .plant-filter-search {
     display:flex;
     padding-right: 150px;
@@ -170,6 +206,40 @@ body {
     margin-top: 10px;
     justify-content: space-between;
 }
+
+.footer {
+    background-color: rgb(159, 142, 122, .5);
+    color: #111111;
+    font-size: 12px;
+}
+
+.footer-container {
+    justify-content: space-around;
+}
+
+.copyright {
+    font-size: 10px;
+    padding-bottom: 20px;
+}
+
+.padding-b {
+    padding-bottom: 100px;
+}
+
+.pad-top {
+    padding-top: 25px;
+}
+
+.pad-top-15 {
+    padding: 8px;
+    padding-top: 15px;
+}
+
+.logo {
+    height: 100px;
+    width: 100px;
+}
+
 
 .wishlist-title-container {
     display: flex;
@@ -181,6 +251,7 @@ body {
 .wishlist-title {
     padding: 8px 16px;
 }
+
 
 .wishlist-title-text {
     font-weight: 700;
@@ -196,6 +267,17 @@ body {
     border-bottom: 1px solid#263d29;
 }
 
+.add-room-input {
+    font-size: 15px;
+    font-weight: 400;
+    justify-content: center;
+    padding-bottom: 2px;
+}
+
+.room-name-input {
+    margin-right: 5px;
+}
+
 .plant-count {
     font-size: 18px;
     font-weight: 400;
@@ -204,6 +286,11 @@ body {
 
 .comments-container {
     padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+.comment-user {
+    padding-top: 8px;
 }
 
 .plant-comment-container {
@@ -223,7 +310,11 @@ body {
 .sprig {
     width: 35px;
     position: absolute;
-    margin-top: 6px;
+    margin-top: 3px;
+}
+
+.reminders-div {
+    margin-top: 30px;
 }
 
 .reminders-form {
@@ -244,7 +335,16 @@ body {
     float: right;
 }
 
+.brand {
+    font-family: 'Special Elite', cursive;
+}
+
 .pb-title {
     margin-top: 20px;
 }
 
+.nickname {
+    font-family: 'Tajawal', sans-serif;
+    color: rgb(62, 69, 61);
+    font-size: 18px;
+}

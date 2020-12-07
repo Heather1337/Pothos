@@ -98,9 +98,12 @@ const RegistrationForm = (props) => {
             })
             .then(response => response.json())
             .then(data => {
+
                 console.log('Success in registering a user:', data);
                 setState(prevState => ({
                     ...prevState,
+                    email: "",
+                    password: "",
                     login : true
                 }));
             })

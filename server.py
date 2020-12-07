@@ -3,6 +3,9 @@
 from flask import (Flask, render_template, request, session, jsonify)
 from model import connect_to_db
 import crud
+import os
+# import googlemaps
+# API_KEY = os.environ['GOOGLE_KEY']
 
 
 
@@ -17,6 +20,10 @@ def my_index():
     """ Show homepage with form to register."""
 
     return render_template('base.html')
+
+# @app.route("/get-key", methods = ['GET'])
+# def get_api_key():
+#     return jsonify(API_KEY)
 
 @app.route('/profile')
 def profile_page():
@@ -234,7 +241,7 @@ def user_wishlist(user_id):
 
     for p in user_wishlist:
         # print('In USER plants data on server --->', p)
-        wishlist_arr.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "plant_id": p.wishlist_plant_id })
+        wishlist_arr.append({"plant_name": p.plant_info.plant_name, "plant_image": p.plant_info.plant_image, "water_tip": p.plant_info.water_tip, "plant_tip": p.plant_info.plant_tip, "plant_id": p.wishlist_plant_id })
 
     # user_plants_list.append({"plant_name": user_plants[0].plant_info.plant_name, "plant_id": user_plants[0].plant_info.plant_id})
 

@@ -24,8 +24,8 @@ class User(db.Model):
     wishlist = db.relationship('User_Plant_Wishlist')
     rooms = db.relationship('User_Room')
 
-    # def __repr__(self):
-    #     return f'<User user_id={self.user_id} email={self.email}>'
+    def __repr__(self):
+        return f'<User user_id={self.user_id} email={self.email}>'
 
 
 class Plant(db.Model):
@@ -47,8 +47,8 @@ class Plant(db.Model):
 
     comments = db.relationship('Plant_Comment')
 
-    # def __repr__(self):
-    #     return f'<Plant plant_id={self.plant_id}>'
+    def __repr__(self):
+        return f'<Plant plant_id={self.plant_id}>'
 
 class Plant_Comment(db.Model):
     """A Plant comment by a User."""
@@ -62,8 +62,8 @@ class Plant_Comment(db.Model):
 
     plants = db.relationship('Plant')
 
-    # def __repr__(self):
-    #     return f'<Plant_Comment plant_comment_id={self.plant_comment_id}>'
+    def __repr__(self):
+        return f'<Plant_Comment plant_comment_id={self.plant_comment_id}>'
 
 
 class User_Plant(db.Model):
@@ -84,8 +84,8 @@ class User_Plant(db.Model):
     images = db.relationship('User_Plant_Image')
     #! rooms = db.relationship('User_Room', secondary = 'user_plant_rooms')
 
-    # def __repr__(self):
-    #     return f'<User_Plant user_plant_id={self.user_plant_id}>'
+    def __repr__(self):
+        return f'<User_Plant user_plant_id={self.user_plant_id}>'
 
 class User_Room(db.Model):
     """A user's room."""
@@ -100,8 +100,8 @@ class User_Room(db.Model):
     plants = db.relationship('User_Plant_Room')
     #! plants = db.relationship('User_Plant', secondary='user_plant_rooms')
 
-    # def __repr__(self):
-    #     return f'<User_Room user_room_id={self.user_room_id}>'
+    def __repr__(self):
+        return f'<User_Room user_room_id={self.user_room_id}>'
 
 class User_Plant_Room(db.Model):
     """A user's plant's room."""
@@ -115,8 +115,8 @@ class User_Plant_Room(db.Model):
     user_room = db.relationship('User_Room')
     user_plant = db.relationship('User_Plant')
 
-    # def __repr__(self):
-    #     return f'<User_Plant_Room user_plant_room_id={self.user_plant_room_id}>'
+    def __repr__(self):
+        return f'<User_Plant_Room user_plant_room_id={self.user_plant_room_id}>'
 
 class User_Plant_Image(db.Model):
     """A user's plant's room."""
@@ -129,8 +129,8 @@ class User_Plant_Image(db.Model):
 
     user_plant = db.relationship('User_Plant')
 
-    # def __repr__(self):
-    #     return f'<User_Plant_Image user_plant_image_id={self.user_plant_image_id}>'
+    def __repr__(self):
+        return f'<User_Plant_Image user_plant_image_id={self.user_plant_image_id}>'
 
 class User_Plant_Wishlist(db.Model):
     """A user's plant wishlist."""
@@ -145,8 +145,8 @@ class User_Plant_Wishlist(db.Model):
     users = db.relationship('User')
 
 
-    # def __repr__(self):
-    #     return f'<User_Plant_Wishlist wishlist_plant_id={self.wishlist_plant_id}>'
+    def __repr__(self):
+        return f'<User_Plant_Wishlist wishlist_plant_id={self.wishlist_plant_id}>'
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///pothos', echo=True):
@@ -157,7 +157,7 @@ def connect_to_db(flask_app, db_uri='postgresql:///pothos', echo=True):
     db.app = flask_app
     db.init_app(flask_app)
 
-    # print('Connected to the pothos db!')
+    print('Connected to the pothos db!')
 
 
 if __name__ == '__main__':

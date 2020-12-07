@@ -19,9 +19,13 @@ const WishlistPlant = (props) => {
       }
     }
 
+    //If swapping background to plant images use: style={{
+        //   backgroundImage: `url(${props.plant_image})`
+        // }}
+
     return (
-        <Row className="wishlistPlant">
-          <Col>
+        <Row className="wishlistPlant" >
+          <Col className="pad-l">
           <Row><p className="pn">{props.plant_name}</p></Row>
           <Row><Button variant="outline-secondary"
                       size="sm"
@@ -84,7 +88,7 @@ const WishListContainer = (props) => {
           </div>
         </Row>
       </Col>
-      <Col>{wishlistArr}</Col>
+      <Col className="padding-b">{wishlistArr}</Col>
     </Col>
     <Col sm={4}></Col>
     </Row>

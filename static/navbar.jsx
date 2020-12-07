@@ -4,18 +4,16 @@
 const NavbarComp = (props) => {
     return (
         <Navbar id="navbar" bg="light" variant="light" sticky="top">
-        {/* <Image id="logo" src="/static/images/logo.png"></Image> */}
         <Nav className="mr-auto">
-            <img className="sprig" src="https://cdn.shopify.com/s/files/1/0218/6894/t/39/assets/sb-holiday-shoppe-leaf.png?v=4729645559030563596"></img>
-            <Link to="/plants" id="home" className="navbar-plant-collection navbar-links">Le Sol</Link>
-            <Link to="/plants" id="plants" className="navbar-links">Discover Plants</Link>
-            <Link to="/profile" id="profile" className="navbar-links">Plant Collection</Link>
-            <Link to="/wishlist" id="schedule" className="navbar-links">Wishlist</Link>
-            <Link to="/watering-reminders" id="watering-reminders" className="navbar-links">Reminders</Link>
+            {localStorage['user_email']? <img className="sprig" src="https://cdn.shopify.com/s/files/1/0218/6894/t/39/assets/sb-holiday-shoppe-leaf.png?v=4729645559030563596"></img>: ""}
+            <Link to="/plants" id="home" className="navbar-plant-collection navbar-links brand">Le Sol</Link>
+            <Link to="/plants" id="plants" className="navbar-links">{localStorage['user_email'] ? 'Discover Plants' : ""}</Link>
+            <Link to="/profile" id="profile" className="navbar-links">{localStorage['user_email'] ? 'My Plants' : ""}</Link>
+            <Link to="/wishlist" id="schedule" className="navbar-links">{localStorage['user_email'] ? 'Wishlist' : ""}</Link>
+            <Link to="/watering-reminders" id="watering-reminders" className="navbar-links">{localStorage['user_email'] ? 'Care Reminders' : ""}</Link>
         </Nav>
-        {/* <i class="far fa-user"></i> */}
         <Link variant="light" className="navbar-links">{localStorage['user_email'] ? (`Hi ` + localStorage['fname']) : `Signed out` }</Link>
-        <Button variant="light" className="navbar-links" onClick={props.logoutUser}>Logout</Button>
+    <Link variant="light" className="navbar-links" onClick={props.logoutUser}>{localStorage['user_email'] ? 'Logout' : ""}</Link>
         </Navbar>
     );
 };

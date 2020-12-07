@@ -12,7 +12,7 @@ function ControlledCarousel(props) {
     carouselPlantImages.push(
       <Carousel.Item>
       <img
-        className="d-block w-100 h-100"
+        className="d-block w-100 image-fluid wishlist-plant"
         src={image}
         alt="First slide"
       />
@@ -44,12 +44,12 @@ const WateringDaysOfPlant = ({
         onClick={() => setVisible(!visible)}
         id={plantId}
       >
-        Edit
+        Update
       </Button>
   );
   const wateringDaysInput = (
-      <Row>
-      <label>Days since last watering:</label>
+      <Row className="p-l-10">
+      {/* <label>Days since last watering:</label> */}
       <input
         type="number"
         name="daysSinceLastWater"
@@ -92,6 +92,7 @@ const PlantNickname = (props) => {
     <Button
       variant="outline-secondary"
       size="sm"
+      className="borderless-button"
       onClick={() => setVisible(!visible)}
       id={props.plantId}
     >
@@ -222,10 +223,10 @@ const UserPlant = (props) => {
   };
 
     return (
-      <Row className="userPlant">
+      <Row className="userPlant" >
         <Col className="user-plant-col">
             <Row><h4> {props.plant_name} </h4></Row>
-            <Row>{props.nickname ? <h6>{props.nickname}</h6> :
+            <Row>{props.nickname ? <h6 className="nickname">{props.nickname}</h6> :
             <PlantNickname plantId={props.user_plant_id}
             updatePlantNickname={updatePlantNickname}
             nickname={props.nickname}/>
@@ -299,6 +300,7 @@ const UserRoomsDropdown = (props) => {
   const roomsClick= (e) => {
     e.preventDefault();
     const clickedRoom = e.target.text;
+    console.log(e.target.text, e.target.id)
 
     if (clickedRoom === '+ Add Room') setShowRooms(true);
     else if (clickedRoom === 'All rooms') props.fetchPlants();
@@ -345,9 +347,9 @@ const UserRoomsDropdown = (props) => {
   return (
     <div>
     { showRooms ?
-      <Row>
-        <label>New room name:</label>
-        <input name="room-name-input" onChange={(e)=>setNewRoom(e.target.value)}/>
+      <Row className="add-room-input">
+        <label>Enter new room name</label>
+        <input className="room-name-input " onChange={(e)=>setNewRoom(e.target.value)}/>
         <Button variant="outline-secondary"
                 size="sm"
                 id="room-name-submit"
@@ -477,7 +479,7 @@ const UserPlantsContainer = (props) => {
       <Row>
         <Col sm={3}>
         </Col>
-        <Col sm={6}>{userPlantsArr}</Col>
+        <Col className="user-plants-cont padding-b" sm={6}>{userPlantsArr}</Col>
         <Col sm={3}></Col>
       </Row>
 
