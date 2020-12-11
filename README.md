@@ -1,56 +1,12 @@
 # Pothos
-A full-stack plant application that helps users with indoor house plant care and knowledge.
+A full-stack plant care and discovery app.
 ***************************************************************************************************************
-
-Core Functionality:
-
-
-Features:
-
-
-Data Structure:
-
-
-Data Sources:
-
-Technologies:
-
-
+Le Sol is a house-plant discovery and care app. Le Sol's primary user archetypes are those who may need help picking new plants for their space, are new to plant-parenting, or caring for  ones they already own.  Features of Le Sol include viewing details and bios of plants, leaving comments, receiving watering reminders via text message,  managing a wish-list, adding photos to track growth, managing their watering schedule, and filtering by sun exposure, maintenance level, toxicity level, and the location in the home.
 ***************************************************************************************************************
+Tech Stack: React, Python, Flask, PostgreSQL, SQLAlchemy, JavaScript, CSS, React-Bootstrap, Toastify Js
+APIs: Twilio, Schedule & Cloudinary
 ***************************************************************************************************************
+![Login Page](https://media.giphy.com/media/VhDaMCUMYSCKYPemCP/giphy.gif)
 
-INDOOR HOUSE PLANT APP
-- House plants categorized by: beginner friendly, pet friendly, sunlight exposure, etc
--Ability to add plants to your profile
-- Integrates with Google Calendar to schedule when waterings should be for each house plant added to your account
-- Ability to export a PDF of plant watering schedule for (house sitters)
 
-ADDITIONAL FEATURES:
-Ability to recalibrate watering schedule if missed.
-Recommends plants based off of current plants.
-Recommends/schedules with to re-soil, re-pot, add fertilizer (plant food)
-Teaches about how to propagate different house plants
-Sends alerts on when growth spurt should be coming! (Season the plant flourishes)
-Shows local events with 'plants topic' from Evenbright API
-Shows local plant shop with Google Maps API
-
-MENTOR MEETING QUESTIONS:
-Best way to keep track of watering schedule?
- -Having hardcoded watering schedule for MVP?
-How often to check to send out message reminders? (cron)
-Styling frameworks: React/Bootstrap for responsiveness? Can I used styled components
- in addition or do I need to use CSS file?
-
- -Use React/Bootstrap
- -For MVP focus on client side rendering and hydrate with data from python server
-
-Interval (avg of rec time) 
-start point- plant added
-
-todays date - start date % interval == 0
-send message | don't send message
-
-accumulator - reduce
-
-cron - used to run at specific times invoke function 
 
