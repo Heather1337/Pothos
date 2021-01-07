@@ -50,5 +50,6 @@ Users can update their plants last watering to recalibrate their reminders if th
 
 ![Photo Upload](https://media.giphy.com/media/wkGG1nJY0y9X6Yym0S/giphy.gif)
 ***************************************************************************************************************
+***************************************************************************************************************
 
 
